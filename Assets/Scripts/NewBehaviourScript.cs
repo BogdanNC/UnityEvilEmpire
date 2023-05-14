@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    public GameObject enemy;
-     public float distanceBetweenObjects = 4f;
-     List<Vector3> points = new List<Vector3>();
+    //public GameObject enemy = null;
+    public float distanceBetweenObjects = 4f;
+    List<Vector3> points = new List<Vector3>();
       
     // Start is called before the first frame update
     void Start()
     {
         ObjectPositioning();
-        ObjectSpawning();
+        //ObjectSpawning();
     }
 
     void ObjectPositioning(){
@@ -43,11 +43,11 @@ public class NewBehaviourScript : MonoBehaviour
          }
      }
  
-     void ObjectSpawning(){
+     /*void ObjectSpawning(){
          for (int i = 0; i < points.Count; i++){
             Instantiate(enemy, points[i], Quaternion.Euler(new Vector3(0,Random.Range(-180f, 180.0f),0)));
          }
-     }
+     }*/
 
     /*public GameObject cubePrefab;
 

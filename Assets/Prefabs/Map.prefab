@@ -4593,7 +4593,7 @@ GameObject:
   - component: {fileID: 2291923901446384271}
   - component: {fileID: 8365897796491427942}
   - component: {fileID: 6401964746015437954}
-  - component: {fileID: 5723966840565526392}
+  - component: {fileID: 3936348747214869956}
   m_Layer: 6
   m_Name: Map
   m_TagString: Untagged
@@ -4678,7 +4678,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5723966840565526392
+--- !u!64 &3936348747214869956
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
