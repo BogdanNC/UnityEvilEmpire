@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Mesh moveFlagSkin;
     public LayerMask layersToHit;
 
+    public GameObject[] trees;
+    public GameObject[] citizens;
+
     private void Awake()
     {
         gm = this;
@@ -59,5 +62,11 @@ public class GameManager : MonoBehaviour
             obj.transform.position = position;
         }
 
+    }
+    public string targetResource()
+    {
+        trees = GameObject.FindGameObjectsWithTag("Wood");
+
+        return "Wood";// to implement further
     }
 }
