@@ -14,12 +14,6 @@ public class GameManager : MonoBehaviour
         gm = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -29,11 +23,11 @@ public class GameManager : MonoBehaviour
         if (rightClick)
         {
             Debug.Log("click!");
-            MoveOrder();
+            SpawnMoveFlag();
         }
     }
 
-    void MoveOrder()
+    void SpawnMoveFlag()
     {
         Vector3 mousePos = Input.mousePosition;
         Vector3 position;
@@ -45,18 +39,32 @@ public class GameManager : MonoBehaviour
         {
             position = hitData.point;
 
-            //Spawn the Object to move to
+            //Might need to be changed to check a specific attribute
+            bool hitBuilding = ( hitData.collider.gameObject.layer == LayerMask.NameToLayer("Buildings") );
+
+            //Check if object already exists
             GameObject obj = GameObject.Find("MoveToFlag");
 
             if(obj == null)
             {
+                //Spawn the Object to move to
                 obj = new GameObject("MoveToFlag");
+                obj.AddComponent<MeshFilter>();
+                obj.AddComponent<MeshRenderer>();
             }
 
-            obj.AddComponent<MeshFilter>();
-            obj.AddComponent<MeshRenderer>();
+            //Set object properties
             obj.GetComponent<MeshFilter>().mesh = moveFlagSkin;
-            obj.transform.position = position;
+
+            if (hitBuilding)
+            {
+                //Eventualy we need to somehow place the marker around the building's hitbox
+                obj.transform.position = hitData.collider.gameObject.transform.position;
+            }
+            else
+            {
+                obj.transform.position = position;
+            }
         }
 
     }
