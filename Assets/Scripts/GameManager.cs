@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,16 +10,48 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Mesh moveFlagSkin;
     public LayerMask layersToHit;
 
+    void Start()
+    {
+        Button button = GameObject.Find("Button (3)").GetComponent<Button>();
+        button.onClick.AddListener(ClickGatherer);
+        Button button2 = GameObject.Find("Button (2)").GetComponent<Button>();
+        button2.onClick.AddListener(ClickAttack);
+        Button button3 = GameObject.Find("Button (1)").GetComponent<Button>();
+        button3.onClick.AddListener(ClickBuilding);
+        Button button4 = GameObject.Find("Button").GetComponent<Button>();
+        button4.onClick.AddListener(ClickDefend);
+    }
+
     private void Awake()
     {
         gm = this;
+    }
+
+    public void ClickGatherer()
+    {
+        Debug.Log("The gatherer was clicked.");
+    }
+
+    public void ClickAttack()
+    {
+        Debug.Log("The attack was clicked.");
+    }
+
+    public void ClickBuilding()
+    {
+        Debug.Log("The building was clicked.");
+    }
+
+    public void ClickDefend()
+    {
+        Debug.Log("The defend was clicked.");
     }
 
     // Update is called once per frame
     void Update()
     {
         bool rightClick = Input.GetMouseButtonDown(1);
-        Debug.Log("running");
+        //Debug.Log("running");
 
         if (rightClick)
         {
