@@ -35,4 +35,28 @@ public class ResourceClass : MonoBehaviour
 
         return gathered;
     }
+
+    public virtual int Gather(int limit)
+    {
+        int gathered = 0;
+
+        if(limit >= gatherRate)
+        {
+            return Gather();
+        }
+
+        if(quantity <= limit)
+        {
+            gathered += quantity;
+            quantity = 0;
+        }
+
+        if(quantity > limit)
+        {
+            gathered += limit;
+            quantity -= limit;
+        }
+        
+        return gathered;
+    }
 }
