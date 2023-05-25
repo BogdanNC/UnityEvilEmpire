@@ -35,6 +35,6 @@ public class CitizenMovement : MonoBehaviour
         }
 
         //Move to position
-        GetComponent<MoveVelocity>().SetVelocity(moveDir);
+        //GetComponent<MoveVelocity>().SetVelocity(moveDir);
     }
 }
