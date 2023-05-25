@@ -62,7 +62,7 @@ public class CameraScript : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * movementTime);
-        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, Time.deltaTime * movementTime);
+        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, 1);
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
     }
 
