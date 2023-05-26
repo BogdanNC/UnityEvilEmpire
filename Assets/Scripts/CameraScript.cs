@@ -1,24 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraScript : MonoBehaviour
 {
     public float movementTime;
     public float rotationAmount;
     public Quaternion newRotation;
-    public Transform cameraTransform;
+    public new GameObject camera;
+    //public Transform cameraTransform;
     public Vector3 zoomAmount;
     public Vector3 newZoom;
-    public Vector3 newPosition;
+    private CinemachineVirtualCamera vcam;
 
     // Start is called before the first frame update
     void Start()
     {
         newRotation = transform.rotation;
-        newZoom = cameraTransform.localPosition;
-        newPosition = transform.position;
-
+        vcam = camera.GetComponent<CinemachineVirtualCamera>();
     }
 
     // Update is called once per frame
@@ -28,19 +28,6 @@ public class CameraScript : MonoBehaviour
     }
     void HandleMovementInput()
     {
-
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            newPosition += transform.forward;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            newPosition -= transform.forward;
-        }
-
-
         if (Input.GetKey(KeyCode.Q))
         {
             newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
@@ -51,19 +38,17 @@ public class CameraScript : MonoBehaviour
             newRotation *= Quaternion.Euler(Vector3.up * rotationAmount);
         }
 
-        if (Input.GetKey(KeyCode.R) && newZoom.y >= 9)
+        if (Input.GetKey(KeyCode.R) && vcam.m_Lens.FieldOfView > 8)
         {
-            newZoom += zoomAmount;
+            vcam.m_Lens.FieldOfView -= 1;
         }
 
-        if (Input.GetKey(KeyCode.F) && newZoom.y <= 65)
+        if (Input.GetKey(KeyCode.F) && vcam.m_Lens.FieldOfView < 80)
         {
-            newZoom -= zoomAmount;
+            vcam.m_Lens.FieldOfView += 1;
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * movementTime);
-        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, 1);
-        transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, 1);
     }
 
 

@@ -243,7 +243,7 @@ public class SoldierBrain : MonoBehaviour
 
         foreach (var collider in surroundingColliders)
         {
-            Debug.Log("Colliders found: " + surroundingColliders.Length);
+            //Debug.Log("Colliders found: " + surroundingColliders.Length);
             //Checks the collider's GameObject's tag
             if (collider.CompareTag("Enemy"))
             {
@@ -251,7 +251,7 @@ public class SoldierBrain : MonoBehaviour
                 enemies.Add(collider.gameObject);
 
             }
-                Debug.Log("Enemies found: " + enemies.Count);
+               // Debug.Log("Enemies found: " + enemies.Count);
         }
 
         return enemies;

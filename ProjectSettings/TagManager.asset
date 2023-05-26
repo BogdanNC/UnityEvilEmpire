@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Ally
   - Neutral
+  - Barrack
+  - House
   layers:
   - Default
   - TransparentFX
