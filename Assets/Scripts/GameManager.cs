@@ -58,6 +58,21 @@ public class GameManager : MonoBehaviour
             Debug.Log("click!");
             SpawnMoveFlag();
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            //Selected soldiers will defend
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            //Selected soldiers will charge
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            //Selected soldiers will follow
+        }
     }
 
     void SpawnMoveFlag()

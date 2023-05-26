@@ -13,10 +13,14 @@ public class SoldierBrain : MonoBehaviour
     [SerializeField] private float chaseDistance = 10f;
 
     private float cooldownTimer = 10f; //seconds
-    private float waitTime = 0;
+    private float waitTime = 0f;
     private bool onCooldown = false;
 
+    private float maxChaseTime = 10f; //seconds
+    private float chaseTime = 0f;
+
     private Transform target;
+    private Transform secTarget;
 
     [Header("Stats")]
     [SerializeField] private int hp = 100;
@@ -29,6 +33,7 @@ public class SoldierBrain : MonoBehaviour
     private SoldierState state = SoldierState.FOLLOWING;
 
     private GameObject king;
+    private GameObject closestEnemy = null;
 
     private void Awake()
     {
@@ -50,10 +55,10 @@ public class SoldierBrain : MonoBehaviour
             }
         }
 
-        GameObject closestEnemy = TargetEnemy(FindEnemies());
-        //Transform target = GetTarget();
-
-        float distToTarget = Vector3.Distance(transform.position, target.position);
+        if (closestEnemy == null)
+        {
+            closestEnemy = TargetEnemy(FindEnemies());
+        }
 
         if (closestEnemy != null && !onCooldown)
         {
@@ -61,15 +66,9 @@ public class SoldierBrain : MonoBehaviour
             {
                 lastState = state;
                 state = SoldierState.CHASING;
-            }
 
-            if(distToTarget > chaseDistance)
-            {
-                state = lastState;
-                lastState = SoldierState.CHASING;
-
-                waitTime = 0f;
-                onCooldown = true;
+                SetSecTarget(target);
+                SetTarget(closestEnemy.transform);
             }
 
             //Chase and attack enemy
@@ -87,7 +86,6 @@ public class SoldierBrain : MonoBehaviour
 
                 case SoldierState.CHARGING:
                     FindEnemyBase();
-                    ChargeEnemyBase();
                     break;
 
                 case SoldierState.FOLLOWING:
@@ -105,19 +103,32 @@ public class SoldierBrain : MonoBehaviour
     //as well as other benefits on other functions
     private void ChaseEnemy(Transform target)
     {
+        chaseTime += Time.deltaTime;
+
+        if (chaseTime >= maxChaseTime)
+        {
+            //Stop chase
+            state = lastState;
+            lastState = SoldierState.CHASING;
+
+            waitTime = 0f;
+            onCooldown = true;
+            closestEnemy = null;
+
+            SetTarget(secTarget);
+            SetSecTarget(null);
+
+            return;
+        }
+
         moveScript.SetDestination(target.position);
 
-        if (InAttackRange(target))
+        if (InRange(target.position, attackRng))
         {
-            CombatManager enemyCM = target.gameObject.GetComponent<CombatManager>();
-
-            //For calculating eventual effects, like king presence
-            int damageDealt = baseDmg;
-
-            //If enemy dies ("TakeDamage" function returns true)
-            if (enemyCM.TakeDamage(damageDealt))
+            if (Attack(target))
             {
-                return;
+                //Enemy killed or destroyed
+                closestEnemy = null;
             }
         }
         else
@@ -127,16 +138,13 @@ public class SoldierBrain : MonoBehaviour
         }
     }
 
-    private bool InAttackRange(Transform target)
-    {
-        return (Vector3.Distance(transform.position, target.position) <= attackRng);
-    }
 
     private void DefendPosition(Transform target)
     {
-        if(Vector3.Distance(transform.position, target.position) > 1f)
+        moveScript.SetDestination(target.position);
+
+        if(!InRange(target.position, fov))
         {
-            moveScript.SetDestination(target.position);
             //There should be some kind of formation algorithm here
             moveScript.MoveToPos();
         }
@@ -147,60 +155,96 @@ public class SoldierBrain : MonoBehaviour
     //meaning they would pick a random point on the map and walk there?
     private void FindEnemyBase()
     {
-        //Get all Enemy Objects
-        List<GameObject> allEnemyObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+        //If we already target an enemy building skip search
+        bool isBuilding = this.target.gameObject.layer == LayerMask.NameToLayer("Buildings");
+        bool isEnemy = this.target.CompareTag("Enemy");
 
-        //Filter to all (revealed?) enemy buildings
-        List<GameObject> enemyBuildings = allEnemyObjects.FindAll(obj => obj.layer == LayerMask.NameToLayer("Buildings"));
-
-        float minDist = float.MaxValue;
-        GameObject target = null;
-
-        foreach(GameObject building in enemyBuildings)
+        if (!isBuilding || !isEnemy)
         {
-            float dist = Vector3.Distance(king.transform.position, building.transform.position);
+            //Get all Enemy Objects
+            List<GameObject> allEnemyObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
 
-            if(dist < minDist)
+            //Filter to all (revealed?) enemy buildings
+            List<GameObject> enemyBuildings = allEnemyObjects.FindAll(obj => obj.layer == LayerMask.NameToLayer("Buildings"));
+
+            float minDist = float.MaxValue;
+            GameObject target = null;
+
+            foreach (GameObject building in enemyBuildings)
             {
-                minDist = dist;
-                target = building;
+                float dist = Vector3.Distance(king.transform.position, building.transform.position);
+
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    target = building;
+                }
             }
+
+            if (target == null)
+            {
+                SetTarget(null);
+                Debug.Log("Target became null...?");
+                return;
+            }
+
+            SetTarget(target.transform);
         }
 
-        if(target == null)
-        {
-            Explore();
-            return;
-        }
-
-        SetTarget(target.transform);
-    }
-
-    private void Explore()
-    {
-        //TODO
+        ChargeEnemyBase();
     }
 
     private void ChargeEnemyBase()
     {
-        //TODO
+        Vector3 closestPoint = target.GetComponent<Collider>().ClosestPoint(transform.position);
+        moveScript.SetDestination(target.position);
+
+        if (!InRange(closestPoint, attackRng))
+        {
+            //Move to base
+            moveScript.MoveToPos();
+        }
+        else
+        {
+            Attack(target);
+        }
     }
 
     private void FollowKing()
     {
+        float range = 3f;
+
         if(king == null)
         {
             moveScript.SetDestination(transform.position);
             lastState = state;
             state = SoldierState.DEFENDING;
         }
-        else if (Vector3.Distance(transform.position, king.transform.position) > 3f)
+        else if(!InRange(king.transform.position, range))
         {
             moveScript.SetDestination(king.transform.position);
             //There should be some kind of formation algorithm here
         }
 
         moveScript.MoveToPos();
+    }
+    private bool InRange(Vector3 target, float range)
+    {
+        return (Vector3.Distance(transform.position, target) <= range);
+    }
+
+    /*
+     * Returns ture if object "died"
+     */
+    private bool Attack(Transform target)
+    {
+        CombatManager enemyCM = target.gameObject.GetComponent<CombatManager>();
+
+        //For calculating eventual effects, like king presence
+        int damageDealt = baseDmg;
+
+        //If enemy dies ("TakeDamage" function returns true)
+        return enemyCM.TakeDamage(damageDealt);
     }
 
     private GameObject FindKing()
@@ -213,19 +257,19 @@ public class SoldierBrain : MonoBehaviour
         float minDistance = float.MaxValue;
         GameObject target = null;
 
-        foreach(var enemy in enemies)
+        foreach (var enemy in enemies)
         {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
 
 
-            if(minDistance < distance)
+            if (minDistance < distance)
             {
                 minDistance = distance;
                 target = enemy;
             }
         }
 
-        if(target != null)
+        if (target != null)
         {
             Debug.Log("Target: " + target.name);
         }
@@ -251,7 +295,7 @@ public class SoldierBrain : MonoBehaviour
                 enemies.Add(collider.gameObject);
 
             }
-                Debug.Log("Enemies found: " + enemies.Count);
+            Debug.Log("Enemies found: " + enemies.Count);
         }
 
         return enemies;
@@ -266,6 +310,18 @@ public class SoldierBrain : MonoBehaviour
         else
         {
             this.target = target;
+        }
+    }
+
+    public void SetSecTarget(Transform target)
+    {
+        if (target == null)
+        {
+            secTarget = transform;
+        }
+        else
+        {
+            secTarget = target;
         }
     }
 
