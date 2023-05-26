@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class ResourceFruitTree : ResourceClass
 {
-    ResourceWood wood;
-    ResourceFood food;
 
     //TODO:Food and wood quantities
-
-    private int gatherRate = 20;
+    [SerializeField] private int capacity = 300;
+    [SerializeField] private int gatherRate = 20;
 
     public void Start()
     {
         //TODO: Init for wood and food missing
+        Init(capacity, gatherRate);
     }
 
     public override int Gather()
     {
         int gathered = 0;
 
-        gathered += wood.Gather((gatherRate * 2) / 3);
+        gathered += Gather((gatherRate * 2) / 3);
 
         if(gathered >= gatherRate)
         {
@@ -28,7 +27,7 @@ public class ResourceFruitTree : ResourceClass
             return gathered;
         }
 
-        gathered += food.Gather(gatherRate / 3);
+        gathered += Gather(gatherRate / 3);
 
         return gathered;
     }
