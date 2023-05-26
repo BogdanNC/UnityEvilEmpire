@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: SoldierAI
+  m_EditorClassIdentifier: 
+  rootNode:
+    rid: 1670544696001953792
+  nodes:
+  - rid: 1670544696001953792
+  - rid: 1670544696238407685
+  - rid: 1670544696238407686
+  - rid: 1670544696238407687
+  - rid: 1670544696238407688
+  - rid: 1670544696238407689
+  - rid: 1670544696238407690
+  - rid: 1670544696238407691
+  treeState: 0
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  viewPosition: {x: 594, y: 303, z: 0}
+  viewScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1670544696001953792
+      type: {class: RootNode, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: c763770f-147c-42e9-9049-67a7ca36f88b
+        position: {x: -148, y: -29}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        child:
+          rid: 1670544696238407690
+    - rid: 1670544696238407685
+      type: {class: ChargeEnemyBase, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 9edb92469b8fe9b4d8c9b155194bce4a
+        position: {x: 501, y: 171}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+    - rid: 1670544696238407686
+      type: {class: ChaseEnemy, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 8ea98e968d3dee748a249f2cd1452b31
+        position: {x: -356, y: 268}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+    - rid: 1670544696238407687
+      type: {class: DefendPosition, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: f8e15415d6090ff449685cafc207453a
+        position: {x: 501, y: 375}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+    - rid: 1670544696238407688
+      type: {class: FollowKing, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 67f0590139e5a4344b096f384a3a56fc
+        position: {x: 501, y: 277}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+    - rid: 1670544696238407689
+      type: {class: IsEnemyInFOV, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: eecde0d093f9adf43857599009b1725a
+        position: {x: -554, y: 268}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+    - rid: 1670544696238407690
+      type: {class: Sequencer, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 9e9c1bc23370b2745af409c4e81397dc
+        position: {x: -431, y: 115}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        children:
+        - rid: 1670544696238407689
+        - rid: 1670544696238407686
+    - rid: 1670544696238407691
+      type: {class: Succeed, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 047d1c7edda2a8d4a98ecfeac9c25cf6
+        position: {x: 45, y: 297}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        child:
+          rid: -2
