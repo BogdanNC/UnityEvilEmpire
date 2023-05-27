@@ -10,14 +10,18 @@ public class GameManager : MonoBehaviour
     //Move Order Vars
     [SerializeField] private Mesh moveFlagSkin;
 
+    public GameObject house;
+    public GameObject newHouse;
+    public GameObject barrack;
     public GameObject soldiers;
+    public GameObject civilians;
     public LayerMask layersToHit;
     private IEnumerator coroutine;
 
-    Button button;
-    Button button2;
-    Button button3;
-    Button button4;
+    GameObject button;
+    GameObject button2;
+    GameObject button3;
+    GameObject button4;
     GameObject button5;
     GameObject button6;
 
@@ -25,17 +29,28 @@ public class GameManager : MonoBehaviour
     GameObject secondCamera;
     GameObject selectedBarrack;
     GameObject selectedHouse;
+    GameObject newHouseTransparent;
+    
+
+    bool cheatCamera= false;
+    bool placingBuilding = false;
+    bool alreadyActivatedBarrack = false;
+    bool alreadyActivatedHouse = false;
 
     void Start()
     {
-        button = GameObject.Find("Button (3)").GetComponent<Button>();
-        button.onClick.AddListener(ClickGatherer);
-        button2 = GameObject.Find("Button (2)").GetComponent<Button>();
-        button2.onClick.AddListener(ClickAttack);
-        button3 = GameObject.Find("Button (1)").GetComponent<Button>();
-        button3.onClick.AddListener(ClickBuilding);
-        button4 = GameObject.Find("Button").GetComponent<Button>();
-        button4.onClick.AddListener(ClickDefend);
+        button = GameObject.Find("Button (3)");
+        button.GetComponent<Button>().onClick.AddListener(ClickGatherer);
+
+        button2 = GameObject.Find("Button (2)");
+        button2.GetComponent<Button>().onClick.AddListener(ClickAttack);
+
+        button3 = GameObject.Find("Button (1)");
+        button3.GetComponent<Button>().onClick.AddListener(ClickBuilding);
+
+        button4 = GameObject.Find("Button");
+        button4.GetComponent<Button>().onClick.AddListener(ClickDefend);
+
         button5 = GameObject.Find("Button (4)");
         button5.GetComponent<Button>().onClick.AddListener(ClickTrain);
         button5.SetActive(false);
@@ -112,6 +127,9 @@ public class GameManager : MonoBehaviour
     public void ClickBuilding()
     {
         Debug.Log("The building was clicked.");
+        placingBuilding = true;
+        newHouseTransparent = Instantiate(house,new Vector3(0,0,0), Quaternion.identity);
+        
     }
 
     public void ClickDefend()
@@ -158,12 +176,52 @@ public class GameManager : MonoBehaviour
 
             mainCamera.GetComponent<Camera>().enabled = false;
             secondCamera.GetComponent<Camera>().enabled = true;
+            button.SetActive(false);
+            button2.SetActive(false);
+            button3.SetActive(false);
+            button4.SetActive(false);
+            button5.SetActive(false);
+            button6.SetActive(false);
+            cheatCamera = true;
 
         }
         if (Input.GetKey(KeyCode.C))
         {
             mainCamera.GetComponent<Camera>().enabled = true;
             secondCamera.GetComponent<Camera>().enabled = false;
+            button.SetActive(true);
+            button2.SetActive(true);
+            button3.SetActive(true);
+            button4.SetActive(true);
+            cheatCamera = false;
+        }
+
+        if(placingBuilding){
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        LayerMask mask = LayerMask.GetMask("Environment");
+        /*if (Physics.Raycast(ray, out hit))
+        {
+            Instantiate(house,hit.point, Quaternion.identity);
+            Vector3 vec = new Vector3(hit.point.x, 0,hit.point.z );
+            transform.position = vec;
+            Ray rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
+        }*/
+        //
+        
+        if (Physics.Raycast(ray,  out  hit, 100000f, mask)) {
+            Debug.Log("Touching---------------------------------------");
+            
+            newHouseTransparent.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+        }
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(newHouse,hit.point, Quaternion.identity);
+            Destroy(newHouseTransparent);
+            placingBuilding = false;
+            newHouse.tag = "House";
+        }
         }
     }
 
@@ -211,28 +269,32 @@ public class GameManager : MonoBehaviour
 
     void raytrace()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !cheatCamera)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
                 var hitObject = hit.transform.gameObject;
-                if (hitObject.tag == "Barrack")
+                if (hitObject.tag == "Barrack" && !alreadyActivatedBarrack)
                 {
                     Debug.Log("-------------------------------------------------It's working!");
+                    alreadyActivatedBarrack = true;
                     selectedBarrack = hitObject;
                     button5.SetActive(true);
                     coroutine = passiveMe(10,5);
                     StartCoroutine(coroutine);
+                    alreadyActivatedBarrack = false;
                 }
-                if (hitObject.tag == "House")
+                if (hitObject.tag == "House" && !alreadyActivatedHouse)
                 {
                     Debug.Log("-------------------------------------------------It's working!");
+                    alreadyActivatedHouse = true;
                     selectedHouse = hitObject;
                     button6.SetActive(true);
                     coroutine = passiveMe(10,6);
                     StartCoroutine(coroutine);
+                    alreadyActivatedHouse = false;
                 }
             }
         }
