@@ -9,6 +9,8 @@ TagManager:
   - Neutral
   - Barrack
   - House
+  - Map
+  - TranspHouse
   layers:
   - Default
   - TransparentFX

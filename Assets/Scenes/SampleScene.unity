@@ -4687,7 +4687,7 @@ RectTransform:
   - {fileID: 836093675}
   m_Father: {fileID: 0}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0.386, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -10700,6 +10700,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7428640259826359158, guid: ae2eebc512dac1d48ac7b06063291c63, type: 3}
       propertyPath: m_Name
+      value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 7428640259826359158, guid: ae2eebc512dac1d48ac7b06063291c63, type: 3}
+      propertyPath: m_TagString
       value: Map
       objectReference: {fileID: 0}
     - target: {fileID: 7428640259826359158, guid: ae2eebc512dac1d48ac7b06063291c63, type: 3}

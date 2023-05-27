@@ -84,7 +84,6 @@ public class GameManager : MonoBehaviour
             Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
             Instantiate(soldiers, new Vector3(child.transform.position.x + 1.38f, child.transform.position.y, child.transform.position.z + 1.38f), Quaternion.identity);
             Instantiate(soldiers, new Vector3(child.transform.position.x - 1.38f, child.transform.position.y, child.transform.position.z - 1.38f), Quaternion.identity);
-
         }
     }
 
@@ -126,10 +125,11 @@ public class GameManager : MonoBehaviour
 
     public void ClickBuilding()
     {
+        
         Debug.Log("The building was clicked.");
         placingBuilding = true;
         newHouseTransparent = Instantiate(house,new Vector3(0,0,0), Quaternion.identity);
-        
+        newHouseTransparent.tag = "TranspHouse";
     }
 
     public void ClickDefend()
@@ -217,10 +217,31 @@ public class GameManager : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(newHouse,hit.point, Quaternion.identity);
-            Destroy(newHouseTransparent);
-            placingBuilding = false;
-            newHouse.tag = "House";
+            Collider[] colliderNeighbors = Physics.OverlapSphere(newHouseTransparent.transform.position, 6);
+            bool conflict = false;
+            //int LayerIgnoreRaycast = LayerMask.NameToLayer("Environment");
+            foreach (Collider collider in colliderNeighbors)
+            {
+                if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspHouse")
+                {
+                    conflict= true;
+                        Debug.Log("--------------------------------------------------awful");
+                      Debug.Log(collider.gameObject.tag);
+                    break;
+                }
+            }
+            if(conflict){
+                  Debug.Log("--------------------------------------------------awful");
+            }
+            if(!conflict){
+                Debug.Log("--------------------------------------------------alright");
+                Instantiate(newHouse,hit.point, Quaternion.identity);
+                Destroy(newHouseTransparent);
+                placingBuilding = false;
+                newHouse.tag = "House";
+                button6.SetActive(false);
+            }
+            conflict = false;
         }
         }
     }
