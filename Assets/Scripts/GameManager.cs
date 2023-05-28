@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
     GameObject selectedBarrack;
     GameObject selectedHouse;
     GameObject newHouseTransparent;
+
+    List<GameObject> selectedUnits;
     
 
     bool cheatCamera= false;
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        selectedUnits = new List<GameObject>();
+
         button = GameObject.Find("Button (3)");
         button.GetComponent<Button>().onClick.AddListener(ClickGatherer);
 
@@ -142,7 +147,6 @@ public class GameManager : MonoBehaviour
     {
         HandleInput();
         bool rightClick = Input.GetMouseButtonDown(1);
-        //Debug.Log("running");
 
         if (rightClick)
         {
@@ -297,7 +301,7 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 var hitObject = hit.transform.gameObject;
-                if (hitObject.tag == "Barrack" && !alreadyActivatedBarrack)
+                if (hitObject.CompareTag("Barrack") && !alreadyActivatedBarrack)
                 {
                     Debug.Log("-------------------------------------------------It's working!");
                     alreadyActivatedBarrack = true;
@@ -307,7 +311,7 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(coroutine);
                     alreadyActivatedBarrack = false;
                 }
-                if (hitObject.tag == "House" && !alreadyActivatedHouse)
+                if (hitObject.CompareTag("House") && !alreadyActivatedHouse)
                 {
                     Debug.Log("-------------------------------------------------It's working!");
                     alreadyActivatedHouse = true;
