@@ -10,13 +10,12 @@ public class SoldierBrain : MonoBehaviour
     [Header ("Properties")]
     [SerializeField] private float fov = 15f;
     [SerializeField] private float attackRng = 2f;
-    [SerializeField] private float chaseDistance = 10f;
 
     private float cooldownTimer = 10f; //seconds
     private float waitTime = 0f;
     private bool onCooldown = false;
 
-    private float maxChaseTime = 10f; //seconds
+    [SerializeField] private float maxChaseTime = 10f; //seconds
     private float chaseTime = 0f;
 
     private Transform target;
