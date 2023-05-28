@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5013,6 +5013,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129909967}
   m_CullTransparentMesh: 1
+--- !u!1 &1132904360 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8664193035882260379, guid: eb2e5fe877e190f4286f6283cf94ae71, type: 3}
+  m_PrefabInstance: {fileID: 9147083327423844424}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1195281533
 Mesh:
   m_ObjectHideFlags: 0
@@ -9876,6 +9881,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1778886787719451079, guid: eb2e5fe877e190f4286f6283cf94ae71, type: 3}
   m_PrefabInstance: {fileID: 9147083327423844424}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2025595649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132904360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30e65818ee72f346b6ead244ed44277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
 --- !u!43 &2068551309
 Mesh:
   m_ObjectHideFlags: 0
@@ -10735,6 +10753,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5614293280541256970, guid: d9828dd85f0901c448fa5f3c4bf08241, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8753253465175778583, guid: d9828dd85f0901c448fa5f3c4bf08241, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -11202,6 +11224,10 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 963194228}
+    - target: {fileID: 7071731439211633623, guid: eb2e5fe877e190f4286f6283cf94ae71, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8664193035882260379, guid: eb2e5fe877e190f4286f6283cf94ae71, type: 3}
       propertyPath: m_Name
       value: King
