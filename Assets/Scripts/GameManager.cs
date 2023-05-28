@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Mesh moveFlagSkin;
 
     public GameObject house;
+    public GameObject inProgressHouse;
     public GameObject newHouse;
     public GameObject barrack;
     public GameObject soldiers;
@@ -239,10 +240,9 @@ public class GameManager : MonoBehaviour
             }
             if(!conflict){
                 Debug.Log("--------------------------------------------------alright");
-                Instantiate(newHouse,hit.point, Quaternion.identity);
+                Instantiate(inProgressHouse,hit.point, Quaternion.identity);
                 Destroy(newHouseTransparent);
                 placingBuilding = false;
-                newHouse.tag = "House";
                 button6.SetActive(false);
             }
             conflict = false;
