@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] trees;
     public GameObject[] citizens;
+    private CitizenStateManager[] AllCitizens;
+    private int[] buildList;
+
 
     private void Awake()
     {
@@ -21,7 +24,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         bool rightClick = Input.GetMouseButtonDown(1);
-        Debug.Log("running");
+        //Debug.Log("running");
+        AllCitizens = FindObjectsOfType<CitizenStateManager>();
+        Debug.Log("found: " + AllCitizens.Length + " in total ");
+
+
 
         if (rightClick)
         {
@@ -73,8 +80,13 @@ public class GameManager : MonoBehaviour
     }
     public string targetResource()
     {
+
         trees = GameObject.FindGameObjectsWithTag("Wood");
 
         return "Wood";// to implement further
+    }
+    public void GiveCitizenTasks(CitizenStateManager[] AllCitizens)
+    {
+        
     }
 }
