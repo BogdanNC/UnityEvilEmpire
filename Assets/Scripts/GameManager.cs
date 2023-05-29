@@ -243,7 +243,7 @@ public class GameManager : MonoBehaviour
         if(placingBuilding){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        LayerMask mask = LayerMask.GetMask("Environment");
+        LayerMask mask = LayerMask.GetMask("Environment", "Ground");
         /*if (Physics.Raycast(ray, out hit))
         {
             Instantiate(house,hit.point, Quaternion.identity);
@@ -335,7 +335,7 @@ public class GameManager : MonoBehaviour
         //Raycast a ray from the mouse to the world, along the direction of the projection
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
-        if(Physics.Raycast(ray, out RaycastHit hitData, 1000, layersToHit))
+        if(Physics.Raycast(ray, out RaycastHit hitData, 1000f, layersToHit))
         {
             position = hitData.point;
 
