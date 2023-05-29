@@ -10,7 +10,6 @@ public class SelectedDictionary : MonoBehaviour
     {
         //Saves the instance id to the dictionary as a key, so no objects repeat
         int id = obj.GetInstanceID();
-
         if (!selectedUnits.ContainsKey(id))
         {
             selectedUnits.Add(id, obj);
@@ -21,7 +20,7 @@ public class SelectedDictionary : MonoBehaviour
     public void DeselectObject(int id)
     {
         //Destroy selection component (deselect)
-        Destroy(selectedUnits[id].GetComponent<SelectionComponent>());
+        DestroyImmediate(selectedUnits[id].GetComponent<SelectionComponent>());
         selectedUnits.Remove(id);
     }
 
@@ -31,7 +30,7 @@ public class SelectedDictionary : MonoBehaviour
         {
             if(pair.Value != null)
             {
-                Destroy(selectedUnits[pair.Key].GetComponent<SelectionComponent>());
+                DestroyImmediate(selectedUnits[pair.Key].GetComponent<SelectionComponent>());
             }
         }
 

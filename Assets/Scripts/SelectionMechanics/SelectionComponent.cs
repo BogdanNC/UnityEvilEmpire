@@ -11,10 +11,22 @@ public class SelectionComponent : MonoBehaviour
     private void Start()
     {
         //Add skin for selection
+        Renderer[] comps = gameObject.GetComponentsInChildren<Renderer>();
+
+        foreach(Renderer renderer in comps)
+        {
+            renderer.material.color = Color.blue;
+        }
     }
 
     private void OnDestroy()
     {
         //Remove skin added previously (deselection)
+        Renderer[] comps = gameObject.GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer renderer in comps)
+        {
+            renderer.material.color = Color.white;
+        }
     }
 }
