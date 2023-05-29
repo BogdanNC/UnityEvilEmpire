@@ -61,7 +61,8 @@ public class SelectionBoxManager : MonoBehaviour
         //LMB is released
         if (Input.GetMouseButtonUp(0))
         {
-
+            Debug.Log("Here!!");
+            Debug.Log("Dragsel: " + dragSelect);
             if (!dragSelect)
             {
                 //Single unit select
@@ -73,10 +74,12 @@ public class SelectionBoxManager : MonoBehaviour
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
                         //Inclusive select
+                        Debug.Log("Here2!!");
                         selectedUnits.AddSelected(hitData.transform.gameObject);
                     }
                     else
                     {
+                        Debug.Log("Here3!");
                         //Exclusive select
                         selectedUnits.deselectAll();
                         selectedUnits.AddSelected(hitData.transform.gameObject);
@@ -224,6 +227,9 @@ public class SelectionBoxManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        selectedUnits.AddSelected(other.gameObject);
+        if (other.gameObject.layer == LayerMask.NameToLayer("Units"))
+        {
+            selectedUnits.AddSelected(other.gameObject);
+        }
     }
 }

@@ -8,6 +8,8 @@ public class SelectedDictionary : MonoBehaviour
 
     public void AddSelected(GameObject obj)
     {
+        Debug.Log("Select!");
+
         //Saves the instance id to the dictionary as a key, so no objects repeat
         int id = obj.GetInstanceID();
         if (!selectedUnits.ContainsKey(id))
@@ -19,6 +21,8 @@ public class SelectedDictionary : MonoBehaviour
 
     public void DeselectObject(int id)
     {
+        Debug.Log("Deselect!");
+
         //Destroy selection component (deselect)
         DestroyImmediate(selectedUnits[id].GetComponent<SelectionComponent>());
         selectedUnits.Remove(id);
@@ -26,7 +30,9 @@ public class SelectedDictionary : MonoBehaviour
 
     public void deselectAll()
     {
-        foreach(KeyValuePair<int, GameObject> pair in selectedUnits)
+        Debug.Log("Deselect all!");
+
+        foreach (KeyValuePair<int, GameObject> pair in selectedUnits)
         {
             if(pair.Value != null)
             {
