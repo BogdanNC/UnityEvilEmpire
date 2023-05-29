@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class CitizenStateManager : MonoBehaviour
 {
     
-    CitizenBaseState currentState;
+    public CitizenBaseState currentState;
     public UnassignedIdle IdleCitizen = new UnassignedIdle();
     public UnassignedBuild BuildCitizen = new UnassignedBuild();
     public UnassignFollowKing FollowCitizen = new UnassignFollowKing();
@@ -15,12 +15,15 @@ public class CitizenStateManager : MonoBehaviour
     public bool toogleFollowKing;
     public Transform kingTransform;
     public NavMeshAgent agent;
+    public int team;
 
     void Start()
     {
         currentState = IdleCitizen;
 
         currentState.EnterState(this);
+
+        team = 0;
     }
 
     // Update is called once per frame
