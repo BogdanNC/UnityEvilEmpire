@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
     public GameObject soldiers;
     public GameObject civilians;
     public LayerMask layersToHit;
+    private CitizenStateManager[] AllCitizens;
     private IEnumerator coroutine;
+
+    public ResourceManager.TeamDistribution[] team = new ResourceManager.TeamDistribution[2];
 
     GameObject button;
     GameObject button2;
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         selectedUnits = new List<GameObject>();
+        InitialDistribution();
 
         button = GameObject.Find("Button (3)");
         button.GetComponent<Button>().onClick.AddListener(ClickGatherer);
@@ -208,6 +212,7 @@ public class GameManager : MonoBehaviour
     void HandleInput()
     {
         raytrace();
+       //CitizenHandler();
         
 
         if (Input.GetKey(KeyCode.N))
@@ -396,4 +401,32 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    void CitizenHandler()
+    {
+        AllCitizens = FindObjectsOfType<CitizenStateManager>();
+        foreach (var citizen in AllCitizens)
+        {
+            //Debug.Log("este in state " + citizen.currentState);
+            if (citizen.currentState.ToString() == "UnassignedIdle")
+            {
+                
+            }
+        }
+    }
+    void InitialDistribution()
+    {
+        for (int i = 0; i <= 1; i++)
+        {
+            team[i].table = new ResourceManager.ResourceDistribution[3];
+            for (int j = 0; j <= 2; j++)
+            {
+                team[i].table[j].nrOfGatherers = 0;
+            }
+            team[i].table[0].resourceName = "Wood";
+            team[i].table[1].resourceName = "Gold";
+            team[i].table[2].resourceName = "Food";
+        }
+    }
+    
+    
 }

@@ -294,7 +294,7 @@ public class SoldierBrain : MonoBehaviour
                 enemies.Add(collider.gameObject);
 
             }
-            Debug.Log("Enemies found: " + enemies.Count);
+            //Debug.Log("Enemies found: " + enemies.Count);
         }
 
         return enemies;
