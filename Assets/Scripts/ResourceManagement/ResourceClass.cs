@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,5 +59,21 @@ public class ResourceClass : MonoBehaviour
         }
         
         return gathered;
+    }
+    
+    public static explicit operator ResourceClass(GameObject v)
+    {
+        // it gives the serialized error but it works
+        if (v.tag == "Wood")
+        {
+            ResourceWood wood = v.GetComponent<ResourceWood>() ;
+            return wood;
+        }
+        if (v.tag == "Gold")
+        {
+            ResourceGold gold = v.GetComponent<ResourceGold>();
+            return gold;
+        }
+        return null;
     }
 }

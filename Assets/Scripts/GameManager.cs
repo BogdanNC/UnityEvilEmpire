@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject civilians;
     public LayerMask layersToHit;
     private CitizenStateManager[] AllCitizens;
+    private GameObject[] allPrebuiltBuildings;
     private IEnumerator coroutine;
 
     public ResourceManager.TeamDistribution[] team = new ResourceManager.TeamDistribution[2];
@@ -212,7 +213,6 @@ public class GameManager : MonoBehaviour
     void HandleInput()
     {
         raytrace();
-       //CitizenHandler();
         
 
         if (Input.GetKey(KeyCode.N))
@@ -421,10 +421,19 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j <= 2; j++)
             {
                 team[i].table[j].nrOfGatherers = 0;
+                team[i].table[j].amountOwned = 0;
             }
             team[i].table[0].resourceName = "Wood";
             team[i].table[1].resourceName = "Gold";
             team[i].table[2].resourceName = "Food";
+        }
+    }
+    void checkBuildingList()
+    {
+        allPrebuiltBuildings = GameObject.FindGameObjectsWithTag("BuildTaskTeam1");
+        if (allPrebuiltBuildings.Length > 0)
+        {
+
         }
     }
     

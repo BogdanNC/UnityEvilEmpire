@@ -17,7 +17,7 @@ public class UnassignedIdle : CitizenBaseState
             Citizen.SwitchState(Citizen.FollowCitizen);
         }
         
-        if (GetIdleTime() > 2.0f)
+        if (GetIdleTime() > 3.0f)
         {
             Citizen.SwitchState(Citizen.GatherCitizen);
         }
