@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SelectionBoxManager : MonoBehaviour
 {
-    [SerializeField] private Mesh moveFlagSkin;
+    GameManager gm;
 
     SelectedDictionary selectedUnits;
     RaycastHit hitData;
     LayerMask mask;
 
     bool dragSelect;
+
+    public bool buttonClicked = false;
 
     MeshCollider selectionBox;
     Mesh selectionMesh;
@@ -27,6 +29,7 @@ public class SelectionBoxManager : MonoBehaviour
     private void Awake()
     {
         selectedUnits = GetComponent<SelectedDictionary>();
+        gm = GameManager.gm;
     }
 
     // Start is called before the first frame update
@@ -39,6 +42,7 @@ public class SelectionBoxManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //Left mouse button (LMB) was pressed (not yet realeased)
         if (Input.GetMouseButtonDown(0))
         {
@@ -61,34 +65,43 @@ public class SelectionBoxManager : MonoBehaviour
         //LMB is released
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.Log("Here!!");
-            Debug.Log("Dragsel: " + dragSelect);
             if (!dragSelect)
             {
                 //Single unit select
                 Ray ray = Camera.main.ScreenPointToRay(startPos);
 
-                if(Physics.Raycast(ray, out hitData, 10000.0f, mask))
+                //Debug.DrawLine(ray.origin, ray.origin + ray.direction*100, Color.red, 10.0f);
+
+                if (Physics.Raycast(ray, out hitData, 10000.0f, mask))
                 {
+
                     //Something was hit
+                    GameObject objHit = hitData.transform.gameObject;
+
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
                         //Inclusive select
-                        Debug.Log("Here2!!");
-                        selectedUnits.AddSelected(hitData.transform.gameObject);
+                        selectedUnits.AddSelected(objHit);
+                        UpdateGMSelectedUnits(objHit);
                     }
                     else
                     {
-                        Debug.Log("Here3!");
                         //Exclusive select
                         selectedUnits.deselectAll();
-                        selectedUnits.AddSelected(hitData.transform.gameObject);
+                        gm.selectedUnits.Clear();
+
+                        selectedUnits.AddSelected(objHit);
+                        UpdateGMSelectedUnits(objHit);
                     }
                 }
                 else
                 {
                     //Nothing was hit, deselect everything
-                    selectedUnits.deselectAll();
+                    if (!buttonClicked)
+                    {
+                        selectedUnits.deselectAll();
+                        gm.selectedUnits.Clear();
+                    }
                 }
             }
             else
@@ -108,7 +121,7 @@ public class SelectionBoxManager : MonoBehaviour
                     if (Physics.Raycast(ray, out hitData, 10000.0f, groundMask))
                     {
                         verts[i] = new Vector3(hitData.point.x, 0, hitData.point.z);
-                        Debug.DrawLine(Camera.main.ScreenToWorldPoint(corner), hitData.point, Color.red, 1.0f);
+                        //Debug.DrawLine(Camera.main.ScreenToWorldPoint(corner), hitData.point, Color.red, 1.0f);
                     }
 
                     i++;
@@ -126,6 +139,7 @@ public class SelectionBoxManager : MonoBehaviour
                 {
                     //Exclusive Select
                     selectedUnits.deselectAll();
+                    gm.selectedUnits.Clear();
                 }
 
                 //Delete the bounding box after a short time, so it doesn't keep selecting units
@@ -134,6 +148,16 @@ public class SelectionBoxManager : MonoBehaviour
 
             dragSelect = false;
         }
+    }
+
+    public void SetButtonClicked(bool value)
+    {
+        buttonClicked = value;
+    }
+
+    private void UpdateGMSelectedUnits(GameObject obj)
+    {
+        gm.selectedUnits.Add(obj);
     }
 
     private void OnGUI()
@@ -227,9 +251,13 @@ public class SelectionBoxManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Units"))
+        GameObject obj = other.gameObject;
+
+        if (obj.layer == LayerMask.NameToLayer("Units"))
         {
-            selectedUnits.AddSelected(other.gameObject);
+
+            selectedUnits.AddSelected(obj);
+            UpdateGMSelectedUnits(obj);
         }
     }
 }

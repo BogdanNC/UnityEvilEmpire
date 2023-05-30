@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoldierBrain : MonoBehaviour
 {
     //A reference to the game manager script
-    GameManager gm = GameManager.gm;
+    GameManager gm;
 
     [Header ("Properties")]
     [SerializeField] private float fov = 15f;
@@ -15,7 +15,7 @@ public class SoldierBrain : MonoBehaviour
     private float waitTime = 0f;
     private bool onCooldown = false;
 
-    [SerializeField] private float maxChaseTime = 10f; //seconds
+    [SerializeField] private const float MAX_CHASE_TIME = 15.0f; //seconds
     private float chaseTime = 0f;
 
     private Transform target;
@@ -32,19 +32,26 @@ public class SoldierBrain : MonoBehaviour
     private SoldierState state = SoldierState.FOLLOWING;
 
     private GameObject king;
+    private GameObject defendPos;
     private GameObject closestEnemy = null;
 
     private void Awake()
     {
+        gm = GameManager.gm;
+
         moveScript = GetComponent<MouseMove>();
         king = FindKing();
+        defendPos = FindDefendPos();
         SetTarget(king.transform);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(onCooldown)
+        Debug.Log("Current Soldier State: " + state);
+        Debug.Log("Current Soldier LastState: " + lastState);
+
+        if (onCooldown)
         {
             waitTime += Time.deltaTime;
 
@@ -72,6 +79,15 @@ public class SoldierBrain : MonoBehaviour
 
             //Chase and attack enemy
             ChaseEnemy(closestEnemy.transform);
+        }
+        else if(state.Equals(SoldierState.CHASING))
+        {
+            //No enemies found but still tried to chase
+            SetTarget(secTarget);
+            SetSecTarget(null);
+
+            state = lastState;
+            lastState = SoldierState.CHASING;
         }
         
         if(!state.Equals(SoldierState.CHASING))
@@ -104,18 +120,21 @@ public class SoldierBrain : MonoBehaviour
     {
         chaseTime += Time.deltaTime;
 
-        if (chaseTime >= maxChaseTime)
+        if (chaseTime >= MAX_CHASE_TIME)
         {
+            Debug.Log("Stop Chase!");
+
             //Stop chase
+            SetTarget(secTarget);
+            SetSecTarget(null);
+
             state = lastState;
             lastState = SoldierState.CHASING;
 
             waitTime = 0f;
             onCooldown = true;
-            closestEnemy = null;
 
-            SetTarget(secTarget);
-            SetSecTarget(null);
+            closestEnemy = null;
 
             return;
         }
@@ -127,7 +146,6 @@ public class SoldierBrain : MonoBehaviour
             if (Attack(target))
             {
                 //Enemy killed or destroyed
-                closestEnemy = null;
             }
         }
         else
@@ -140,6 +158,8 @@ public class SoldierBrain : MonoBehaviour
 
     private void DefendPosition(Transform target)
     {
+        this.target.position = target.position;
+
         moveScript.SetDestination(target.position);
 
         if(!InRange(target.position, fov))
@@ -246,6 +266,11 @@ public class SoldierBrain : MonoBehaviour
         return enemyCM.TakeDamage(damageDealt);
     }
 
+    private GameObject FindDefendPos()
+    {
+        return GameObject.Find("DefendPos");
+    }
+
     private GameObject FindKing()
     {
         return GameObject.Find("King");
@@ -256,12 +281,13 @@ public class SoldierBrain : MonoBehaviour
         float minDistance = float.MaxValue;
         GameObject target = null;
 
+
         foreach (var enemy in enemies)
         {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
 
 
-            if (minDistance < distance)
+            if (minDistance > distance)
             {
                 minDistance = distance;
                 target = enemy;
@@ -281,20 +307,16 @@ public class SoldierBrain : MonoBehaviour
     private List<GameObject> FindEnemies()
     {
         List<GameObject> enemies = new();
-
         Collider[] surroundingColliders = Physics.OverlapSphere(transform.position, fov);
 
         foreach (var collider in surroundingColliders)
         {
-            //Debug.Log("Colliders found: " + surroundingColliders.Length);
             //Checks the collider's GameObject's tag
             if (collider.CompareTag("Enemy"))
             {
                 //Add the enemy to the list of enemies
                 enemies.Add(collider.gameObject);
-
             }
-            //Debug.Log("Enemies found: " + enemies.Count);
         }
 
         return enemies;
@@ -324,7 +346,32 @@ public class SoldierBrain : MonoBehaviour
         }
     }
 
-    private enum SoldierState
+    public void SetDefendPos(Vector3 pos)
+    {
+        if(pos == null)
+        {
+            Debug.Log("DefendPos was null?!?!?");
+            SetTarget(null);
+            return;
+        }
+
+        if (defendPos == null)
+        {
+            defendPos = new GameObject("DefendPos");
+        }
+
+        defendPos.transform.position = pos;
+
+        SetTarget(defendPos.transform);
+    }
+
+    public void SetState(SoldierState newState)
+    {
+        lastState = state;
+        state = newState;
+    }
+
+    public enum SoldierState
     {
         DEFENDING,
         CHASING,
