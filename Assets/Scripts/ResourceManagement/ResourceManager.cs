@@ -8,6 +8,7 @@ public static class ResourceManager
     {
         public int nrOfGatherers;
         public string resourceName;
+        public float amountOwned;
     }
     public struct TeamDistribution
     {
@@ -30,5 +31,27 @@ public static class ResourceManager
         }
         team[Citizen.team].table[minIndex].nrOfGatherers++;
         return team[Citizen.team].table[minIndex].resourceName;
+    }
+    public static void FreeJob(CitizenStateManager Citizen, string jobName)
+    {
+        TeamDistribution[] team = GameManager.gm.team;
+        for (int i = 0; i < 3; i++)
+        {
+            if (team[Citizen.team].table[i].resourceName == jobName)
+            {
+                team[Citizen.team].table[i].nrOfGatherers--;
+            }
+        }
+    }
+    public static void addAmound(CitizenStateManager Citizen, string resource, float amount)
+    {
+        TeamDistribution[] team = GameManager.gm.team;
+        for (int i = 0; i < 3; i++)
+        {
+            if (team[Citizen.team].table[i].resourceName == resource)
+            {
+                team[Citizen.team].table[i].amountOwned += amount;
+            }
+        }
     }
 }

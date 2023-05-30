@@ -3448,7 +3448,7 @@ GameObject:
   - component: {fileID: 8942655269952645474}
   m_Layer: 0
   m_Name: Prebuilt Barrack
-  m_TagString: Barrack
+  m_TagString: BuildTaskTeam1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

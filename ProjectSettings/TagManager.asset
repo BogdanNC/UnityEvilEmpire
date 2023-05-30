@@ -12,6 +12,11 @@ TagManager:
   - Map
   - TranspHouse
   - TranspBarrack
+  - Wood
+  - Gold
+  - Food
+  - BuildTaskTeam1
+  - BuildTaskTeam2
   layers:
   - Default
   - TransparentFX
