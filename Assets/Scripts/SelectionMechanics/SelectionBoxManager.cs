@@ -26,6 +26,7 @@ public class SelectionBoxManager : MonoBehaviour
 
     private void Awake()
     {
+        selectedUnits = GetComponent<SelectedDictionary>();
     }
 
     // Start is called before the first frame update
