@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     
 
     bool cheatCamera= false;
-    bool placingBuilding = false;
+    bool placingBuildingHouse = false;
     bool placingBuildingBarrack = false;
     bool alreadyActivatedBarrack = false;
     bool alreadyActivatedHouse = false;
@@ -84,6 +84,8 @@ public class GameManager : MonoBehaviour
 
         mainCamera = GameObject.Find("Main Camera");
         secondCamera = GameObject.Find("Camera");
+
+        selectedUnits = GetComponent<SelectionBoxManager>().selectedUnits;
     }
 
     private void Awake()
@@ -114,7 +116,13 @@ public class GameManager : MonoBehaviour
 
     public void ClickHouse()
     {
-        placingBuilding = true;
+        placingBuildingHouse = true;
+        placingBuildingBarrack = false;
+
+        //Destroy any "blueprint" that might be instanciated
+        Destroy(newHouseTransparent);
+        Destroy(newBarrackTransparent);
+
         newHouseTransparent = Instantiate(house,new Vector3(0,0,0), Quaternion.identity);
         newHouseTransparent.tag = "TranspHouse";
     }
@@ -122,6 +130,12 @@ public class GameManager : MonoBehaviour
     public void ClickBarrack()
     {
         placingBuildingBarrack= true;
+        placingBuildingHouse = false;
+
+        //Destroy any "blueprint" that might be instanciated
+        Destroy(newHouseTransparent);
+        Destroy(newBarrackTransparent);
+
         newBarrackTransparent = Instantiate(barrack,new Vector3(0,0,0), Quaternion.identity);
         newBarrackTransparent.tag = "TranspBarrack";
     }
@@ -240,7 +254,7 @@ public class GameManager : MonoBehaviour
             cheatCamera = false;
         }
 
-        if(placingBuilding){
+        if(placingBuildingHouse){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         LayerMask mask = LayerMask.GetMask("Environment", "Ground");
@@ -281,7 +295,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("--------------------------------------------------alright");
                 Instantiate(inProgressHouse,hit.point, Quaternion.identity);
                 Destroy(newHouseTransparent);
-                placingBuilding = false;
+                placingBuildingHouse = false;
                 button6.SetActive(false);
             }
             conflict = false;
@@ -291,7 +305,7 @@ public class GameManager : MonoBehaviour
         if(placingBuildingBarrack){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        LayerMask mask = LayerMask.GetMask("Environment");
+        LayerMask mask = LayerMask.GetMask("Environment", "Ground");
         if (Physics.Raycast(ray,  out  hit, 100000f, mask)) {
             newBarrackTransparent.transform.position = new Vector3(hit.point.x, -1.66f, hit.point.z);
         }
