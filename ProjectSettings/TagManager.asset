@@ -17,6 +17,8 @@ TagManager:
   - Food
   - BuildTaskTeam1
   - BuildTaskTeam2
+  - Button
+  - TranspTower
   layers:
   - Default
   - TransparentFX
