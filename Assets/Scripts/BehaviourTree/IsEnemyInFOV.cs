@@ -6,6 +6,8 @@ using TheKiwiCoder;
 [System.Serializable]
 public class IsEnemyInFOV : ActionNode
 {
+    private static float fov = 10.0f;
+
     protected override void OnStart() {
     }
 

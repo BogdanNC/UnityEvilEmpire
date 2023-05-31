@@ -14,7 +14,8 @@ public class SoldierBrain : MonoBehaviour
     private float cooldownTimer = 10.0f; //seconds
     private float waitTime = 0.0f;
     private bool onCooldown = false;
-    private bool cooldownAllowed = true;
+
+    private bool canChase = true;
 
     [SerializeField] private const float MAX_CHASE_TIME = 15.0f; //seconds
     private float chaseTime = 0.0f;
@@ -67,7 +68,7 @@ public class SoldierBrain : MonoBehaviour
             closestEnemy = TargetEnemy(FindEnemies());
         }
 
-        if (closestEnemy != null && !onCooldown)
+        if (closestEnemy != null && !onCooldown && canChase)
         {
             if (!state.Equals(SoldierState.CHASING))
             {
@@ -83,7 +84,7 @@ public class SoldierBrain : MonoBehaviour
         }
         else if(state.Equals(SoldierState.CHASING))
         {
-            //No enemies found but still tried to chase
+            //Return to original objective after chasing
             SetTarget(secTarget);
             SetSecTarget(null);
 
@@ -96,7 +97,6 @@ public class SoldierBrain : MonoBehaviour
             switch (state)
             {
                 case SoldierState.DEFENDING:
-                    //Receives target from outside (GameManager most likely)
                     DefendPosition(target);
                     break;
 
@@ -130,15 +130,9 @@ public class SoldierBrain : MonoBehaviour
             state = lastState;
             lastState = SoldierState.CHASING;
 
-            if (cooldownAllowed)
-            {
-                waitTime = 0f;
-                onCooldown = true;
-            }
-            else
-            {
-                chaseTime = 0;
-            }
+            waitTime = 0.0f;
+            onCooldown = true;
+            chaseTime = 0.0f;
 
             closestEnemy = null;
 
@@ -149,6 +143,8 @@ public class SoldierBrain : MonoBehaviour
 
         if (InRange(target.position, attackRng))
         {
+            moveScript.Stop();
+
             if (Attack(target))
             {
                 //Enemy killed or destroyed
@@ -156,6 +152,9 @@ public class SoldierBrain : MonoBehaviour
         }
         else
         {
+            //Ensure the soldier can move
+            moveScript.ResumeMovement();
+
             //Move to enemy
             moveScript.MoveToPos();
         }
@@ -165,8 +164,15 @@ public class SoldierBrain : MonoBehaviour
     private void DefendPosition(Transform target)
     {
         this.target.position = target.position;
+        canChase = true;
 
         moveScript.SetDestination(target.position);
+
+        if (lastState.Equals(SoldierState.CHARGING) && !onCooldown)
+        {
+            onCooldown = true;
+            waitTime = 0.0f;
+        }
 
         if(!InRange(target.position, fov))
         {
@@ -175,14 +181,14 @@ public class SoldierBrain : MonoBehaviour
         }
     }
 
-    //Finds the closest enemy building that is revealed to the player
-    //If no enemy buildings are revealed, should the soldier "explore",
-    //meaning they would pick a random point on the map and walk there?
     private void FindEnemyBase()
     {
         //If we already target an enemy building skip search
+        //if (target)
+        //{
         bool isBuilding = this.target.gameObject.layer == LayerMask.NameToLayer("Buildings");
         bool isEnemy = this.target.CompareTag("Enemy");
+        //}
 
         if (!isBuilding || !isEnemy)
         {
@@ -209,6 +215,7 @@ public class SoldierBrain : MonoBehaviour
             if (target == null)
             {
                 SetTarget(null);
+                canChase = true;
                 Debug.Log("Target became null...?");
                 return;
             }
@@ -221,9 +228,18 @@ public class SoldierBrain : MonoBehaviour
 
     private void ChargeEnemyBase()
     {
-
         Vector3 closestPoint = target.GetComponent<Collider>().ClosestPoint(transform.position);
         moveScript.SetDestination(closestPoint);
+
+        if(InRange(closestPoint, fov))
+        {
+            //Prohibit Chasing
+            canChase = false;
+        }
+        else
+        {
+            canChase = true;
+        }
 
         if (!InRange(closestPoint, attackRng))
         {
@@ -233,7 +249,7 @@ public class SoldierBrain : MonoBehaviour
         }
         else
         {
-            cooldownAllowed = false;
+            moveScript.Stop();
             Debug.Log("IN Range!!");
 
             if (Attack(target))
@@ -247,7 +263,13 @@ public class SoldierBrain : MonoBehaviour
     {
         float range = 10f;
         bool inRange = InRange(king.transform.position, range);
-        Debug.Log("In Range: " + inRange);
+        canChase = true;
+
+        if (lastState.Equals(SoldierState.CHARGING) && !onCooldown)
+        {
+            onCooldown = true;
+            waitTime = 0.0f;
+        }
 
         if (king == null)
         {
@@ -257,7 +279,6 @@ public class SoldierBrain : MonoBehaviour
         }
         else if(!inRange)
         {
-            moveScript.ResumeMovement();
             moveScript.SetDestination(king.transform.position);
             //There should be some kind of formation algorithm here
         }
@@ -266,7 +287,6 @@ public class SoldierBrain : MonoBehaviour
 
         if (inRange)
         {
-            Debug.Log("Stop!!");
             moveScript.Stop();
         }
     }

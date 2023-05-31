@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 6207214792644120983}
   - component: {fileID: 2257088152701541107}
   - component: {fileID: 4828144926241399071}
-  - component: {fileID: 3649684418762615516}
-  - component: {fileID: 7071731439211633623}
   - component: {fileID: 5451781283909328666}
   m_Layer: 8
   m_Name: King
@@ -90,36 +88,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3649684418762615516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8664193035882260379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58c104b49ba2dc14b898a56041e373f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementTime: 5
-  rotationAmount: 0.5
-  newRotation: {x: 0, y: 0, z: 0, w: 0}
-  camera: {fileID: 0}
-  zoomAmount: {x: 0, y: -3, z: 3}
-  newZoom: {x: 0, y: 0, z: 0}
---- !u!114 &7071731439211633623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8664193035882260379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4bd590a17b4c464487eadebb8cd033f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5451781283909328666
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4894,6 +4894,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4999730373186307533}
+  - component: {fileID: 7001726424280775378}
+  - component: {fileID: 1197175394248041234}
   m_Layer: 7
   m_Name: House Red
   m_TagString: Enemy
@@ -4925,6 +4927,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7001726424280775378
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464283692228416642}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.2916303, y: 8.712602, z: 9.229977}
+  m_Center: {x: 0, y: 4.3299603, z: 3.583723}
+--- !u!114 &1197175394248041234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464283692228416642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24377d10a1a1a3543b356bb00b119b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
 --- !u!1 &1484426683591142436
 GameObject:
   m_ObjectHideFlags: 0

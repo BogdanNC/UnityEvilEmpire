@@ -23,6 +23,11 @@ public class MouseMove : MonoBehaviour
 
     public void SetDestination(Vector3 position)
     {
+        if(destination != position)
+        {
+            ResumeMovement();
+        }
+
         destination = position;
     }
 
