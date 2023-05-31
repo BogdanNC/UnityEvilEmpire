@@ -8,15 +8,16 @@ public class SoldierBrain : MonoBehaviour
     GameManager gm;
 
     [Header ("Properties")]
-    [SerializeField] private float fov = 15f;
-    [SerializeField] private float attackRng = 2f;
+    [SerializeField] private float fov = 15.0f;
+    [SerializeField] private float attackRng = 2.0f;
 
-    private float cooldownTimer = 10f; //seconds
-    private float waitTime = 0f;
+    private float cooldownTimer = 10.0f; //seconds
+    private float waitTime = 0.0f;
     private bool onCooldown = false;
+    private bool cooldownAllowed = true;
 
     [SerializeField] private const float MAX_CHASE_TIME = 15.0f; //seconds
-    private float chaseTime = 0f;
+    private float chaseTime = 0.0f;
 
     private Transform target;
     private Transform secTarget;
@@ -48,8 +49,8 @@ public class SoldierBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Current Soldier State: " + state);
-        //Debug.Log("Current Soldier LastState: " + lastState);
+        Debug.Log("Current Soldier State: " + state);
+        Debug.Log("Current Soldier LastState: " + lastState);
 
         if (onCooldown)
         {
@@ -114,8 +115,6 @@ public class SoldierBrain : MonoBehaviour
         }
     }
 
-    //Might be better to save a "lastTarget" to avoid refetching of "CombatManager" Component,
-    //as well as other benefits on other functions
     private void ChaseEnemy(Transform target)
     {
         chaseTime += Time.deltaTime;
@@ -131,8 +130,15 @@ public class SoldierBrain : MonoBehaviour
             state = lastState;
             lastState = SoldierState.CHASING;
 
-            waitTime = 0f;
-            onCooldown = true;
+            if (cooldownAllowed)
+            {
+                waitTime = 0f;
+                onCooldown = true;
+            }
+            else
+            {
+                chaseTime = 0;
+            }
 
             closestEnemy = null;
 
@@ -183,7 +189,7 @@ public class SoldierBrain : MonoBehaviour
             //Get all Enemy Objects
             List<GameObject> allEnemyObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
 
-            //Filter to all (revealed?) enemy buildings
+            //Filter to all enemy buildings
             List<GameObject> enemyBuildings = allEnemyObjects.FindAll(obj => obj.layer == LayerMask.NameToLayer("Buildings"));
 
             float minDist = float.MaxValue;
@@ -215,37 +221,54 @@ public class SoldierBrain : MonoBehaviour
 
     private void ChargeEnemyBase()
     {
+
         Vector3 closestPoint = target.GetComponent<Collider>().ClosestPoint(transform.position);
-        moveScript.SetDestination(target.position);
+        moveScript.SetDestination(closestPoint);
 
         if (!InRange(closestPoint, attackRng))
         {
+            Debug.Log("OUT of Range!!");
             //Move to base
             moveScript.MoveToPos();
         }
         else
         {
-            Attack(target);
+            cooldownAllowed = false;
+            Debug.Log("IN Range!!");
+
+            if (Attack(target))
+            {
+                SetTarget(null);
+            }
         }
     }
 
     private void FollowKing()
     {
-        float range = 3f;
+        float range = 10f;
+        bool inRange = InRange(king.transform.position, range);
+        Debug.Log("In Range: " + inRange);
 
-        if(king == null)
+        if (king == null)
         {
             moveScript.SetDestination(transform.position);
             lastState = state;
             state = SoldierState.DEFENDING;
         }
-        else if(!InRange(king.transform.position, range))
+        else if(!inRange)
         {
+            moveScript.ResumeMovement();
             moveScript.SetDestination(king.transform.position);
             //There should be some kind of formation algorithm here
         }
 
         moveScript.MoveToPos();
+
+        if (inRange)
+        {
+            Debug.Log("Stop!!");
+            moveScript.Stop();
+        }
     }
     private bool InRange(Vector3 target, float range)
     {

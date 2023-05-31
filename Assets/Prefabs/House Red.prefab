@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4822462925567170781}
   - component: {fileID: 5831288033340921327}
   - component: {fileID: 4780789187938512181}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HouseRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 3903359250796023441}
   - component: {fileID: 8527463494624114397}
   - component: {fileID: 2179063909949501816}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 321824911569544720}
   - component: {fileID: 6442733244849860738}
   - component: {fileID: 8045318795282428267}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SideSupport3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 1519222783422225637}
   - component: {fileID: 6682769380997480319}
   - component: {fileID: 8415364581752085153}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 3714291659934821420}
   - component: {fileID: 8786203599838844377}
   - component: {fileID: 4986455754433618860}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HouseFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4632,7 +4632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5092646326420551169}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4666,7 +4666,7 @@ GameObject:
   - component: {fileID: 3248229149704476750}
   - component: {fileID: 8033865725067439355}
   - component: {fileID: 180737290040224913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4763,7 +4763,7 @@ GameObject:
   - component: {fileID: 2092584224515534419}
   - component: {fileID: 3827373341243716317}
   - component: {fileID: 6091431522196203092}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SideSupport2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4857,7 +4857,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2229042531047291454}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Structure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4894,9 +4894,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4999730373186307533}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: House Red
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4937,7 +4937,7 @@ GameObject:
   - component: {fileID: 1575044158711052158}
   - component: {fileID: 4694493648052996074}
   - component: {fileID: 4040083715272234684}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5034,7 +5034,7 @@ GameObject:
   - component: {fileID: 5418601301288510477}
   - component: {fileID: 651567836148415996}
   - component: {fileID: 3945489920232891592}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5131,7 +5131,7 @@ GameObject:
   - component: {fileID: 6856842849038933356}
   - component: {fileID: 4877562908208768221}
   - component: {fileID: 4148980689741217643}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HouseFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5228,7 +5228,7 @@ GameObject:
   - component: {fileID: 3883715863549870425}
   - component: {fileID: 4941488508552343296}
   - component: {fileID: 5853681915096802491}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5325,7 +5325,7 @@ GameObject:
   - component: {fileID: 4241107435189586378}
   - component: {fileID: 8319233691780360784}
   - component: {fileID: 6559295148420566926}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5423,7 +5423,7 @@ GameObject:
   - component: {fileID: 3150680952960250687}
   - component: {fileID: 8549805094387951021}
   - component: {fileID: 4641130385594688580}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SideSupport3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5875,7 +5875,7 @@ GameObject:
   - component: {fileID: 7990078606002780047}
   - component: {fileID: 207716529324765295}
   - component: {fileID: 88188302688696912}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5972,7 +5972,7 @@ GameObject:
   - component: {fileID: 3707512628401944644}
   - component: {fileID: 4601625930992544228}
   - component: {fileID: 3817599513454534520}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DoorFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6069,7 +6069,7 @@ GameObject:
   - component: {fileID: 6233124887709158421}
   - component: {fileID: 6082995201293420063}
   - component: {fileID: 1816201537561117191}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DoorFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6166,7 +6166,7 @@ GameObject:
   - component: {fileID: 7378260413136767347}
   - component: {fileID: 198316253723997697}
   - component: {fileID: 356867023752733674}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6263,7 +6263,7 @@ GameObject:
   - component: {fileID: 5580266128967789961}
   - component: {fileID: 7737180349060829127}
   - component: {fileID: 4401776402713846755}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6360,7 +6360,7 @@ GameObject:
   - component: {fileID: 3658180655258549116}
   - component: {fileID: 1933067241214978034}
   - component: {fileID: 8883122792282633083}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SideSupport2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6457,7 +6457,7 @@ GameObject:
   - component: {fileID: 5397612359705468280}
   - component: {fileID: 1987713079500458469}
   - component: {fileID: 8957350109880428263}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HouseLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6554,7 +6554,7 @@ GameObject:
   - component: {fileID: 7738697498030949601}
   - component: {fileID: 4995248351819181655}
   - component: {fileID: 8347514025044711853}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6651,7 +6651,7 @@ GameObject:
   - component: {fileID: 5882935638983275808}
   - component: {fileID: 3151054476746120452}
   - component: {fileID: 3777896700289511404}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Roof (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6748,7 +6748,7 @@ GameObject:
   - component: {fileID: 663170690652008209}
   - component: {fileID: 3072209976769171450}
   - component: {fileID: 4154080548810875073}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6845,7 +6845,7 @@ GameObject:
   - component: {fileID: 5117938507356497622}
   - component: {fileID: 1875477314177296061}
   - component: {fileID: 61858749492071315}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6942,7 +6942,7 @@ GameObject:
   - component: {fileID: 1432913129711295890}
   - component: {fileID: 5053754644656344041}
   - component: {fileID: 6572450003781035236}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SideSupport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7039,7 +7039,7 @@ GameObject:
   - component: {fileID: 2972346609344957308}
   - component: {fileID: 6747775429995537625}
   - component: {fileID: 6774279944902975026}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Covert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7136,7 +7136,7 @@ GameObject:
   - component: {fileID: 8530870651869635054}
   - component: {fileID: 7875027441301297785}
   - component: {fileID: 607372766800040560}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: UpPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7233,7 +7233,7 @@ GameObject:
   - component: {fileID: 4639675417525210277}
   - component: {fileID: 4568070009892369173}
   - component: {fileID: 7366685064309702182}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7327,7 +7327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8735690687838937989}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wallWithWindow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7370,7 +7370,7 @@ GameObject:
   - component: {fileID: 5427148480557323525}
   - component: {fileID: 5807093073998732190}
   - component: {fileID: 3053888156021294545}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7467,7 +7467,7 @@ GameObject:
   - component: {fileID: 1124560288837737820}
   - component: {fileID: 4335076971699776977}
   - component: {fileID: 6537723720115403761}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7564,7 +7564,7 @@ GameObject:
   - component: {fileID: 436993312095885588}
   - component: {fileID: 5219559163827632722}
   - component: {fileID: 2568057287655324751}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DownPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7658,7 +7658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 474456069240218186}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beams
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7704,7 +7704,7 @@ GameObject:
   - component: {fileID: 4964615353002672022}
   - component: {fileID: 348139269241377691}
   - component: {fileID: 998689872476092475}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DoorFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7801,7 +7801,7 @@ GameObject:
   - component: {fileID: 2725343368294213342}
   - component: {fileID: 577705525796656080}
   - component: {fileID: 1916976042007808362}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beam 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7898,7 +7898,7 @@ GameObject:
   - component: {fileID: 4336006882085750973}
   - component: {fileID: 7632658802328297158}
   - component: {fileID: 8428528328227664331}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SideSupport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7996,7 +7996,7 @@ GameObject:
   - component: {fileID: 1200599762131724241}
   - component: {fileID: 4013209921635696023}
   - component: {fileID: 3690433954397828996}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HouseTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8274,7 +8274,7 @@ GameObject:
   - component: {fileID: 3017040894215048251}
   - component: {fileID: 7467448431467114365}
   - component: {fileID: 895582802294991200}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DownPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8371,7 +8371,7 @@ GameObject:
   - component: {fileID: 2329786183071991923}
   - component: {fileID: 1434225124606064894}
   - component: {fileID: 8463535537308708574}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8465,7 +8465,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6861269823883710385}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8498,7 +8498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6265991194340390570}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wallWithWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8541,7 +8541,7 @@ GameObject:
   - component: {fileID: 5803315423067289653}
   - component: {fileID: 8867342309937812664}
   - component: {fileID: 6765735502187553586}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HouseBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8638,7 +8638,7 @@ GameObject:
   - component: {fileID: 8047191028316395914}
   - component: {fileID: 1201096434184513082}
   - component: {fileID: 5329329176533756681}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8735,7 +8735,7 @@ GameObject:
   - component: {fileID: 6461979403194676417}
   - component: {fileID: 4793969741314527062}
   - component: {fileID: 2856408060697331551}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: UpPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8832,7 +8832,7 @@ GameObject:
   - component: {fileID: 500401834719338067}
   - component: {fileID: 8244621626261352950}
   - component: {fileID: 8200278772143819549}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Covert
   m_TagString: Untagged
   m_Icon: {fileID: 0}

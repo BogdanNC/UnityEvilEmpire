@@ -140,20 +140,20 @@ public class GameManager : MonoBehaviour
         if(placingBuildingTower){
             placingBuildingTower = false;
             Destroy(newTowerTransparent);
-        }else{
+        }
+        else
+        {
 
-        placingBuildingHouse = false;
-        placingBuildingTower = true;
-        placingFlagMarker = false;
-        placingBuildingBarrack = false;
-        //Destroy any "blueprint" that might be instanciated
-        Destroy(newHouseTransparent);
-        Destroy(newBarrackTransparent);
-        Destroy(newFlagMarker);
-        Destroy(newTowerTransparent);
+            placingBuildingHouse = false;
+            placingBuildingTower = true;
+            placingFlagMarker = false;
+            placingBuildingBarrack = false;
 
-        newTowerTransparent = Instantiate(tower, Vector3.zero, Quaternion.identity);
-        newTowerTransparent.tag = "TranspTower";
+            //Destroy any "blueprint" that might be instanciated
+            ClearBlueprints();
+
+            newTowerTransparent = Instantiate(tower, Vector3.zero, Quaternion.identity);
+            newTowerTransparent.tag = "TranspTower";
         }
     }
 
@@ -166,18 +166,16 @@ public class GameManager : MonoBehaviour
             Destroy(newHouseTransparent);
         }else{
 
-        placingBuildingHouse = true;
-        placingFlagMarker = false;
-        placingBuildingBarrack = false;
-        placingBuildingTower = false;
-        //Destroy any "blueprint" that might be instanciated
-        Destroy(newTowerTransparent);
-        Destroy(newHouseTransparent);
-        Destroy(newBarrackTransparent);
-        Destroy(newFlagMarker);
+            placingBuildingHouse = true;
+            placingFlagMarker = false;
+            placingBuildingBarrack = false;
+            placingBuildingTower = false;
+           
+            //Destroy any "blueprint" that might be instanciated
+            ClearBlueprints();
 
-        newHouseTransparent = Instantiate(house, Vector3.zero, Quaternion.identity);
-        newHouseTransparent.tag = "TranspHouse";
+            newHouseTransparent = Instantiate(house, Vector3.zero, Quaternion.identity);
+            newHouseTransparent.tag = "TranspHouse";
         }
     }
 
@@ -187,19 +185,19 @@ public class GameManager : MonoBehaviour
         if(placingBuildingBarrack){
             placingBuildingBarrack = false;
             Destroy(newBarrackTransparent);
-        }else{
-        placingBuildingBarrack= true;
-        placingFlagMarker = false;
-        placingBuildingHouse = false;
-        placingBuildingTower = false;
-        //Destroy any "blueprint" that might be instanciated
-        Destroy(newTowerTransparent);
-        Destroy(newHouseTransparent);
-        Destroy(newBarrackTransparent);
-        Destroy(newFlagMarker);
+        }
+        else
+        {
+            placingBuildingBarrack= true;
+            placingFlagMarker = false;
+            placingBuildingHouse = false;
+            placingBuildingTower = false;
+            
+            //Destroy any "blueprint" that might be instanciated
+            ClearBlueprints();
 
-        newBarrackTransparent = Instantiate(barrack, Vector3.zero, Quaternion.identity);
-        newBarrackTransparent.tag = "TranspBarrack";
+            newBarrackTransparent = Instantiate(barrack, Vector3.zero, Quaternion.identity);
+            newBarrackTransparent.tag = "TranspBarrack";
         }
     }
 
@@ -274,16 +272,24 @@ public class GameManager : MonoBehaviour
     public void ClickDefend()
     {
         GetComponent<SelectionBoxManager>().SetButtonClicked(true);
-        Debug.Log("The defend was clicked.");
+        
+        if (placingFlagMarker)
+        {
+            placingFlagMarker = false;
+            Destroy(newFlagMarker);
+        }
+        else
+        {
+            placingFlagMarker = true;
+            placingBuildingHouse = false;
+            placingBuildingBarrack = false;
+            placingBuildingTower = false;
 
-        placingFlagMarker = true;
-        placingBuildingHouse = false;
-        placingBuildingBarrack = false;
+            ClearBlueprints();
 
-        Destroy(newBarrackTransparent);
-        Destroy(newHouseTransparent);
+            newFlagMarker = Instantiate(flagMarker, Vector3.zero , Quaternion.Euler(Vector3.right * 90));
+        }
 
-        newFlagMarker = Instantiate(flagMarker, Vector3.zero , Quaternion.Euler(Vector3.right * 90));
     }
 
     public void ClickBuilding()
@@ -372,7 +378,7 @@ public class GameManager : MonoBehaviour
 
         if(placingBuildingHouse){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-           
+
             RaycastHit hit;
             LayerMask mask = LayerMask.GetMask("Environment", "Ground");
             if (Physics.Raycast(ray,  out  hit, 100000f, mask)) {
@@ -392,7 +398,7 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
-                if(!conflict && hit.transform.tag != "Button"){
+                if(!conflict && hit.transform.CompareTag("Button")){
                     Instantiate(inProgressHouse, hit.point, Quaternion.identity);
                     Destroy(newHouseTransparent);
                     placingBuildingHouse = false;
@@ -432,7 +438,7 @@ public class GameManager : MonoBehaviour
 
         if(placingBuildingTower){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-           
+
             RaycastHit hit;
             LayerMask mask = LayerMask.GetMask("Environment", "Ground");
            
@@ -448,13 +454,13 @@ public class GameManager : MonoBehaviour
                 bool conflict = false;
                 foreach (Collider collider in colliderNeighbors)
                 {
-                    if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspTower")
+                    if (collider.gameObject.CompareTag("Map") && collider.gameObject.CompareTag("TranspTower"))
                     {
                         conflict= true;
                         break;
                     }
                 }
-                if(!conflict && hit.transform.tag != "Button"){
+                if(!conflict && hit.transform.CompareTag("Button")){
                     Debug.Log("click!");
                     Instantiate(inProgressTower, hit.point, Quaternion.identity);
                     Destroy(newTowerTransparent);
@@ -469,18 +475,11 @@ public class GameManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             LayerMask mask = LayerMask.GetMask("Buildings", "Ground");
-            RaycastHit hitData;
 
-            bool hit;
-            if (Physics.Raycast(ray, out hitData, 10000.0f, mask))
+            if (Physics.Raycast(ray, out RaycastHit hitData, 10000.0f, mask))
             {
                 //Hit something
-                hit = true;
                 newFlagMarker.transform.position = hitData.point;
-            }
-            else
-            {
-                hit = false;
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -610,12 +609,20 @@ public class GameManager : MonoBehaviour
             team[i].table[2].resourceName = "Food";
         }
     }
-    void checkBuildingList()
+    void CheckBuildingList()
     {
         allPrebuiltBuildings = GameObject.FindGameObjectsWithTag("BuildTaskTeam1");
         if (allPrebuiltBuildings.Length > 0)
         {
 
         }
+    }
+
+    void ClearBlueprints()
+    {
+        Destroy(newHouseTransparent);
+        Destroy(newBarrackTransparent);
+        Destroy(newFlagMarker);
+        Destroy(newTowerTransparent);
     }
 }

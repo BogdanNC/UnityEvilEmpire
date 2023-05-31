@@ -35,4 +35,14 @@ public class MouseMove : MonoBehaviour
         //Move to position
         agent.SetDestination(destination);
     }
+
+    public void Stop()
+    {
+        agent.isStopped = true;
+    }
+
+    public void ResumeMovement()
+    {
+        agent.isStopped = false;
+    }
 }
