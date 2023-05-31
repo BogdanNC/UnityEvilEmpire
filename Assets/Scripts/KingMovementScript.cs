@@ -9,12 +9,12 @@ public class KingMovementScript : MonoBehaviour
    
     void Update() {
         
-        GameObject flag = GameObject.Find("MoveToFlag");
+        GameObject flag = GameObject.Find("kingFlag");
         if(flag != null){
             Vector3 vec = new Vector3(flag.transform.position.x,0,flag.transform.position.z);
             
             if(Vector3.Distance (vec, transform.position) > 1){
-                speed = 2;
+                speed = 3;
                 float step = speed * Time.deltaTime;
                 transform.LookAt(vec); 
                 transform.position = Vector3.MoveTowards(transform.position, vec, step);

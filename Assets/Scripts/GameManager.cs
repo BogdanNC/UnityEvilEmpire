@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private CitizenStateManager[] AllCitizens;
     private GameObject[] allPrebuiltBuildings;
     private IEnumerator coroutine;
+    private IEnumerator buttonCoroutine;
 
     public ResourceManager.TeamDistribution[] team = new ResourceManager.TeamDistribution[2];
 
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
     bool alreadyActivatedHouse = false;
     bool alreadyActivatedTower = false;
     bool buildingActivateButtons= false;
+    bool cameraKey = true;
 
     void Start()
     {
@@ -229,6 +231,16 @@ public class GameManager : MonoBehaviour
         }
         
     }
+
+    private IEnumerator buttonWait()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(2);
+            cameraKey = true;
+        }
+        
+    }
    
 
     public void ClickAttack()
@@ -319,6 +331,34 @@ public class GameManager : MonoBehaviour
         {
             //Selected soldiers will follow
         }
+        if (Input.GetKey(KeyCode.U) && cameraKey)
+        {
+            if(!cheatCamera){
+                cameraKey = false;
+                mainCamera.GetComponent<Camera>().enabled = false;
+                secondCamera.GetComponent<Camera>().enabled = true;
+                button.SetActive(false);
+                button2.SetActive(false);
+                button3.SetActive(false);
+                button4.SetActive(false);
+                button5.SetActive(false);
+                button6.SetActive(false);
+                cheatCamera = true;
+                
+            }else{
+                cameraKey = false;
+                mainCamera.GetComponent<Camera>().enabled = true;
+                secondCamera.GetComponent<Camera>().enabled = false;
+                button.SetActive(true);
+                button2.SetActive(true);
+                button3.SetActive(true);
+                button4.SetActive(true);
+                cheatCamera = false;
+                
+            }
+                coroutine = buttonWait();
+                StartCoroutine(coroutine);
+        }
     }
 
     void HandleInput()
@@ -326,30 +366,9 @@ public class GameManager : MonoBehaviour
         raytrace();
         
 
-        if (Input.GetKey(KeyCode.N))
-        {
-
-            mainCamera.GetComponent<Camera>().enabled = false;
-            secondCamera.GetComponent<Camera>().enabled = true;
-            button.SetActive(false);
-            button2.SetActive(false);
-            button3.SetActive(false);
-            button4.SetActive(false);
-            button5.SetActive(false);
-            button6.SetActive(false);
-            cheatCamera = true;
-
-        }
-        if (Input.GetKey(KeyCode.C))
-        {
-            mainCamera.GetComponent<Camera>().enabled = true;
-            secondCamera.GetComponent<Camera>().enabled = false;
-            button.SetActive(true);
-            button2.SetActive(true);
-            button3.SetActive(true);
-            button4.SetActive(true);
-            cheatCamera = false;
-        }
+        
+        
+        
 
         if(placingBuildingHouse){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -491,9 +510,11 @@ public class GameManager : MonoBehaviour
 
             //Might need to be changed to check a specific attribute
             bool hitBuilding = ( hitData.collider.gameObject.layer == LayerMask.NameToLayer("Buildings") );
+            bool hitGround = (hitData.collider.gameObject.layer == LayerMask.NameToLayer("Ground") );
 
             //Check if object already exists
             GameObject obj = GameObject.Find("MoveToFlag");
+            GameObject kingDestination = GameObject.Find("kingFlag");
 
             if(obj == null)
             {
@@ -501,6 +522,14 @@ public class GameManager : MonoBehaviour
                 obj = new GameObject("MoveToFlag");
                 obj.AddComponent<MeshFilter>();
                 obj.AddComponent<MeshRenderer>();
+            }
+
+            if(kingDestination == null)
+            {
+                //Spawn the Object to move to
+                kingDestination = new GameObject("kingFlag");
+                kingDestination.AddComponent<MeshFilter>();
+                kingDestination.AddComponent<MeshRenderer>();
             }
 
             //Set object properties
@@ -511,8 +540,11 @@ public class GameManager : MonoBehaviour
                 //Eventualy we need to somehow place the marker around the building's hitbox
                 obj.transform.position = hitData.collider.gameObject.transform.position;
             }
-            else
+            else if(hitGround)
             {
+                kingDestination.transform.position = new Vector3(position.x, 0, position.z);
+
+            }else{
                 obj.transform.position = position;
             }
         }
