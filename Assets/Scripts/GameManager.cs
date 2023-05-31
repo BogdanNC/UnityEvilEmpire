@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
     //Instance for when reference needed in other scripts
     public static GameManager gm;
 
+    private const string SOLDIER = "soldier";
+    private const string CITIZEN = "citizen";
+    private const string KING = "king";
+
     //Move Order Vars
     [SerializeField] private Mesh moveFlagSkin;
 
@@ -17,8 +21,12 @@ public class GameManager : MonoBehaviour
     public GameObject barrack;
     public GameObject inProgressBarrack;
     public GameObject newBarrack;
+    public GameObject tower;
+    public GameObject inProgressTower;
+    public GameObject newTower;
     public GameObject soldiers;
     public GameObject civilians;
+    public GameObject flagMarker;
     public LayerMask layersToHit;
     private CitizenStateManager[] AllCitizens;
     private GameObject[] allPrebuiltBuildings;
@@ -34,22 +42,29 @@ public class GameManager : MonoBehaviour
     GameObject button6;
     GameObject button7;
     GameObject button8;
+    GameObject button9;
 
     GameObject mainCamera;
     GameObject secondCamera;
     GameObject selectedBarrack;
     GameObject selectedHouse;
+    GameObject selectedTower;
+    GameObject newTowerTransparent;
     GameObject newHouseTransparent;
     GameObject newBarrackTransparent;
+    GameObject newFlagMarker;
 
-    List<GameObject> selectedUnits;
+    public List<GameObject> selectedUnits;
     
 
     bool cheatCamera= false;
-    bool placingBuilding = false;
+    bool placingBuildingHouse = false;
     bool placingBuildingBarrack = false;
+    bool placingBuildingTower = false;
+    bool placingFlagMarker = false;
     bool alreadyActivatedBarrack = false;
     bool alreadyActivatedHouse = false;
+    bool alreadyActivatedTower = false;
     bool buildingActivateButtons= false;
 
     void Start()
@@ -82,12 +97,17 @@ public class GameManager : MonoBehaviour
         button8.GetComponent<Button>().onClick.AddListener(ClickBarrack);
         button8.SetActive(false);
 
+        button9 = GameObject.Find("Button (8)");
+        button9.GetComponent<Button>().onClick.AddListener(ClickTower);
+        button9.SetActive(false);
+
         mainCamera = GameObject.Find("Main Camera");
         secondCamera = GameObject.Find("Camera");
     }
 
     private void Awake()
     {
+        selectedUnits = new List<GameObject>();
         gm = this;
     }
 
@@ -111,19 +131,74 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    public void ClickTower()
+    {
+       
+
+        if(placingBuildingTower){
+            placingBuildingTower = false;
+            Destroy(newTowerTransparent);
+        }else{
+
+        placingBuildingHouse = false;
+        placingBuildingTower = true;
+        placingFlagMarker = false;
+        placingBuildingBarrack = false;
+        //Destroy any "blueprint" that might be instanciated
+        Destroy(newHouseTransparent);
+        Destroy(newBarrackTransparent);
+        Destroy(newFlagMarker);
+        Destroy(newTowerTransparent);
+
+        newTowerTransparent = Instantiate(tower, Vector3.zero, Quaternion.identity);
+        newTowerTransparent.tag = "TranspTower";
+        }
+    }
 
     public void ClickHouse()
     {
-        placingBuilding = true;
-        newHouseTransparent = Instantiate(house,new Vector3(0,0,0), Quaternion.identity);
+       
+
+        if(placingBuildingHouse){
+            placingBuildingHouse = false;
+            Destroy(newHouseTransparent);
+        }else{
+
+        placingBuildingHouse = true;
+        placingFlagMarker = false;
+        placingBuildingBarrack = false;
+        placingBuildingTower = false;
+        //Destroy any "blueprint" that might be instanciated
+        Destroy(newTowerTransparent);
+        Destroy(newHouseTransparent);
+        Destroy(newBarrackTransparent);
+        Destroy(newFlagMarker);
+
+        newHouseTransparent = Instantiate(house, Vector3.zero, Quaternion.identity);
         newHouseTransparent.tag = "TranspHouse";
+        }
     }
 
     public void ClickBarrack()
     {
+
+        if(placingBuildingBarrack){
+            placingBuildingBarrack = false;
+            Destroy(newBarrackTransparent);
+        }else{
         placingBuildingBarrack= true;
-        newBarrackTransparent = Instantiate(barrack,new Vector3(0,0,0), Quaternion.identity);
+        placingFlagMarker = false;
+        placingBuildingHouse = false;
+        placingBuildingTower = false;
+        //Destroy any "blueprint" that might be instanciated
+        Destroy(newTowerTransparent);
+        Destroy(newHouseTransparent);
+        Destroy(newBarrackTransparent);
+        Destroy(newFlagMarker);
+
+        newBarrackTransparent = Instantiate(barrack, Vector3.zero, Quaternion.identity);
         newBarrackTransparent.tag = "TranspBarrack";
+        }
     }
 
     public void ClickTrain()
@@ -159,6 +234,44 @@ public class GameManager : MonoBehaviour
     public void ClickAttack()
     {
         Debug.Log("The attack was clicked.");
+
+        foreach (GameObject unit in selectedUnits)
+        {
+            if (unit.name.ToLowerInvariant().Contains(SOLDIER))
+            {
+                //If the unit is a soldier
+                unit.GetComponent<SoldierBrain>().SetState(SoldierBrain.SoldierState.CHARGING);
+            }
+        }
+    }
+
+    private void DefendOrder(Vector3 target)
+    {
+        foreach (GameObject unit in selectedUnits)
+        {
+            if (unit.name.ToLowerInvariant().Contains(SOLDIER))
+            {
+                SoldierBrain soldier = unit.GetComponent<SoldierBrain>();
+                //If the unit is a soldier
+                soldier.SetDefendPos(target);
+                soldier.SetState(SoldierBrain.SoldierState.DEFENDING);
+            }
+        }
+    }
+
+    public void ClickDefend()
+    {
+        GetComponent<SelectionBoxManager>().SetButtonClicked(true);
+        Debug.Log("The defend was clicked.");
+
+        placingFlagMarker = true;
+        placingBuildingHouse = false;
+        placingBuildingBarrack = false;
+
+        Destroy(newBarrackTransparent);
+        Destroy(newHouseTransparent);
+
+        newFlagMarker = Instantiate(flagMarker, Vector3.zero , Quaternion.Euler(Vector3.right * 90));
     }
 
     public void ClickBuilding()
@@ -167,20 +280,18 @@ public class GameManager : MonoBehaviour
         if(!buildingActivateButtons){
             button7.SetActive(true);
             button8.SetActive(true);
+            button9.SetActive(true);
             buildingActivateButtons = true;
         }else{
             button7.SetActive(false);
             button8.SetActive(false);
+            button9.SetActive(false);
             buildingActivateButtons = false;
         }
         
         
     }
 
-    public void ClickDefend()
-    {
-        Debug.Log("The defend was clicked.");
-    }
 
     // Update is called once per frame
     void Update()
@@ -240,90 +351,129 @@ public class GameManager : MonoBehaviour
             cheatCamera = false;
         }
 
-        if(placingBuilding){
+        if(placingBuildingHouse){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        LayerMask mask = LayerMask.GetMask("Environment", "Ground");
-        /*if (Physics.Raycast(ray, out hit))
-        {
-            Instantiate(house,hit.point, Quaternion.identity);
-            Vector3 vec = new Vector3(hit.point.x, 0,hit.point.z );
-            transform.position = vec;
-            Ray rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
-        }*/
-        //
+           
+            RaycastHit hit;
+            LayerMask mask = LayerMask.GetMask("Environment", "Ground");
+            if (Physics.Raycast(ray,  out  hit, 100000f, mask)) {
+                newHouseTransparent.transform.position = hit.point;
+            }
         
-        if (Physics.Raycast(ray,  out  hit, 100000f, mask)) {
-            Debug.Log("Touching---------------------------------------");
-            
-            newHouseTransparent.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-        }
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            Collider[] colliderNeighbors = Physics.OverlapSphere(newHouseTransparent.transform.position, 6);
-            bool conflict = false;
-            //int LayerIgnoreRaycast = LayerMask.NameToLayer("Environment");
-            foreach (Collider collider in colliderNeighbors)
+            if (Input.GetMouseButtonDown(0) && UnityEngine.EventSystems.EventSystem.current != null &&
+            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
-                if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspHouse")
+                Collider[] colliderNeighbors = Physics.OverlapSphere(newHouseTransparent.transform.position, 6);
+                bool conflict = false;
+                foreach (Collider collider in colliderNeighbors)
                 {
-                    conflict= true;
-                        Debug.Log("--------------------------------------------------awful");
-                      Debug.Log(collider.gameObject.tag);
-                    break;
+                    if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspHouse")
+                    {
+                        conflict= true;
+                        break;
+                    }
                 }
+                if(!conflict && hit.transform.tag != "Button"){
+                    Instantiate(inProgressHouse, hit.point, Quaternion.identity);
+                    Destroy(newHouseTransparent);
+                    placingBuildingHouse = false;
+                }
+                conflict = false;
             }
-            if(conflict){
-                  Debug.Log("--------------------------------------------------awful");
-            }
-            if(!conflict){
-                Debug.Log("--------------------------------------------------alright");
-                Instantiate(inProgressHouse,hit.point, Quaternion.identity);
-                Destroy(newHouseTransparent);
-                placingBuilding = false;
-                button6.SetActive(false);
-            }
-            conflict = false;
-        }
         }
 
         if(placingBuildingBarrack){
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        LayerMask mask = LayerMask.GetMask("Environment");
-        if (Physics.Raycast(ray,  out  hit, 100000f, mask)) {
-            newBarrackTransparent.transform.position = new Vector3(hit.point.x, -1.66f, hit.point.z);
-        }
-        
-        if (Input.GetMouseButtonDown(0))
-        {                                  
-            Collider[] colliderNeighbors = Physics.OverlapSphere(newBarrackTransparent.transform.position, 10);
-            bool conflict = false;
-            //int LayerIgnoreRaycast = LayerMask.NameToLayer("Environment");
-            foreach (Collider collider in colliderNeighbors)
-            {
-                if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspBarrack")
+            RaycastHit hit;
+            LayerMask mask = LayerMask.GetMask("Environment", "Ground");
+            if (Physics.Raycast(ray,  out  hit, 100000.0f, mask)) {
+                newBarrackTransparent.transform.position = hit.point;
+            }
+            if (Input.GetMouseButtonDown(0)&& UnityEngine.EventSystems.EventSystem.current != null &&
+            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {                                  
+                Collider[] colliderNeighbors = Physics.OverlapSphere(newBarrackTransparent.transform.position, 10);
+                bool conflict = false;
+                foreach (Collider collider in colliderNeighbors)
                 {
-                    conflict= true;
-                        Debug.Log("--------------------------------------------------awful");
-                      Debug.Log(collider.gameObject.tag);
-                    break;
+                    if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspBarrack")
+                    {
+                        conflict= true;
+                        break;
+                    }
                 }
+                if(!conflict){
+                    Instantiate(inProgressBarrack, hit.point, Quaternion.identity);
+                    Destroy(newBarrackTransparent);
+                    placingBuildingBarrack = false;
+                }
+                conflict = false;
             }
-            if(conflict){
-                  Debug.Log("--------------------------------------------------awful");
-            }
-            if(!conflict){
-                Debug.Log("--------------------------------------------------alright");
-                Vector3 vec = new Vector3 (hit.point.x, -1.66f, hit.point.z);
-                Instantiate(inProgressBarrack,vec, Quaternion.identity);
-                Destroy(newBarrackTransparent);
-                placingBuildingBarrack = false;
-                button6.SetActive(false);
-            }
-            conflict = false;
         }
+
+        if(placingBuildingTower){
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+           
+            RaycastHit hit;
+            LayerMask mask = LayerMask.GetMask("Environment", "Ground");
+           
+        
+            if (Physics.Raycast(ray,  out  hit, 100000f, mask)) {
+                newTowerTransparent.transform.position = hit.point;
+            }
+        
+            if (Input.GetMouseButtonDown(0) && UnityEngine.EventSystems.EventSystem.current != null &&
+            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                Collider[] colliderNeighbors = Physics.OverlapSphere(newTowerTransparent.transform.position, 6);
+                bool conflict = false;
+                foreach (Collider collider in colliderNeighbors)
+                {
+                    if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspTower")
+                    {
+                        conflict= true;
+                        break;
+                    }
+                }
+                if(!conflict && hit.transform.tag != "Button"){
+                    Debug.Log("click!");
+                    Instantiate(inProgressTower, hit.point, Quaternion.identity);
+                    Destroy(newTowerTransparent);
+                    placingBuildingTower = false;
+                }
+                conflict = false;
+            }
+        }
+
+        if (placingFlagMarker)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            LayerMask mask = LayerMask.GetMask("Buildings", "Ground");
+            RaycastHit hitData;
+
+            bool hit;
+            if (Physics.Raycast(ray, out hitData, 10000.0f, mask))
+            {
+                //Hit something
+                hit = true;
+                newFlagMarker.transform.position = hitData.point;
+            }
+            else
+            {
+                hit = false;
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                GetComponent<SelectionBoxManager>().SetButtonClicked(false);
+                placingFlagMarker = false;
+
+                DefendOrder(newFlagMarker.transform.position);
+
+                //Destroy marker after a short delay
+                Destroy(newFlagMarker, 0.2f*Time.deltaTime);
+            }
         }
     }
 
@@ -436,6 +586,4 @@ public class GameManager : MonoBehaviour
 
         }
     }
-    
-    
 }
