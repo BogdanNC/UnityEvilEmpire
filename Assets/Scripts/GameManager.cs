@@ -398,7 +398,7 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
-                if(!conflict && hit.transform.CompareTag("Button")){
+                if(!conflict){
                     Instantiate(inProgressHouse, hit.point, Quaternion.identity);
                     Destroy(newHouseTransparent);
                     placingBuildingHouse = false;
@@ -460,7 +460,7 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
-                if(!conflict && hit.transform.CompareTag("Button")){
+                if(!conflict){
                     Debug.Log("click!");
                     Instantiate(inProgressTower, hit.point, Quaternion.identity);
                     Destroy(newTowerTransparent);
