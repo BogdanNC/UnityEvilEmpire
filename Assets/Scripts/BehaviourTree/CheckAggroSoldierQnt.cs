@@ -4,13 +4,16 @@ using UnityEngine;
 using TheKiwiCoder;
 
 [System.Serializable]
-public class IsEnemyInFOV : ActionNode
+public class CheckAggroSoldierQnt : ActionNode
 {
     private Transform transform;
+
+    private int criticalMass = 10;
 
     protected override void OnStart() {
 
         transform = context.gameObject.transform;
+        blackboard.nearbySoldiers = 0;
 
     }
 
@@ -19,33 +22,31 @@ public class IsEnemyInFOV : ActionNode
 
     protected override State OnUpdate() {
 
-        List<GameObject> enemies = FindEnemies();
+        blackboard.nearbySoldiers = CountSoldiers();
 
-        if(enemies != null && enemies.Count != 0)
+        if(blackboard.nearbySoldiers < criticalMass)
         {
-            blackboard.enemies = enemies;
-            return State.Success;
+            return State.Failure;
         }
 
-        return State.Failure;
+        return State.Success;
     }
 
-    //Returns a List of all enemies present within a radius of the character
-    private List<GameObject> FindEnemies()
+    private int CountSoldiers()
     {
-        List<GameObject> enemies = new();
+        int result = 0;
         Collider[] surroundingColliders = Physics.OverlapSphere(transform.position, blackboard.fov);
 
         foreach (var collider in surroundingColliders)
         {
             //Checks the collider's GameObject's tag
-            if (collider.gameObject.CompareTag("Ally"))
+            if (collider.gameObject.name.Contains("Soldier"))
             {
                 //Add the enemy to the list of enemies
-                enemies.Add(collider.gameObject);
+                result++;
             }
         }
 
-        return enemies;
+        return result;
     }
 }

@@ -18,43 +18,58 @@ MonoBehaviour:
   - rid: 1670544696001953792
   - rid: 1670544696238407685
   - rid: 1670544696238407686
-  - rid: 1670544696238407687
   - rid: 1670544696238407688
   - rid: 1670544696238407689
   - rid: 1670544696238407690
-  - rid: 1670544696238407691
+  - rid: 1670544814077640704
+  - rid: 5961079279328690176
+  - rid: 5961079279328690177
+  - rid: 5961079279328690178
   treeState: 0
   blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-  viewPosition: {x: 594, y: 303, z: 0}
+    enemies: []
+    king: {fileID: 0}
+    nearbySoldiers: 0
+    hp: 100
+    baseDmg: 15
+    fov: 10
+  viewPosition: {x: 594, y: 361, z: 0}
   viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 1670544696001953792
       type: {class: RootNode, ns: TheKiwiCoder, asm: Assembly-CSharp}
       data:
         state: 0
         started: 0
         guid: c763770f-147c-42e9-9049-67a7ca36f88b
-        position: {x: -148, y: -29}
+        position: {x: -116, y: -329.56}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: 
         drawGizmos: 0
         child:
-          rid: 1670544696238407690
+          rid: 5961079279328690178
     - rid: 1670544696238407685
       type: {class: ChargeEnemyBase, ns: , asm: Assembly-CSharp}
       data:
         state: 0
         started: 0
         guid: 9edb92469b8fe9b4d8c9b155194bce4a
-        position: {x: 501, y: 171}
+        position: {x: 257, y: 216}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: 
         drawGizmos: 0
     - rid: 1670544696238407686
@@ -63,20 +78,14 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 8ea98e968d3dee748a249f2cd1452b31
-        position: {x: -356, y: 268}
+        position: {x: -361, y: 204}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-        description: 
-        drawGizmos: 0
-    - rid: 1670544696238407687
-      type: {class: DefendPosition, ns: , asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: f8e15415d6090ff449685cafc207453a
-        position: {x: 501, y: 375}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: 
         drawGizmos: 0
     - rid: 1670544696238407688
@@ -85,9 +94,14 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 67f0590139e5a4344b096f384a3a56fc
-        position: {x: 501, y: 277}
+        position: {x: -84, y: 83}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: 
         drawGizmos: 0
     - rid: 1670544696238407689
@@ -96,9 +110,14 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: eecde0d093f9adf43857599009b1725a
-        position: {x: -554, y: 268}
+        position: {x: -511, y: 204}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: 
         drawGizmos: 0
     - rid: 1670544696238407690
@@ -107,24 +126,91 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 9e9c1bc23370b2745af409c4e81397dc
-        position: {x: -431, y: 115}
+        position: {x: -361, y: 83}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: 
         drawGizmos: 0
         children:
         - rid: 1670544696238407689
         - rid: 1670544696238407686
-    - rid: 1670544696238407691
-      type: {class: Succeed, ns: TheKiwiCoder, asm: Assembly-CSharp}
+    - rid: 1670544814077640704
+      type: {class: Selector, ns: TheKiwiCoder, asm: Assembly-CSharp}
       data:
         state: 0
         started: 0
-        guid: 047d1c7edda2a8d4a98ecfeac9c25cf6
-        position: {x: 45, y: 297}
+        guid: 9cfc8d8aaa34da042aa4573fb946effe
+        position: {x: -116, y: -69}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
+        description: 
+        drawGizmos: 0
+        children:
+        - rid: 1670544696238407690
+        - rid: 1670544696238407688
+        - rid: 5961079279328690177
+    - rid: 5961079279328690176
+      type: {class: CheckAggroSoldierQnt, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 7879af7fcebf44a469fb7798a3c93f1d
+        position: {x: 51, y: 216}
+        blackboard:
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
+        description: 
+        drawGizmos: 0
+    - rid: 5961079279328690177
+      type: {class: Sequencer, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 679d5f9f7d4708c48a13dc609218f60d
+        position: {x: 165, y: 83}
+        blackboard:
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
+        description: 
+        drawGizmos: 0
+        children:
+        - rid: 5961079279328690176
+        - rid: 1670544696238407685
+    - rid: 5961079279328690178
+      type: {class: Repeat, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 3e00da47b74b4be47a76168e941ee773
+        position: {x: -116, y: -206}
+        blackboard:
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: 
         drawGizmos: 0
         child:
-          rid: -2
+          rid: 1670544814077640704
+        restartOnSuccess: 1
+        restartOnFailure: 0

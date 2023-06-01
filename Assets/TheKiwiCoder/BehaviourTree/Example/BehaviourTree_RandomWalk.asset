@@ -23,9 +23,14 @@ MonoBehaviour:
   - rid: 4200190926137589874
   treeState: 0
   blackboard:
-    moveToPosition: {x: 100, y: 0, z: 0}
-  viewPosition: {x: -56, y: 470, z: 0}
-  viewScale: {x: 0.7561437, y: 0.7561437, z: 1}
+    enemies: []
+    king: {fileID: 0}
+    nearbySoldiers: 0
+    hp: 100
+    baseDmg: 15
+    fov: 10
+  viewPosition: {x: -216, y: 503, z: 0}
+  viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
@@ -37,7 +42,12 @@ MonoBehaviour:
         guid: 08babbf2-251b-4019-9d8e-2f9fc5bc6b8b
         position: {x: 723.1318, y: -392.096}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: Where it all begins!
         drawGizmos: 0
         child:
@@ -48,9 +58,14 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: dcafe99d707d250419e5d8ff0ada012e
-        position: {x: 723, y: -230.00012}
+        position: {x: 723, y: -231}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: Repeat forever
         drawGizmos: 0
         child:
@@ -65,7 +80,12 @@ MonoBehaviour:
         guid: 5e06deafef5af5b49aa50aaed9884138
         position: {x: 722.99994, y: -81.93839}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: Select random position, move to it, then wait
         drawGizmos: 0
         children:
@@ -80,7 +100,12 @@ MonoBehaviour:
         guid: 9a1467763237cb145b9cf65e90ce3193
         position: {x: 722.99994, y: 168.99998}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: Randomly generates a position into the blackboard
         drawGizmos: 0
         min: {x: -10, y: -10}
@@ -93,7 +118,12 @@ MonoBehaviour:
         guid: 6d43e0274b9a6b647a32a83ae71f5c62
         position: {x: 948.666, y: 181}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: Move to the random position in the blackboard
         drawGizmos: 0
         speed: 5
@@ -109,7 +139,12 @@ MonoBehaviour:
         guid: a6398ba3eee6567469a804864807353b
         position: {x: 463.73767, y: 181}
         blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
+          enemies: []
+          king: {fileID: 0}
+          nearbySoldiers: 0
+          hp: 100
+          baseDmg: 15
+          fov: 10
         description: Wait
         drawGizmos: 0
         duration: 1
