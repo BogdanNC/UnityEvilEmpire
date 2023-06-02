@@ -50,8 +50,8 @@ public class SoldierBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current Soldier State: " + state);
-        Debug.Log("Current Soldier LastState: " + lastState);
+      // Debug.Log("Current Soldier State: " + state);
+        //Debug.Log("Current Soldier LastState: " + lastState);
 
         if (onCooldown)
         {

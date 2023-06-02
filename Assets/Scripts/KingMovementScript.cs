@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class KingMovementScript : MonoBehaviour
 {
-   float speed;
-
+    float speed;
+    private MouseMove moveScript;
    
+   void Awake(){
+        moveScript = GetComponent<MouseMove>();
+   }
+
     void Update() {
         
         GameObject flag = GameObject.Find("kingFlag");
         if(flag != null){
             Vector3 vec = new Vector3(flag.transform.position.x,0,flag.transform.position.z);
+            moveScript.SetDestination(vec);
+            moveScript.MoveToPos();
+           /* 
             
             if(Vector3.Distance (vec, transform.position) > 2){
 
@@ -23,6 +30,9 @@ public class KingMovementScript : MonoBehaviour
             }else{
                 speed=0;
             }
+            */
+        }else{
+             moveScript.Stop();
         }
     }
 }

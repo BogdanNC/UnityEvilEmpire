@@ -2,11 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+
 
 public class GameManager : MonoBehaviour
 {
     //Instance for when reference needed in other scripts
     public static GameManager gm;
+    
 
     private const string SOLDIER = "soldier";
     private const string CITIZEN = "citizen";
@@ -32,6 +35,8 @@ public class GameManager : MonoBehaviour
     private GameObject[] allPrebuiltBuildings;
     private IEnumerator coroutine;
     private IEnumerator buttonCoroutine;
+    
+
 
     public ResourceManager.TeamDistribution[] team = new ResourceManager.TeamDistribution[2];
 
@@ -49,7 +54,6 @@ public class GameManager : MonoBehaviour
     GameObject secondCamera;
     GameObject selectedBarrack;
     GameObject selectedHouse;
-    GameObject selectedTower;
     GameObject newTowerTransparent;
     GameObject newHouseTransparent;
     GameObject newBarrackTransparent;
@@ -65,9 +69,13 @@ public class GameManager : MonoBehaviour
     bool placingFlagMarker = false;
     bool alreadyActivatedBarrack = false;
     bool alreadyActivatedHouse = false;
-    bool alreadyActivatedTower = false;
     bool buildingActivateButtons= false;
     bool cameraKey = true;
+
+    public TextMeshProUGUI FpsText;
+    private float pollingTime = 1f;
+    private float time;
+    private int frameCount;
 
     void Start()
     {
@@ -153,7 +161,7 @@ public class GameManager : MonoBehaviour
             ClearBlueprints();
 
             newTowerTransparent = Instantiate(tower, Vector3.zero, Quaternion.identity);
-            newTowerTransparent.tag = "TranspTower";
+            //newTowerTransparent.tag = "TranspTower";
         }
     }
 
@@ -175,7 +183,7 @@ public class GameManager : MonoBehaviour
             ClearBlueprints();
 
             newHouseTransparent = Instantiate(house, Vector3.zero, Quaternion.identity);
-            newHouseTransparent.tag = "TranspHouse";
+            //newHouseTransparent.tag = "TranspHouse";
         }
     }
 
@@ -197,7 +205,7 @@ public class GameManager : MonoBehaviour
             ClearBlueprints();
 
             newBarrackTransparent = Instantiate(barrack, Vector3.zero, Quaternion.identity);
-            newBarrackTransparent.tag = "TranspBarrack";
+            //newBarrackTransparent.tag = "TranspBarrack";
         }
     }
 
@@ -327,6 +335,23 @@ public class GameManager : MonoBehaviour
         {
             //Selected soldiers will defend
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if(!FpsText.enabled){
+                FpsText.enabled = true;
+            }else{
+                FpsText.enabled = false;
+            }
+        }
+        
+        time += Time.deltaTime;
+        frameCount ++;
+        if(time>= pollingTime){
+            int frameRate = Mathf.RoundToInt(frameCount/time);
+            FpsText.text = frameRate.ToString() + "FPS";
+            time-= pollingTime;
+            frameCount =0;
+        }
 
         if (Input.GetKeyDown(KeyCode.J))
         {
@@ -392,7 +417,7 @@ public class GameManager : MonoBehaviour
                 bool conflict = false;
                 foreach (Collider collider in colliderNeighbors)
                 {
-                    if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspHouse")
+                       if (collider.gameObject.tag != "Map" && !collider.gameObject.name.Contains("Transparent House"))
                     {
                         conflict= true;
                         break;
@@ -421,7 +446,8 @@ public class GameManager : MonoBehaviour
                 bool conflict = false;
                 foreach (Collider collider in colliderNeighbors)
                 {
-                    if (collider.gameObject.tag != "Map" && collider.gameObject.tag != "TranspBarrack")
+                    
+                    if (collider.gameObject.tag != "Map" && !collider.gameObject.name.Contains("Transparent Barrack"))
                     {
                         conflict= true;
                         break;
@@ -454,8 +480,9 @@ public class GameManager : MonoBehaviour
                 bool conflict = false;
                 foreach (Collider collider in colliderNeighbors)
                 {
-                    if (collider.gameObject.CompareTag("Map") && collider.gameObject.CompareTag("TranspTower"))
+                    if (collider.gameObject.tag != "Map" && !collider.gameObject.name.Contains("Transparent Tower"))
                     {
+
                         conflict= true;
                         break;
                     }
@@ -559,7 +586,7 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 var hitObject = hit.transform.gameObject;
-                if (hitObject.CompareTag("Barrack") && !alreadyActivatedBarrack)
+                if (hitObject.name.Contains("Barrack Blue") && !alreadyActivatedBarrack)
                 {
                     Debug.Log("-------------------------------------------------It's working!");
                     alreadyActivatedBarrack = true;
@@ -569,7 +596,7 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(coroutine);
                     alreadyActivatedBarrack = false;
                 }
-                if (hitObject.CompareTag("House") && !alreadyActivatedHouse)
+                if (hitObject.name.Contains("House Blue") && !alreadyActivatedHouse)
                 {
                     Debug.Log("-------------------------------------------------It's working!");
                     alreadyActivatedHouse = true;

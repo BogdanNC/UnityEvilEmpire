@@ -851,6 +851,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3646764156215790875}
   - component: {fileID: 8186226102624010318}
+  - component: {fileID: -279583223676489569}
   m_Layer: 0
   m_Name: Prebuild
   m_TagString: BuildTaskTeam1
@@ -895,6 +896,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 7.5145645, y: 9.240128, z: 8.555346}
   m_Center: {x: 0.02262497, y: 4.1200647, z: 3.3362284}
+--- !u!114 &-279583223676489569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553946578050629778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f07f6da9ea50dd4f8fb5490537071ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 37238293479090877, guid: 822391481d60c8b43a2af5dd06c0bd26, type: 3}
 --- !u!1 &1638399875795518998
 GameObject:
   m_ObjectHideFlags: 0
