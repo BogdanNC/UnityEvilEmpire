@@ -5,7 +5,7 @@ public class UnassignedIdle : CitizenBaseState
     private float IdleTime;
     public override void EnterState(CitizenStateManager Citizen)
     {
-        Debug.Log("idle");
+        //Debug.Log("idle");
         IdleTime = 0.0f;
     }
 
