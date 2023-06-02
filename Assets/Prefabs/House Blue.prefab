@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2850530656745039668}
   - component: {fileID: 7246194419565062753}
+  - component: {fileID: -4039060993359949730}
   m_Layer: 7
   m_Name: House Blue
   m_TagString: House
@@ -54,6 +55,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 7.5145645, y: 9.240128, z: 8.555346}
   m_Center: {x: 0.02262497, y: 4.1200647, z: 3.3362284}
+--- !u!114 &-4039060993359949730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37238293479090877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24377d10a1a1a3543b356bb00b119b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
 --- !u!1 &263515740792859705
 GameObject:
   m_ObjectHideFlags: 0

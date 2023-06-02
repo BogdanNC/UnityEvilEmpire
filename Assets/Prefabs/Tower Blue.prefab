@@ -1267,6 +1267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8261829774861345358}
   - component: {fileID: 5677812966574562124}
+  - component: {fileID: -316648768232906875}
   m_Layer: 7
   m_Name: Tower Blue
   m_TagString: Ally
@@ -1303,6 +1304,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.5202458, y: 12.387325, z: 3.722035}
   m_Center: {x: 0, y: 6.1891956, z: 0}
+--- !u!114 &-316648768232906875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2202607972660041510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24377d10a1a1a3543b356bb00b119b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
 --- !u!1 &2739259649342392484
 GameObject:
   m_ObjectHideFlags: 0

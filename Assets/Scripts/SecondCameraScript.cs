@@ -13,10 +13,6 @@ public class SecondCameraScript : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        newRotation = transform.rotation;
-        
 
     }
 
@@ -24,6 +20,7 @@ public class SecondCameraScript : MonoBehaviour
     {
         if (GetComponent<Camera>().enabled == true)
         {
+
             HandleInput();
         }
     }
@@ -32,7 +29,6 @@ public class SecondCameraScript : MonoBehaviour
 
         mouseRotation.x += Input.GetAxis("Mouse X");
         mouseRotation.y += Input.GetAxis("Mouse Y");
-
         transform.localRotation = Quaternion.Euler(-mouseRotation.y * sensibility, mouseRotation.x * sensibility, 0);
 
         if (Input.GetKey(KeyCode.W))
@@ -61,6 +57,7 @@ public class SecondCameraScript : MonoBehaviour
             transform.position += vector * Time.deltaTime * speed;
             //newRotation *= Quaternion.Euler(Vector3.up * Time.deltaTime * rotationAmount);
             //transform.RotateAround(transform.position, Vector3.up, 20 * Time.deltaTime);
+            
         }
 
 
