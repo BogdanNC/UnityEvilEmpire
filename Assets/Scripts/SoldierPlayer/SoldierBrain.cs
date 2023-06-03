@@ -8,15 +8,17 @@ public class SoldierBrain : MonoBehaviour
     GameManager gm;
 
     [Header ("Properties")]
-    [SerializeField] private float fov = 15f;
-    [SerializeField] private float attackRng = 2f;
+    [SerializeField] private float fov = 15.0f;
+    [SerializeField] private float attackRng = 2.0f;
 
-    private float cooldownTimer = 10f; //seconds
-    private float waitTime = 0f;
+    private float cooldownTimer = 10.0f; //seconds
+    private float waitTime = 0.0f;
     private bool onCooldown = false;
 
+    private bool canChase = true;
+
     [SerializeField] private const float MAX_CHASE_TIME = 15.0f; //seconds
-    private float chaseTime = 0f;
+    private float chaseTime = 0.0f;
 
     private Transform target;
     private Transform secTarget;
@@ -48,7 +50,7 @@ public class SoldierBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Current Soldier State: " + state);
+      // Debug.Log("Current Soldier State: " + state);
         //Debug.Log("Current Soldier LastState: " + lastState);
 
         if (onCooldown)
@@ -66,7 +68,7 @@ public class SoldierBrain : MonoBehaviour
             closestEnemy = TargetEnemy(FindEnemies());
         }
 
-        if (closestEnemy != null && !onCooldown)
+        if (closestEnemy != null && !onCooldown && canChase)
         {
             if (!state.Equals(SoldierState.CHASING))
             {
@@ -82,7 +84,7 @@ public class SoldierBrain : MonoBehaviour
         }
         else if(state.Equals(SoldierState.CHASING))
         {
-            //No enemies found but still tried to chase
+            //Return to original objective after chasing
             SetTarget(secTarget);
             SetSecTarget(null);
 
@@ -95,7 +97,6 @@ public class SoldierBrain : MonoBehaviour
             switch (state)
             {
                 case SoldierState.DEFENDING:
-                    //Receives target from outside (GameManager most likely)
                     DefendPosition(target);
                     break;
 
@@ -114,8 +115,6 @@ public class SoldierBrain : MonoBehaviour
         }
     }
 
-    //Might be better to save a "lastTarget" to avoid refetching of "CombatManager" Component,
-    //as well as other benefits on other functions
     private void ChaseEnemy(Transform target)
     {
         chaseTime += Time.deltaTime;
@@ -131,8 +130,9 @@ public class SoldierBrain : MonoBehaviour
             state = lastState;
             lastState = SoldierState.CHASING;
 
-            waitTime = 0f;
+            waitTime = 0.0f;
             onCooldown = true;
+            chaseTime = 0.0f;
 
             closestEnemy = null;
 
@@ -143,6 +143,8 @@ public class SoldierBrain : MonoBehaviour
 
         if (InRange(target.position, attackRng))
         {
+            moveScript.Stop();
+
             if (Attack(target))
             {
                 //Enemy killed or destroyed
@@ -150,6 +152,9 @@ public class SoldierBrain : MonoBehaviour
         }
         else
         {
+            //Ensure the soldier can move
+            moveScript.ResumeMovement();
+
             //Move to enemy
             moveScript.MoveToPos();
         }
@@ -159,8 +164,15 @@ public class SoldierBrain : MonoBehaviour
     private void DefendPosition(Transform target)
     {
         this.target.position = target.position;
+        canChase = true;
 
         moveScript.SetDestination(target.position);
+
+        if (lastState.Equals(SoldierState.CHARGING) && !onCooldown)
+        {
+            onCooldown = true;
+            waitTime = 0.0f;
+        }
 
         if(!InRange(target.position, fov))
         {
@@ -169,21 +181,21 @@ public class SoldierBrain : MonoBehaviour
         }
     }
 
-    //Finds the closest enemy building that is revealed to the player
-    //If no enemy buildings are revealed, should the soldier "explore",
-    //meaning they would pick a random point on the map and walk there?
     private void FindEnemyBase()
     {
         //If we already target an enemy building skip search
+        //if (target)
+        //{
         bool isBuilding = this.target.gameObject.layer == LayerMask.NameToLayer("Buildings");
         bool isEnemy = this.target.CompareTag("Enemy");
+        //}
 
         if (!isBuilding || !isEnemy)
         {
             //Get all Enemy Objects
             List<GameObject> allEnemyObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
 
-            //Filter to all (revealed?) enemy buildings
+            //Filter to all enemy buildings
             List<GameObject> enemyBuildings = allEnemyObjects.FindAll(obj => obj.layer == LayerMask.NameToLayer("Buildings"));
 
             float minDist = float.MaxValue;
@@ -203,6 +215,7 @@ public class SoldierBrain : MonoBehaviour
             if (target == null)
             {
                 SetTarget(null);
+                canChase = true;
                 Debug.Log("Target became null...?");
                 return;
             }
@@ -216,36 +229,66 @@ public class SoldierBrain : MonoBehaviour
     private void ChargeEnemyBase()
     {
         Vector3 closestPoint = target.GetComponent<Collider>().ClosestPoint(transform.position);
-        moveScript.SetDestination(target.position);
+        moveScript.SetDestination(closestPoint);
+
+        if(InRange(closestPoint, fov))
+        {
+            //Prohibit Chasing
+            canChase = false;
+        }
+        else
+        {
+            canChase = true;
+        }
 
         if (!InRange(closestPoint, attackRng))
         {
+            Debug.Log("OUT of Range!!");
             //Move to base
             moveScript.MoveToPos();
         }
         else
         {
-            Attack(target);
+            moveScript.Stop();
+            Debug.Log("IN Range!!");
+
+            if (Attack(target))
+            {
+                SetTarget(null);
+            }
         }
     }
 
     private void FollowKing()
     {
-        float range = 3f;
+        float range = 10f;
+        bool inRange = InRange(king.transform.position, range);
+        canChase = true;
 
-        if(king == null)
+        if (lastState.Equals(SoldierState.CHARGING) && !onCooldown)
+        {
+            onCooldown = true;
+            waitTime = 0.0f;
+        }
+
+        if (king == null)
         {
             moveScript.SetDestination(transform.position);
             lastState = state;
             state = SoldierState.DEFENDING;
         }
-        else if(!InRange(king.transform.position, range))
+        else if(!inRange)
         {
             moveScript.SetDestination(king.transform.position);
             //There should be some kind of formation algorithm here
         }
 
         moveScript.MoveToPos();
+
+        if (inRange)
+        {
+            moveScript.Stop();
+        }
     }
     private bool InRange(Vector3 target, float range)
     {

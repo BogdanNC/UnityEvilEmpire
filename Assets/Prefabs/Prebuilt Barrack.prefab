@@ -3219,6 +3219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6610889081415352107}
   - component: {fileID: 8942655269952645474}
+  - component: {fileID: 1427196347099930577}
   m_Layer: 0
   m_Name: Prebuilt Barrack
   m_TagString: BuildTaskTeam1
@@ -3262,6 +3263,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 20.999798, y: 6.6163282, z: 10.471909}
   m_Center: {x: 4.417284, y: 3.3117523, z: 0.86667156}
+--- !u!114 &1427196347099930577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092618736840900700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f07f6da9ea50dd4f8fb5490537071ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 5631176366844074546, guid: 0201ca24a2cbc3143a4ca8051b2025a7, type: 3}
 --- !u!1 &5147787639006311483
 GameObject:
   m_ObjectHideFlags: 0

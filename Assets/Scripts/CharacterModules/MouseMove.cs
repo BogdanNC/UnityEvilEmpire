@@ -23,6 +23,11 @@ public class MouseMove : MonoBehaviour
 
     public void SetDestination(Vector3 position)
     {
+        if(destination != position)
+        {
+            ResumeMovement();
+        }
+
         destination = position;
     }
 
@@ -34,5 +39,15 @@ public class MouseMove : MonoBehaviour
 
         //Move to position
         agent.SetDestination(destination);
+    }
+
+    public void Stop()
+    {
+        agent.isStopped = true;
+    }
+
+    public void ResumeMovement()
+    {
+        agent.isStopped = false;
     }
 }

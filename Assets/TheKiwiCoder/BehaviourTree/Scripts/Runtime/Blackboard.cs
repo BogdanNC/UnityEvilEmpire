@@ -10,6 +10,16 @@ namespace TheKiwiCoder {
     [System.Serializable]
     public class Blackboard {
 
-        public Vector3 moveToPosition;
+        public List<GameObject> enemies;
+        public GameObject king;
+
+        public MouseMove moveScript;
+
+        public int nearbySoldiers;
+
+        public int hp = 100;
+        public int baseDmg = 15;
+        public float fov = 10.0f;
+        public float attackRng = 2.0f;
     }
 }
