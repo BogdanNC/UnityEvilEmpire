@@ -94,9 +94,11 @@ GameObject:
   - component: {fileID: 4349827378095014352}
   - component: {fileID: 2214022659830609585}
   - component: {fileID: 2474061890390058613}
+  - component: {fileID: 2132637102528992411}
+  - component: {fileID: -1079012208410828142}
   m_Layer: 0
   m_Name: rock.001 (1)
-  m_TagString: Untagged
+  m_TagString: Gold
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,6 +180,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2132637102528992411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591632419606476464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 968a8af189ceade478b16ddd6180e563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1079012208410828142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591632419606476464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f09efe2c58eab4a9262176e1a9d87f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 200
+  gatherRate: 10
 --- !u!1 &1644135063888161001
 GameObject:
   m_ObjectHideFlags: 0

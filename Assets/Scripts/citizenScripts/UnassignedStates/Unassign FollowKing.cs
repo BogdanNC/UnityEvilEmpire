@@ -13,6 +13,11 @@ public class UnassignFollowKing : CitizenBaseState
 
     public override void UpdateState(CitizenStateManager Citizen)
     {
+        if (Citizen.hasSmthToBuild == true)
+        {
+            Citizen.toogleFollowKing = false;
+            Citizen.SwitchState(Citizen.BuildCitizen);
+        }
         if (Citizen.toogleFollowKing == false)
         {
             Citizen.SwitchState(Citizen.IdleCitizen);

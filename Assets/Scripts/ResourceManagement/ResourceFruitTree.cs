@@ -15,7 +15,7 @@ public class ResourceFruitTree : ResourceClass
         Init(capacity, gatherRate);
     }
 
-    public override int Gather()
+    /*public override int Gather()
     {
         int gathered = 0;
 
@@ -30,5 +30,5 @@ public class ResourceFruitTree : ResourceClass
         gathered += Gather(gatherRate / 3);
 
         return gathered;
-    }
+    }*/
 }

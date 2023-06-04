@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class UnassignedIdle : CitizenBaseState
 {
@@ -16,8 +17,13 @@ public class UnassignedIdle : CitizenBaseState
         {
             Citizen.SwitchState(Citizen.FollowCitizen);
         }
+        if (Citizen.hasSmthToBuild == true)
+        {
+            Citizen.SwitchState(Citizen.BuildCitizen);
+        }
         
-        if (GetIdleTime() > 3.0f)
+        
+        if (GetIdleTime() > 5.0f)
         {
             Citizen.SwitchState(Citizen.GatherCitizen);
         }
@@ -27,4 +33,5 @@ public class UnassignedIdle : CitizenBaseState
     {
         return IdleTime;
     }
+    
 }

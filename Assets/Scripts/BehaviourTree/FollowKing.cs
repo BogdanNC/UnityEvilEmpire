@@ -13,7 +13,7 @@ public class FollowKing : ActionNode
     protected override void OnStart() {
 
         blackboard.king = FindKing();
-        Debug.Log("King Pos: " + blackboard.king.transform.position);
+        //Debug.Log("King Pos: " + blackboard.king.transform.position);
 
         transform = context.gameObject.transform;
         blackboard.moveScript = transform.gameObject.GetComponent<MouseMove>();
