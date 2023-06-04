@@ -33,7 +33,7 @@ public class UnassignedGather : CitizenBaseState
 
         ResourceClass resource = (ResourceClass)target;
         
-        if (distanceToTarget.magnitude <= 5.1f)
+        if (distanceToTarget.magnitude <= 5.5f)
         {
             int amount;
             

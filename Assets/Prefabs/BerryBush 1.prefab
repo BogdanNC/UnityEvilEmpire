@@ -816,6 +816,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7304590432467322363}
+  - component: {fileID: -448539109787484692}
+  - component: {fileID: -54473280439248534}
   m_Layer: 0
   m_Name: BerryBush 1
   m_TagString: Food
@@ -841,6 +843,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-448539109787484692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7304590432467322364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 968a8af189ceade478b16ddd6180e563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-54473280439248534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7304590432467322364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c4d08507163b04e98489fc19d4a562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 100
+  gatherRate: 15
 --- !u!1 &7304590432504090464
 GameObject:
   m_ObjectHideFlags: 0

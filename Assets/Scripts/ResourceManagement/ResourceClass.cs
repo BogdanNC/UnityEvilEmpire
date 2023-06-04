@@ -74,6 +74,19 @@ public class ResourceClass : MonoBehaviour
             ResourceGold gold = v.GetComponent<ResourceGold>();
             return gold;
         }
+        if (v.tag == "Food")
+        {
+            if (v.GetComponent<ResourceFood>() != null)
+            {
+                ResourceFood food = v.GetComponent<ResourceFood>();
+                return food;
+            }
+            if (v.GetComponent<ResourceFruitTree>() != null)
+            {
+                ResourceFruitTree food = v.GetComponent<ResourceFruitTree>();
+                return food;
+            }
+        }
         return null;
     }
 }

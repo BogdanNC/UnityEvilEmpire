@@ -13,14 +13,17 @@ public class CitizenStateManager : MonoBehaviour
     public UnassignedGather GatherCitizen = new UnassignedGather();
 
     public bool toogleFollowKing;
-    public Transform kingTransform;
+    public bool hasSmthToBuild = false;
+    public Transform buldingTarget = null;
+    public Transform kingTransform = null;
     public NavMeshAgent agent;
     public int team;
 
     void Start()
     {
         currentState = IdleCitizen;
-
+        IsKingBlue king = FindObjectOfType<IsKingBlue>();
+        this.kingTransform = king.gameObject.transform;
         currentState.EnterState(this);
 
         team = 0;
@@ -29,7 +32,8 @@ public class CitizenStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        IsKingBlue king = FindObjectOfType<IsKingBlue>();
+        this.kingTransform = king.gameObject.transform;
         currentState.UpdateState(this);
     }
     public void SwitchState(CitizenBaseState newState)
@@ -37,5 +41,4 @@ public class CitizenStateManager : MonoBehaviour
         currentState = newState;
         newState.EnterState(this);
     }
-    
 }

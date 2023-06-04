@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
 
     public ResourceManager.TeamDistribution[] team = new ResourceManager.TeamDistribution[2];
+   // public BuildListManager.TeamBuildingLists[] teamBuildList = new BuildListManager.TeamBuildingLists[2];
 
     GameObject button;
     GameObject button2;
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
     {
         selectedUnits = new List<GameObject>();
         InitialDistribution();
+        
 
         button = GameObject.Find("Button (3)");
         button.GetComponent<Button>().onClick.AddListener(ClickGatherer);
@@ -609,18 +611,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    void CitizenHandler()
-    {
-        AllCitizens = FindObjectsOfType<CitizenStateManager>();
-        foreach (var citizen in AllCitizens)
-        {
-            //Debug.Log("este in state " + citizen.currentState);
-            if (citizen.currentState.ToString() == "UnassignedIdle")
-            {
-                
-            }
-        }
-    }
+    
     void InitialDistribution()
     {
         for (int i = 0; i <= 1; i++)
@@ -634,14 +625,6 @@ public class GameManager : MonoBehaviour
             team[i].table[0].resourceName = "Wood";
             team[i].table[1].resourceName = "Gold";
             team[i].table[2].resourceName = "Food";
-        }
-    }
-    void CheckBuildingList()
-    {
-        allPrebuiltBuildings = GameObject.FindGameObjectsWithTag("BuildTaskTeam1");
-        if (allPrebuiltBuildings.Length > 0)
-        {
-
         }
     }
 

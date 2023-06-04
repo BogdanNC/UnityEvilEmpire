@@ -2258,6 +2258,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7050950443978408685}
+  - component: {fileID: 1956330757666787676}
+  - component: {fileID: -477600518049315641}
   m_Layer: 0
   m_Name: FruitTree
   m_TagString: Food
@@ -2300,6 +2302,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1956330757666787676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927895846381930433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5176bcb5f735d4843a5d4f77d38fe635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 300
+  gatherRate: 20
+--- !u!114 &-477600518049315641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927895846381930433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 968a8af189ceade478b16ddd6180e563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6567467418904169311
 GameObject:
   m_ObjectHideFlags: 0
