@@ -296,7 +296,7 @@ public class SoldierBrain : MonoBehaviour
     }
 
     /*
-     * Returns ture if object "died"
+     * Returns true if object "died"
      */
     private bool Attack(Transform target)
     {
