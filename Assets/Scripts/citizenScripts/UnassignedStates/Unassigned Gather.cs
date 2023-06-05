@@ -22,6 +22,7 @@ public class UnassignedGather : CitizenBaseState
         }
         if (Citizen.toogleFollowKing == true)
         {
+            
             ResourceManager.FreeJob(Citizen,target.tag.ToString());
             Citizen.SwitchState(Citizen.FollowCitizen);
         }

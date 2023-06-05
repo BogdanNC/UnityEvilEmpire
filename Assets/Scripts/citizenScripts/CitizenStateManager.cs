@@ -18,6 +18,7 @@ public class CitizenStateManager : MonoBehaviour
     public Transform kingTransform = null;
     public NavMeshAgent agent;
     public int team;
+    private Animator animator;
 
     void Start()
     {
@@ -25,8 +26,9 @@ public class CitizenStateManager : MonoBehaviour
         IsKingBlue king = FindObjectOfType<IsKingBlue>();
         this.kingTransform = king.gameObject.transform;
         currentState.EnterState(this);
-
+        //Debug.Log(currentState);
         team = 0;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -35,6 +37,26 @@ public class CitizenStateManager : MonoBehaviour
         IsKingBlue king = FindObjectOfType<IsKingBlue>();
         this.kingTransform = king.gameObject.transform;
         currentState.UpdateState(this);
+        if(currentState == IdleCitizen)
+        {
+             animator.SetBool("walking", false);
+             animator.SetBool("gathering", false);
+        }
+        else if(currentState == BuildCitizen)
+        {
+            animator.SetBool("walking", false);
+            animator.SetBool("gathering", true);
+        }
+        else if(currentState == FollowCitizen)
+        {
+            animator.SetBool("walking", true);
+            animator.SetBool("gathering", false);
+        }
+        else if(currentState == GatherCitizen)
+        {
+            animator.SetBool("walking", false);
+            animator.SetBool("gathering", true);
+        }
     }
     public void SwitchState(CitizenBaseState newState)
     {
