@@ -6,11 +6,11 @@ public class CheatModeScript : MonoBehaviour
 {
     GameManager gm;
 
-    [SerializeField] private const int cheatWoodAmt = 1000;
-    [SerializeField] private const int cheatGoldAmt = 1000;
-    [SerializeField] private const int cheatFoodAmt = 1000;
+    private const int WOOD = 0;
+    private const int GOLD = 1;
+    private const int FOOD = 2;
 
-
+    private const int cheatResAmt = 1000;
     
     private LayerMask mask;
 
@@ -27,7 +27,14 @@ public class CheatModeScript : MonoBehaviour
         {
             Debug.Log("1 pressed!");
 
+            //Add wood
+            gm.team[0].table[WOOD].amountOwned += cheatResAmt;
 
+            //Add gold
+            gm.team[0].table[GOLD].amountOwned += cheatResAmt;
+
+            //Add food
+            gm.team[0].table[FOOD].amountOwned += cheatResAmt;
         }
 
         //Destroy enemy base building (Win game)
