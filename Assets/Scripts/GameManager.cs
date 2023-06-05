@@ -153,69 +153,81 @@ public class GameManager : MonoBehaviour
     
     public void ClickTower()
     {
-       
-
-        if(placingBuildingTower){
-            placingBuildingTower = false;
-            Destroy(newTowerTransparent);
-        }
-        else
+        //check for resources 
+        if (team[0].table[0].amountOwned >= 100)
         {
 
-            placingBuildingHouse = false;
-            placingBuildingTower = true;
-            placingFlagMarker = false;
-            placingBuildingBarrack = false;
+            if (placingBuildingTower)
+            {
+                placingBuildingTower = false;
+                Destroy(newTowerTransparent);
+            }
+            else
+            {
 
-            //Destroy any "blueprint" that might be instanciated
-            ClearBlueprints();
+                placingBuildingHouse = false;
+                placingBuildingTower = true;
+                placingFlagMarker = false;
+                placingBuildingBarrack = false;
 
-            newTowerTransparent = Instantiate(tower, Vector3.zero, Quaternion.identity);
-            //newTowerTransparent.tag = "TranspTower";
+                //Destroy any "blueprint" that might be instanciated
+                ClearBlueprints();
+
+                newTowerTransparent = Instantiate(tower, Vector3.zero, Quaternion.identity);
+                //newTowerTransparent.tag = "TranspTower";
+            }
         }
     }
 
     public void ClickHouse()
     {
-       
 
-        if(placingBuildingHouse){
-            placingBuildingHouse = false;
-            Destroy(newHouseTransparent);
-        }else{
+        if (team[0].table[0].amountOwned >= 50  )
+        {
+            if (placingBuildingHouse)
+            {
+                placingBuildingHouse = false;
+                Destroy(newHouseTransparent);
+            }
+            else
+            {
 
-            placingBuildingHouse = true;
-            placingFlagMarker = false;
-            placingBuildingBarrack = false;
-            placingBuildingTower = false;
-           
-            //Destroy any "blueprint" that might be instanciated
-            ClearBlueprints();
+                placingBuildingHouse = true;
+                placingFlagMarker = false;
+                placingBuildingBarrack = false;
+                placingBuildingTower = false;
 
-            newHouseTransparent = Instantiate(house, Vector3.zero, Quaternion.identity);
-            //newHouseTransparent.tag = "TranspHouse";
+                //Destroy any "blueprint" that might be instanciated
+                ClearBlueprints();
+
+                newHouseTransparent = Instantiate(house, Vector3.zero, Quaternion.identity);
+                //newHouseTransparent.tag = "TranspHouse";
+            }
         }
     }
 
     public void ClickBarrack()
     {
-
-        if(placingBuildingBarrack){
-            placingBuildingBarrack = false;
-            Destroy(newBarrackTransparent);
-        }
-        else
+        if (team[0].table[0].amountOwned >= 100.0f && team[0].table[1].amountOwned >= 50.0f)
         {
-            placingBuildingBarrack= true;
-            placingFlagMarker = false;
-            placingBuildingHouse = false;
-            placingBuildingTower = false;
-            
-            //Destroy any "blueprint" that might be instanciated
-            ClearBlueprints();
+            if (placingBuildingBarrack)
+            {
+                placingBuildingBarrack = false;
+                Destroy(newBarrackTransparent);
+            }
+            else
+            {
+                placingBuildingBarrack = true;
+                placingFlagMarker = false;
+                placingBuildingHouse = false;
+                placingBuildingTower = false;
 
-            newBarrackTransparent = Instantiate(barrack, Vector3.zero, Quaternion.identity);
-            //newBarrackTransparent.tag = "TranspBarrack";
+                //Destroy any "blueprint" that might be instanciated
+                ClearBlueprints();
+
+                newBarrackTransparent = Instantiate(barrack, Vector3.zero, Quaternion.identity);
+                //newBarrackTransparent.tag = "TranspBarrack";
+            }
         }
     }
 
@@ -447,6 +459,7 @@ public class GameManager : MonoBehaviour
                 }
                 if(!conflict){
                     Instantiate(inProgressHouse, hit.point, Quaternion.identity);
+                    team[0].table[0].amountOwned = team[0].table[0].amountOwned - 50.0f;
                     Destroy(newHouseTransparent);
                     placingBuildingHouse = false;
                 }
@@ -477,6 +490,8 @@ public class GameManager : MonoBehaviour
                 }
                 if(!conflict){
                     Instantiate(inProgressBarrack, hit.point, Quaternion.identity);
+                    team[0].table[0].amountOwned = team[0].table[0].amountOwned - 100.0f;
+                    team[0].table[1].amountOwned = team[0].table[1].amountOwned - 50.0f;
                     Destroy(newBarrackTransparent);
                     placingBuildingBarrack = false;
                 }
@@ -512,6 +527,7 @@ public class GameManager : MonoBehaviour
                 if(!conflict){
                     Debug.Log("click!");
                     Instantiate(inProgressTower, hit.point, Quaternion.identity);
+                    team[0].table[0].amountOwned = team[0].table[0].amountOwned - 100.0f;
                     Destroy(newTowerTransparent);
                     placingBuildingTower = false;
                 }
