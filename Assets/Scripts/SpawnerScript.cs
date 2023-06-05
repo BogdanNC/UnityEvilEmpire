@@ -20,7 +20,7 @@ public class SpawnerScript : MonoBehaviour
         {
             if (validPlace(points[i])) {
                 GameObject resource = Instantiate(resources, points[i], Quaternion.Euler(new Vector3(0, Random.Range(-180f, 180.0f), 0)));
-                resource.transform.localScale = new Vector3(scale, scale, scale);
+                resource.transform.localScale = new Vector3(scale*2, scale*2, scale*2);
             }
         }
     }

@@ -4445,6 +4445,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 96837526908966254, guid: a2c4aedf44b01cf4abe5a78066ce483a, type: 3}
+  launchVel: 20
+  attackRange: 20
+  attackCooldown: 2
+  isAlly: 0
 --- !u!1 &7234192414363001864
 GameObject:
   m_ObjectHideFlags: 0
@@ -4965,7 +4969,7 @@ Transform:
   m_GameObject: {fileID: 8201669308407765680}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 115.13188, y: 0.0000019073486, z: 7.6446133}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6698825816789727825}
