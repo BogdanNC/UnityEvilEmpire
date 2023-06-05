@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     GameObject button7;
     GameObject button8;
     GameObject button9;
+    GameObject button10;
 
     GameObject mainCamera;
     GameObject secondCamera;
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
     bool alreadyActivatedHouse = false;
     bool buildingActivateButtons= false;
     bool cameraKey = true;
+    bool gamePaused = false;
 
     public TextMeshProUGUI FpsText;
     private float pollingTime = 1f;
@@ -95,6 +97,9 @@ public class GameManager : MonoBehaviour
 
         button4 = GameObject.Find("Button");
         button4.GetComponent<Button>().onClick.AddListener(ClickDefend);
+
+        button10 = GameObject.Find("Button (9)");
+        button10.GetComponent<Button>().onClick.AddListener(ClickFollowKing);
 
         button5 = GameObject.Find("Button (4)");
         button5.GetComponent<Button>().onClick.AddListener(ClickTrain);
@@ -128,7 +133,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("The gatherer was clicked.");
     }
     
-
+    public void ClickFollowKing()
+    {
+        Debug.Log("The followingKing was clicked.");
+    }
     public void ClickCivilian()
     {
         Debug.Log("The civilian was clicked.");
@@ -315,9 +323,7 @@ public class GameManager : MonoBehaviour
             button8.SetActive(false);
             button9.SetActive(false);
             buildingActivateButtons = false;
-        }
-        
-        
+        }  
     }
 
 
@@ -331,6 +337,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("click!");
             SpawnMoveFlag();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            PauseOrResume();
         }
 
         if (Input.GetKeyDown(KeyCode.K))
@@ -370,28 +380,38 @@ public class GameManager : MonoBehaviour
                 cameraKey = false;
                 mainCamera.GetComponent<Camera>().enabled = false;
                 secondCamera.GetComponent<Camera>().enabled = true;
-                button.SetActive(false);
-                button2.SetActive(false);
-                button3.SetActive(false);
-                button4.SetActive(false);
-                button5.SetActive(false);
-                button6.SetActive(false);
+                DeactivateAllButtons();
                 cheatCamera = true;
                 
             }else{
                 cameraKey = false;
                 mainCamera.GetComponent<Camera>().enabled = true;
                 secondCamera.GetComponent<Camera>().enabled = false;
-                button.SetActive(true);
-                button2.SetActive(true);
-                button3.SetActive(true);
-                button4.SetActive(true);
+                ActivateAllButtons();
                 cheatCamera = false;
                 
             }
                 coroutine = buttonWait();
                 StartCoroutine(coroutine);
         }
+    }
+
+    void DeactivateAllButtons() {
+        button.SetActive(false);
+        button2.SetActive(false);
+        button3.SetActive(false);
+        button4.SetActive(false);
+        button10.SetActive(false);
+        button5.SetActive(false);
+        button6.SetActive(false);
+    }
+
+    void ActivateAllButtons() {
+        button.SetActive(true);
+        button2.SetActive(true);
+        button3.SetActive(true);
+        button4.SetActive(true);
+        button10.SetActive(true);
     }
 
     void HandleInput()
@@ -635,4 +655,25 @@ public class GameManager : MonoBehaviour
         Destroy(newFlagMarker);
         Destroy(newTowerTransparent);
     }
+
+    void PauseOrResume() {
+        if (gamePaused == false) {
+
+             Time.timeScale = 0;
+             gamePaused = true;
+
+            if (cheatCamera == false)
+                DeactivateAllButtons();
+
+        }
+        else {
+            
+             Time.timeScale = 1;
+             gamePaused = false;
+
+            if (cheatCamera == false)
+                ActivateAllButtons();
+
+        }
+        }
 }

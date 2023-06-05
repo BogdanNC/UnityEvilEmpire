@@ -7,7 +7,7 @@ public class MouseMove : MonoBehaviour
 {
     //A reference to the game manager script
     private GameManager gm = GameManager.gm;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private Vector3 destination;
 
     private void Awake()

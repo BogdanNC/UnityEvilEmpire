@@ -14,6 +14,11 @@ public class SoldierBrain : MonoBehaviour
     private float cooldownTimer = 10.0f; //seconds
     private float waitTime = 0.0f;
     private bool onCooldown = false;
+    private Animator animator;
+
+    private float attackCooldown = 2.0f;
+    private float attackTime = 0.0f;
+    private bool canAttack = true;
 
     private bool canChase = true;
 
@@ -45,6 +50,7 @@ public class SoldierBrain : MonoBehaviour
         king = FindKing();
         defendPos = FindDefendPos();
         SetTarget(king.transform);
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -144,19 +150,36 @@ public class SoldierBrain : MonoBehaviour
         if (InRange(target.position, attackRng))
         {
             moveScript.Stop();
-
-            if (Attack(target))
+            if (canAttack)
             {
-                //Enemy killed or destroyed
+                animator.SetBool("attacking", true);
+                if (Attack(target))
+                {
+                    animator.SetBool("walking", false);
+                    animator.SetBool("attacking", false);
+                    //Enemy killed or destroyed
+                }
             }
+            else
+            {
+                attackTime += Time.deltaTime;
+
+                if(attackTime >= attackCooldown)
+                {
+                    canAttack = true;
+                    attackTime = 0.0f;
+                }
+            }
+            
         }
         else
         {
             //Ensure the soldier can move
             moveScript.ResumeMovement();
-
             //Move to enemy
             moveScript.MoveToPos();
+            animator.SetBool("walking", true);
+            animator.SetBool("attacking", false);
         }
     }
 
@@ -167,7 +190,6 @@ public class SoldierBrain : MonoBehaviour
         canChase = true;
 
         moveScript.SetDestination(target.position);
-
         if (lastState.Equals(SoldierState.CHARGING) && !onCooldown)
         {
             onCooldown = true;
@@ -178,6 +200,8 @@ public class SoldierBrain : MonoBehaviour
         {
             //There should be some kind of formation algorithm here
             moveScript.MoveToPos();
+            animator.SetBool("walking", true);
+            animator.SetBool("attacking", false);
         }
     }
 
@@ -230,7 +254,6 @@ public class SoldierBrain : MonoBehaviour
     {
         Vector3 closestPoint = target.GetComponent<Collider>().ClosestPoint(transform.position);
         moveScript.SetDestination(closestPoint);
-
         if(InRange(closestPoint, fov))
         {
             //Prohibit Chasing
@@ -241,20 +264,38 @@ public class SoldierBrain : MonoBehaviour
             canChase = true;
         }
 
-        if (!InRange(closestPoint, attackRng))
+        if (!InRange(closestPoint, attackRng)) 
         {
             Debug.Log("OUT of Range!!");
             //Move to base
             moveScript.MoveToPos();
+            animator.SetBool("walking", true);
+            animator.SetBool("attacking", false);
         }
         else
         {
             moveScript.Stop();
             Debug.Log("IN Range!!");
 
-            if (Attack(target))
+            if (canAttack)
             {
-                SetTarget(null);
+                animator.SetBool("attacking", true);
+                if (Attack(target))
+                {
+                    animator.SetBool("walking", false);
+                    animator.SetBool("attacking", false);
+                    SetTarget(null);
+                }
+            }
+            else
+            {
+                attackTime += Time.deltaTime;
+
+                if(attackTime >= attackCooldown)
+                {
+                    canAttack = true;
+                    attackTime = 0.0f;
+                }
             }
         }
     }
@@ -284,10 +325,12 @@ public class SoldierBrain : MonoBehaviour
         }
 
         moveScript.MoveToPos();
+        animator.SetBool("walking", true);
 
         if (inRange)
         {
             moveScript.Stop();
+            animator.SetBool("walking", false);
         }
     }
     private bool InRange(Vector3 target, float range)
@@ -296,12 +339,15 @@ public class SoldierBrain : MonoBehaviour
     }
 
     /*
-     * Returns ture if object "died"
+     * Returns true if object "died"
      */
     private bool Attack(Transform target)
     {
-        CombatManager enemyCM = target.gameObject.GetComponent<CombatManager>();
+        canAttack = false;
+        attackTime = 0.0f;
 
+        CombatManager enemyCM = target.gameObject.GetComponent<CombatManager>();
+        
         //For calculating eventual effects, like king presence
         int damageDealt = baseDmg;
 

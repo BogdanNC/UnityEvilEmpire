@@ -11,6 +11,8 @@ public class SecondCameraScript : MonoBehaviour
     public Vector2 mouseRotation;
     public float sensibility = 2f;
 
+    public float cameraUnscaledTime;
+
     void Start()
     {
 
@@ -18,6 +20,7 @@ public class SecondCameraScript : MonoBehaviour
 
     void Update()
     {
+
         if (GetComponent<Camera>().enabled == true)
         {
 
@@ -34,18 +37,18 @@ public class SecondCameraScript : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             Vector3 vec = new Vector3(transform.forward.x * 2f, transform.forward.y * 2f, transform.forward.z * 2f);
-            transform.position += vec * Time.deltaTime * speed;
+            transform.position += vec * Time.unscaledDeltaTime * speed;
         }
         if (Input.GetKey(KeyCode.S))
         {
             //transform.position -= transform.forward * Time.deltaTime * speed;
             Vector3 vec = new Vector3(transform.forward.x * 2f, transform.forward.y * 2f, transform.forward.z * 2f);
-            transform.position -= vec * Time.deltaTime * speed;
+            transform.position -= vec * Time.unscaledDeltaTime * speed;
         }
         if (Input.GetKey(KeyCode.A))
         {
             Vector3 vector = new Vector3(transform.right.x * 2f, 0, transform.right.z * 2f);
-            transform.position -= vector * Time.deltaTime * speed;
+            transform.position -= vector * Time.unscaledDeltaTime * speed;
             //newRotation *= Quaternion.Euler(Vector3.up * Time.deltaTime * -rotationAmount);
             //transform.RotateAround(transform.position, -Vector3.up, 20 * Time.deltaTime);
 
@@ -54,7 +57,7 @@ public class SecondCameraScript : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             Vector3 vector = new Vector3(transform.right.x * 2f, 0, transform.right.z * 2f);
-            transform.position += vector * Time.deltaTime * speed;
+            transform.position += vector * Time.unscaledDeltaTime * speed;
             //newRotation *= Quaternion.Euler(Vector3.up * Time.deltaTime * rotationAmount);
             //transform.RotateAround(transform.position, Vector3.up, 20 * Time.deltaTime);
             
@@ -64,12 +67,12 @@ public class SecondCameraScript : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             Vector3 vector = new Vector3(0, 2f, 0);
-            transform.position += vector * Time.deltaTime * speed;
+            transform.position += vector * Time.unscaledDeltaTime * speed;
         }
         if (Input.GetKey(KeyCode.Q))
         {
             Vector3 vector = new Vector3(0, 2f, 0);
-            transform.position -= vector * Time.deltaTime * speed;
+            transform.position -= vector * Time.unscaledDeltaTime * speed;
         }
 
     }
