@@ -81,6 +81,14 @@ public class buildingFinalScript : MonoBehaviour
                 {
                     AllIdleCitizens.Add(citizen);
                 }
+                if (citizen.currentState.ToString() == "BuilderIdle")
+                {
+                    AllIdleCitizens.Add(citizen);
+                }
+                if (citizen.currentState.ToString() == "BuilderFollow")
+                {
+                    AllIdleCitizens.Add(citizen);
+                }
             }
         }
         if (AllIdleCitizens.Count < 1)

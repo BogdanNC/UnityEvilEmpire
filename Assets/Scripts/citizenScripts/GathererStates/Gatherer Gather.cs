@@ -1,45 +1,36 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class UnassignedGather : CitizenBaseState
+public class GathererGathering : CitizenBaseState
 {
     GameManager gm = GameManager.gm;
     private string targetResource;
     private GameObject target;
     private float gatherTimer = 5.0f;
-   
 
     public override void EnterState(CitizenStateManager Citizen)
     {
         targetResource = ResourceManager.GiveJob(Citizen);
         target = findNearestResource(Citizen);
-        Citizen.animator.SetBool("walking", true);
     }
 
     public override void UpdateState(CitizenStateManager Citizen)
     {
-        if (Citizen.isAssignedGatherer == true)
+        if (Citizen.isAssignedGatherer == false)
         {
             ResourceManager.FreeJob(Citizen, target.tag.ToString());
-            Citizen.SwitchState(Citizen.GatheringGatherer);
+            Citizen.SwitchState(Citizen.IdleCitizen);
         }
-        if (Citizen.isAssignedBuilder == true)
-        {
-            //when it changes to the idle state it still has the destination order
-            //to go to gather resources
-            ResourceManager.FreeJob(Citizen, target.tag.ToString());
-            Citizen.SwitchState(Citizen.IdleBuilder);
-        }
-
         if (target == null)
         {
             target = findNearestResource(Citizen);
         }
         if (Citizen.toogleFollowKing == true)
         {
-            
-            ResourceManager.FreeJob(Citizen,target.tag.ToString());
-            Citizen.SwitchState(Citizen.FollowCitizen);
+
+            ResourceManager.FreeJob(Citizen, target.tag.ToString());
+            Citizen.SwitchState(Citizen.FollowGatherer);
         }
         Citizen.transform.LookAt(target.transform.position);
         Citizen.agent.stoppingDistance = 5.0f;
@@ -48,15 +39,15 @@ public class UnassignedGather : CitizenBaseState
         distanceToTarget = Citizen.transform.position - target.transform.position;
 
         ResourceClass resource = (ResourceClass)target;
-        
+
         if (distanceToTarget.magnitude <= 5.5f)
         {
             int amount;
-            
+
             if (gatherTimer > 6.0f)
             {
                 amount = resource.Gather();
-                ResourceManager.addAmound(Citizen,target.tag.ToString(),amount);
+                ResourceManager.addAmound(Citizen, target.tag.ToString(), amount);
                 gatherTimer = 0;
                 Debug.Log("i got " + amount + target.tag.ToString());
             }

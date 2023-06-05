@@ -1,11 +1,12 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class UnassignFollowKing : CitizenBaseState
+public class BuilderFollow : CitizenBaseState
 {
     public override void EnterState(CitizenStateManager Citizen)
     {
-        Citizen.animator.SetBool("walking", true);
+
         Citizen.transform.LookAt(Citizen.kingTransform.position);
         Citizen.agent.stoppingDistance = 15.0f;
         Citizen.agent.SetDestination(Citizen.kingTransform.position);
@@ -13,22 +14,19 @@ public class UnassignFollowKing : CitizenBaseState
 
     public override void UpdateState(CitizenStateManager Citizen)
     {
-        if (Citizen.isAssignedBuilder == true)
+        if (Citizen.isAssignedBuilder == false)
         {
-            Citizen.SwitchState(Citizen.FollowBuilder);
+            Citizen.SwitchState(Citizen.FollowCitizen);
         }
-        if (Citizen.isAssignedGatherer == true)
-        {
-            Citizen.SwitchState(Citizen.FollowGatherer);
-        }
+
         if (Citizen.hasSmthToBuild == true)
         {
             Citizen.toogleFollowKing = false;
-            Citizen.SwitchState(Citizen.BuildCitizen);
+            Citizen.SwitchState(Citizen.BuildingBuilder);
         }
         if (Citizen.toogleFollowKing == false)
         {
-            Citizen.SwitchState(Citizen.IdleCitizen);
+            Citizen.SwitchState(Citizen.IdleBuilder);
         }
         Citizen.transform.LookAt(Citizen.kingTransform.position);
         Citizen.agent.stoppingDistance = 15.0f;

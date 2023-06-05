@@ -12,7 +12,18 @@ public class CitizenStateManager : MonoBehaviour
     public UnassignFollowKing FollowCitizen = new UnassignFollowKing();
     public UnassignedGather GatherCitizen = new UnassignedGather();
 
+    public GathererFollow FollowGatherer = new GathererFollow();
+    public GathererGathering GatheringGatherer = new GathererGathering();
+    public GathererIdle IdleGatherer = new GathererIdle();
+
+    public BuilderIdle IdleBuilder = new BuilderIdle();
+    public BuilderBuilding BuildingBuilder = new BuilderBuilding();
+    public BuilderFollow FollowBuilder = new BuilderFollow();
+
+
     public bool toogleFollowKing;
+    public bool isAssignedGatherer = false;
+    public bool isAssignedBuilder = false;
     public bool hasSmthToBuild = false;
     public Transform buldingTarget = null;
     public Transform kingTransform = null;

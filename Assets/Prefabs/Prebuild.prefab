@@ -909,6 +909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 37238293479090877, guid: 822391481d60c8b43a2af5dd06c0bd26, type: 3}
+  hasBuilder: 0
 --- !u!1 &1638399875795518998
 GameObject:
   m_ObjectHideFlags: 0
