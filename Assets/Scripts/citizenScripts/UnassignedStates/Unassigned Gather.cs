@@ -7,11 +7,13 @@ public class UnassignedGather : CitizenBaseState
     private string targetResource;
     private GameObject target;
     private float gatherTimer = 5.0f;
+   
 
     public override void EnterState(CitizenStateManager Citizen)
     {
         targetResource = ResourceManager.GiveJob(Citizen);
         target = findNearestResource(Citizen);
+        Citizen.animator.SetBool("walking", true);
     }
 
     public override void UpdateState(CitizenStateManager Citizen)

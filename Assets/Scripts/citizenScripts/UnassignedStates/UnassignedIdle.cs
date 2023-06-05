@@ -4,10 +4,13 @@ using System.Collections;
 public class UnassignedIdle : CitizenBaseState
 {
     private float IdleTime;
+     
+
     public override void EnterState(CitizenStateManager Citizen)
     {
         //Debug.Log("idle");
         IdleTime = 0.0f;
+        Citizen.animator.SetBool("walking", true);
     }
 
     public override void UpdateState(CitizenStateManager Citizen)

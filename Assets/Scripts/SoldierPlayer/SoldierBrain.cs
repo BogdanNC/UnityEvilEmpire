@@ -115,7 +115,7 @@ public class SoldierBrain : MonoBehaviour
                     break;
 
                 default:
-                    Debug.Log("Error! No valid SoldierState?");
+                   // Debug.Log("Error! No valid SoldierState?");
                     break;
             }
         }
@@ -127,7 +127,7 @@ public class SoldierBrain : MonoBehaviour
 
         if (chaseTime >= MAX_CHASE_TIME)
         {
-            Debug.Log("Stop Chase!");
+            //Debug.Log("Stop Chase!");
 
             //Stop chase
             SetTarget(secTarget);
@@ -240,7 +240,7 @@ public class SoldierBrain : MonoBehaviour
             {
                 SetTarget(null);
                 canChase = true;
-                Debug.Log("Target became null...?");
+                //Debug.Log("Target became null...?");
                 return;
             }
 
@@ -266,7 +266,7 @@ public class SoldierBrain : MonoBehaviour
 
         if (!InRange(closestPoint, attackRng)) 
         {
-            Debug.Log("OUT of Range!!");
+            //Debug.Log("OUT of Range!!");
             //Move to base
             moveScript.MoveToPos();
             animator.SetBool("walking", true);
@@ -275,7 +275,7 @@ public class SoldierBrain : MonoBehaviour
         else
         {
             moveScript.Stop();
-            Debug.Log("IN Range!!");
+            //Debug.Log("IN Range!!");
 
             if (canAttack)
             {
@@ -385,7 +385,7 @@ public class SoldierBrain : MonoBehaviour
 
         if (target != null)
         {
-            Debug.Log("Target: " + target.name);
+            //Debug.Log("Target: " + target.name);
         }
 
         //Target can be null

@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class UnassignedBuild : CitizenBaseState
 {
+     
     public override void EnterState(CitizenStateManager Citizen)
     {
+        Citizen.animator.SetBool("walking", true);
         Citizen.transform.LookAt(Citizen.buldingTarget.position);
         Citizen.agent.stoppingDistance = 1.5f;
         Citizen.agent.SetDestination(Citizen.buldingTarget.position);
