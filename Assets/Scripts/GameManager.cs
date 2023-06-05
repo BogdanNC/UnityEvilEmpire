@@ -161,7 +161,11 @@ public class GameManager : MonoBehaviour
             GameObject child = selectedHouse.transform.GetChild(8).gameObject;
             Debug.Log(child.transform.position);
 
-            Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
+            if(team[0].table[2].amountOwned >= 50.0f)
+            {
+                Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
+                team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
+            }
         }
     }
     
@@ -253,10 +257,13 @@ public class GameManager : MonoBehaviour
         {
             GameObject child = selectedBarrack.transform.GetChild(15).gameObject;
             Debug.Log(child.transform.position);
-            
-            Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
-            team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
-            team[0].table[1].amountOwned = team[0].table[1].amountOwned - 50.0f;
+
+            if (team[0].table[2].amountOwned >= 50.0f && team[0].table[1].amountOwned >= 50.0f)
+            {
+                Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
+                team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
+                team[0].table[1].amountOwned = team[0].table[1].amountOwned - 50.0f;
+            }
         }
     }
     private IEnumerator passiveMe(int secs, int buttonNum)
