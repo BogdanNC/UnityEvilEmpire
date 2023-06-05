@@ -13,6 +13,15 @@ public class UnassignedIdle : CitizenBaseState
     public override void UpdateState(CitizenStateManager Citizen)
     {
         IdleTime += Time.deltaTime;
+        if (Citizen.isAssignedGatherer == true)
+        {
+            Citizen.SwitchState(Citizen.IdleGatherer);
+        }
+        if (Citizen.isAssignedBuilder == true)
+        {
+            Citizen.SwitchState(Citizen.IdleBuilder);
+        }
+
         if (Citizen.toogleFollowKing == true )
         {
             Citizen.SwitchState(Citizen.FollowCitizen);
