@@ -27,7 +27,7 @@ public class buildingFinalScript : MonoBehaviour
     }
     void Update()
     {
-        Collider[] colliderNeighbors = Physics.OverlapSphere(transform.position, 2);
+        Collider[] colliderNeighbors = Physics.OverlapSphere(transform.position, 4);
         bool closeBy = false;
         foreach (Collider collider in colliderNeighbors)
         {

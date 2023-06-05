@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviour
             Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
             Instantiate(soldiers, new Vector3(child.transform.position.x + 1.38f, child.transform.position.y, child.transform.position.z + 1.38f), Quaternion.identity);
             Instantiate(soldiers, new Vector3(child.transform.position.x - 1.38f, child.transform.position.y, child.transform.position.z - 1.38f), Quaternion.identity);
+            team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
         }
     }
     
@@ -243,6 +244,8 @@ public class GameManager : MonoBehaviour
             Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
             Instantiate(soldiers, new Vector3(child.transform.position.x+1.38f, child.transform.position.y, child.transform.position.z+1.38f), Quaternion.identity);
             Instantiate(soldiers, new Vector3(child.transform.position.x - 1.38f, child.transform.position.y, child.transform.position.z - 1.38f), Quaternion.identity);
+            team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
+            team[0].table[1].amountOwned = team[0].table[1].amountOwned - 50.0f;
         }
     }
     private IEnumerator passiveMe(int secs, int buttonNum)
