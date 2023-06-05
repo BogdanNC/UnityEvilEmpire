@@ -40,7 +40,7 @@ public class CheckAggroSoldierQnt : ActionNode
         foreach (var collider in surroundingColliders)
         {
             //Checks the collider's GameObject's tag
-            if (collider.gameObject.name.Contains("Soldier"))
+            if (collider.gameObject.name.Contains("Soldier") && collider.gameObject.CompareTag("Enemy"))
             {
                 //Add the enemy to the list of enemies
                 result++;
