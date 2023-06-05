@@ -16,7 +16,7 @@ public class CombatManager : MonoBehaviour
     {
         hp -= damage;
 
-        bool isDead = hp <= 0;
+        bool isDead = (hp <= 0);
 
         if (isDead)
         {
