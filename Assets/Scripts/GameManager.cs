@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     GameObject button7;
     GameObject button8;
     GameObject button9;
+    GameObject button10;
 
     GameObject mainCamera;
     GameObject secondCamera;
@@ -97,6 +98,9 @@ public class GameManager : MonoBehaviour
         button4 = GameObject.Find("Button");
         button4.GetComponent<Button>().onClick.AddListener(ClickDefend);
 
+        button10 = GameObject.Find("Button (9)");
+        button10.GetComponent<Button>().onClick.AddListener(ClickFollowKing);
+
         button5 = GameObject.Find("Button (4)");
         button5.GetComponent<Button>().onClick.AddListener(ClickTrain);
         button5.SetActive(false);
@@ -129,7 +133,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("The gatherer was clicked.");
     }
     
-
+    public void ClickFollowKing()
+    {
+        Debug.Log("The followingKing was clicked.");
+    }
     public void ClickCivilian()
     {
         Debug.Log("The civilian was clicked.");
@@ -316,9 +323,7 @@ public class GameManager : MonoBehaviour
             button8.SetActive(false);
             button9.SetActive(false);
             buildingActivateButtons = false;
-        }
-        
-        
+        }  
     }
 
 
@@ -396,6 +401,7 @@ public class GameManager : MonoBehaviour
         button2.SetActive(false);
         button3.SetActive(false);
         button4.SetActive(false);
+        button10.SetActive(false);
         button5.SetActive(false);
         button6.SetActive(false);
     }
@@ -405,6 +411,7 @@ public class GameManager : MonoBehaviour
         button2.SetActive(true);
         button3.SetActive(true);
         button4.SetActive(true);
+        button10.SetActive(true);
     }
 
     void HandleInput()
