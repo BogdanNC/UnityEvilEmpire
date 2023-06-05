@@ -16,6 +16,10 @@ public class SoldierBrain : MonoBehaviour
     private bool onCooldown = false;
     private Animator animator;
 
+    private float attackCooldown = 2.0f;
+    private float attackTime = 0.0f;
+    private bool canAttack = true;
+
     private bool canChase = true;
 
     [SerializeField] private const float MAX_CHASE_TIME = 15.0f; //seconds
@@ -146,12 +150,25 @@ public class SoldierBrain : MonoBehaviour
         if (InRange(target.position, attackRng))
         {
             moveScript.Stop();
-            animator.SetBool("attacking", true);
-            if (Attack(target))
+            if (canAttack)
             {
-                animator.SetBool("walking", false);
-                animator.SetBool("attacking", false);
-                //Enemy killed or destroyed
+                animator.SetBool("attacking", true);
+                if (Attack(target))
+                {
+                    animator.SetBool("walking", false);
+                    animator.SetBool("attacking", false);
+                    //Enemy killed or destroyed
+                }
+            }
+            else
+            {
+                attackTime += Time.deltaTime;
+
+                if(attackTime >= attackCooldown)
+                {
+                    canAttack = true;
+                    attackTime = 0.0f;
+                }
             }
             
         }
@@ -259,13 +276,26 @@ public class SoldierBrain : MonoBehaviour
         {
             moveScript.Stop();
             Debug.Log("IN Range!!");
-            animator.SetBool("attacking", true);
-            
-            if (Attack(target))
+
+            if (canAttack)
             {
-                animator.SetBool("walking", false);
-                animator.SetBool("attacking", false);
-                SetTarget(null);
+                animator.SetBool("attacking", true);
+                if (Attack(target))
+                {
+                    animator.SetBool("walking", false);
+                    animator.SetBool("attacking", false);
+                    SetTarget(null);
+                }
+            }
+            else
+            {
+                attackTime += Time.deltaTime;
+
+                if(attackTime >= attackCooldown)
+                {
+                    canAttack = true;
+                    attackTime = 0.0f;
+                }
             }
         }
     }
@@ -313,6 +343,9 @@ public class SoldierBrain : MonoBehaviour
      */
     private bool Attack(Transform target)
     {
+        canAttack = false;
+        attackTime = 0.0f;
+
         CombatManager enemyCM = target.gameObject.GetComponent<CombatManager>();
         
         //For calculating eventual effects, like king presence

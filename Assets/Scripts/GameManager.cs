@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
     bool alreadyActivatedHouse = false;
     bool buildingActivateButtons= false;
     bool cameraKey = true;
+    bool gamePaused = false;
 
     public TextMeshProUGUI FpsText;
     private float pollingTime = 1f;
@@ -333,6 +334,10 @@ public class GameManager : MonoBehaviour
             SpawnMoveFlag();
         }
 
+        if (Input.GetKeyDown(KeyCode.P)) {
+            PauseOrResume();
+        }
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             //Selected soldiers will defend
@@ -370,28 +375,36 @@ public class GameManager : MonoBehaviour
                 cameraKey = false;
                 mainCamera.GetComponent<Camera>().enabled = false;
                 secondCamera.GetComponent<Camera>().enabled = true;
-                button.SetActive(false);
-                button2.SetActive(false);
-                button3.SetActive(false);
-                button4.SetActive(false);
-                button5.SetActive(false);
-                button6.SetActive(false);
+                DeactivateAllButtons();
                 cheatCamera = true;
                 
             }else{
                 cameraKey = false;
                 mainCamera.GetComponent<Camera>().enabled = true;
                 secondCamera.GetComponent<Camera>().enabled = false;
-                button.SetActive(true);
-                button2.SetActive(true);
-                button3.SetActive(true);
-                button4.SetActive(true);
+                ActivateAllButtons();
                 cheatCamera = false;
                 
             }
                 coroutine = buttonWait();
                 StartCoroutine(coroutine);
         }
+    }
+
+    void DeactivateAllButtons() {
+        button.SetActive(false);
+        button2.SetActive(false);
+        button3.SetActive(false);
+        button4.SetActive(false);
+        button5.SetActive(false);
+        button6.SetActive(false);
+    }
+
+    void ActivateAllButtons() {
+        button.SetActive(true);
+        button2.SetActive(true);
+        button3.SetActive(true);
+        button4.SetActive(true);
     }
 
     void HandleInput()
@@ -635,4 +648,19 @@ public class GameManager : MonoBehaviour
         Destroy(newFlagMarker);
         Destroy(newTowerTransparent);
     }
+
+    void PauseOrResume() {
+        if (gamePaused == false) { 
+
+             Time.timeScale = 0;
+            DeactivateAllButtons();
+             gamePaused = true;
+        }else {
+            
+             Time.timeScale = 1;
+            ActivateAllButtons();
+            gamePaused = false;
+
+        }
+        }
 }
