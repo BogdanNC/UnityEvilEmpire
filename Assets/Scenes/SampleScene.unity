@@ -2076,8 +2076,8 @@ MonoBehaviour:
   tower: {fileID: 888523534863667934, guid: e9f252bedd044294c92b3244059272b4, type: 3}
   inProgressTower: {fileID: 3545084141382947156, guid: 908688493aff4b3499d8ee34ec9ed74a, type: 3}
   newTower: {fileID: 3082127124225543585, guid: 1f331799adf688948b00f4101b70a116, type: 3}
-  soldiers: {fileID: 8753253465175778584, guid: d9828dd85f0901c448fa5f3c4bf08241, type: 3}
-  civilians: {fileID: 221607668}
+  soldiers: {fileID: 65743249340490678, guid: 9b228a5f81d7afc4ba1ec563756a619f, type: 3}
+  civilians: {fileID: 7907441685539269329, guid: 2f6d7ab117382de46a958a86f8a868d1, type: 3}
   flagMarker: {fileID: 919132149155446097, guid: d13f8986622707c45944f06fd8007b46, type: 3}
   layersToHit:
     serializedVersion: 2
@@ -2898,11 +2898,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &221607668 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3013295114801373330, guid: 958a71cb004ff3d4b84ab242ba20ce0e, type: 3}
-  m_PrefabInstance: {fileID: 1519145067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &221787097
 GameObject:
   m_ObjectHideFlags: 0
@@ -20906,7 +20901,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9147083326997544249}
   m_LocalRotation: {x: -0.18301292, y: -0.68301266, z: 0.18301289, w: -0.68301266}
-  m_LocalPosition: {x: -30.823708, y: 17.00002, z: -0.000076293945}
+  m_LocalPosition: {x: -30.828041, y: 17.00002, z: -0.000076293945}
   m_LocalScale: {x: 0.99999994, y: 1, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children:
