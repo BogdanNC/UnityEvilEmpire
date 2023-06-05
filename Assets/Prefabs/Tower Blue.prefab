@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 242
+  m_VersionIndex: 245
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3538,7 +3538,7 @@ MonoBehaviour:
   launchVel: 10
   attackRange: 20
   attackCooldown: 2
-  isAlly: 0
+  isAlly: 1
 --- !u!1 &6423639957545724482
 GameObject:
   m_ObjectHideFlags: 0
@@ -4454,7 +4454,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 124
+  m_VersionIndex: 127
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
