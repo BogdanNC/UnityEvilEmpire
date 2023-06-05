@@ -3535,6 +3535,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 96837526908966254, guid: a2c4aedf44b01cf4abe5a78066ce483a, type: 3}
+  launchVel: 10
+  attackRange: 20
+  attackCooldown: 2
+  isAlly: 0
 --- !u!1 &6423639957545724482
 GameObject:
   m_ObjectHideFlags: 0

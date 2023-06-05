@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class ArrowScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private int baseDmg = 10;
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        GameObject target = collision.collider.gameObject;
+
+        CombatManager targetCM = target.GetComponent<CombatManager>();
+
+        if(targetCM == null)
+        {
+            Debug.Log("Hit wrong target! Abort!");
+            Destroy(gameObject);
+            return;
+        }
+
+        targetCM.TakeDamage(baseDmg);
+
+        Destroy(gameObject);
     }
 }
