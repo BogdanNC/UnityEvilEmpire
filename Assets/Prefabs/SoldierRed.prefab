@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 247198667036344516}
   - component: {fileID: 1100779443886396904}
   m_Layer: 8
-  m_Name: WarriorAnim2 (Enemy)
+  m_Name: SoldierRed
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

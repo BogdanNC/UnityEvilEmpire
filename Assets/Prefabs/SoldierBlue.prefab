@@ -1828,7 +1828,7 @@ GameObject:
   - component: {fileID: 7217517263961527489}
   - component: {fileID: 7217517263961527491}
   m_Layer: 8
-  m_Name: WarriorAnim2 (Ally)
+  m_Name: SoldierBlue
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

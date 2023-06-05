@@ -81,8 +81,11 @@ public class SelectionBoxManager : MonoBehaviour
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
                         //Inclusive select
-                        selectedUnits.AddSelected(objHit);
-                        UpdateGMSelectedUnits(objHit);
+                        if (objHit.CompareTag("Ally"))
+                        {
+                            selectedUnits.AddSelected(objHit);
+                            UpdateGMSelectedUnits(objHit);
+                        }
                     }
                     else
                     {
@@ -90,8 +93,11 @@ public class SelectionBoxManager : MonoBehaviour
                         selectedUnits.deselectAll();
                         gm.selectedUnits.Clear();
 
-                        selectedUnits.AddSelected(objHit);
-                        UpdateGMSelectedUnits(objHit);
+                        if (objHit.CompareTag("Ally"))
+                        {
+                            selectedUnits.AddSelected(objHit);
+                            UpdateGMSelectedUnits(objHit);
+                        }
                     }
                 }
                 else
@@ -253,7 +259,7 @@ public class SelectionBoxManager : MonoBehaviour
     {
         GameObject obj = other.gameObject;
 
-        if (obj.layer == LayerMask.NameToLayer("Units"))
+        if (obj.layer == LayerMask.NameToLayer("Units") && obj.CompareTag("Ally"))
         {
 
             selectedUnits.AddSelected(obj);
