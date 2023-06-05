@@ -657,16 +657,22 @@ public class GameManager : MonoBehaviour
     }
 
     void PauseOrResume() {
-        if (gamePaused == false) { 
+        if (gamePaused == false) {
 
              Time.timeScale = 0;
-            DeactivateAllButtons();
              gamePaused = true;
-        }else {
+
+            if (cheatCamera == false)
+                DeactivateAllButtons();
+
+        }
+        else {
             
              Time.timeScale = 1;
-            ActivateAllButtons();
-            gamePaused = false;
+             gamePaused = false;
+
+            if (cheatCamera == false)
+                ActivateAllButtons();
 
         }
         }
