@@ -16,6 +16,10 @@ public class CitizenStateManager : MonoBehaviour
     public GathererGathering GatheringGatherer = new GathererGathering();
     public GathererIdle IdleGatherer = new GathererIdle();
 
+    public BuilderIdle IdleBuilder = new BuilderIdle();
+    public BuilderBuilding BuildingBuilder = new BuilderBuilding();
+    public BuilderFollow FollowBuilder = new BuilderFollow();
+
 
     public bool toogleFollowKing;
     public bool isAssignedGatherer = false;

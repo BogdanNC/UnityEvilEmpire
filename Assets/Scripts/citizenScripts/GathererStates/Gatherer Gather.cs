@@ -19,6 +19,7 @@ public class GathererGathering : CitizenBaseState
     {
         if (Citizen.isAssignedGatherer == false)
         {
+            ResourceManager.FreeJob(Citizen, target.tag.ToString());
             Citizen.SwitchState(Citizen.IdleCitizen);
         }
         if (target == null)

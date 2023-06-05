@@ -18,8 +18,17 @@ public class UnassignedGather : CitizenBaseState
     {
         if (Citizen.isAssignedGatherer == true)
         {
+            ResourceManager.FreeJob(Citizen, target.tag.ToString());
             Citizen.SwitchState(Citizen.GatheringGatherer);
         }
+        if (Citizen.isAssignedBuilder == true)
+        {
+            //when it changes to the idle state it still has the destination order
+            //to go to gather resources
+            ResourceManager.FreeJob(Citizen, target.tag.ToString());
+            Citizen.SwitchState(Citizen.IdleBuilder);
+        }
+
         if (target == null)
         {
             target = findNearestResource(Citizen);

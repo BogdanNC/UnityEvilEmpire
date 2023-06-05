@@ -17,6 +17,11 @@ public class UnassignedIdle : CitizenBaseState
         {
             Citizen.SwitchState(Citizen.IdleGatherer);
         }
+        if (Citizen.isAssignedBuilder == true)
+        {
+            Citizen.SwitchState(Citizen.IdleBuilder);
+        }
+
         if (Citizen.toogleFollowKing == true )
         {
             Citizen.SwitchState(Citizen.FollowCitizen);
