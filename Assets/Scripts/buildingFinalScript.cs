@@ -80,7 +80,7 @@ public class buildingFinalScript : MonoBehaviour
                 if (citizen.currentState.ToString() == "UnassignFollowKing")
                 {
                     AllIdleCitizens.Add(citizen);
-                }
+                }               
             }
         }
         if (AllIdleCitizens.Count < 1)
