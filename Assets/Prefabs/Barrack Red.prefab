@@ -19079,6 +19079,7 @@ GameObject:
   - component: {fileID: 7328924334558542811}
   - component: {fileID: 9025232107347739629}
   - component: {fileID: 7528240657897124626}
+  - component: {fileID: 3389303437892621969}
   m_Layer: 7
   m_Name: Barrack Red
   m_TagString: Enemy
@@ -19185,6 +19186,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3389303437892621969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6816119073263002822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b83449bbfa074a4b8d553cc1e5a8fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySoldier: {fileID: 0}
+  spawnPoint: {fileID: 0}
 --- !u!1 &6818925899976300082
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,5 +21,7 @@ namespace TheKiwiCoder {
         public int baseDmg = 15;
         public float fov = 10.0f;
         public float attackRng = 2.0f;
+
+
     }
 }

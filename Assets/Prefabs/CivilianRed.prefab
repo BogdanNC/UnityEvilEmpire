@@ -914,7 +914,7 @@ GameObject:
   - component: {fileID: 6685460535022058205}
   m_Layer: 8
   m_Name: CivilianRed
-  m_TagString: Ally
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1004,6 +1004,7 @@ MonoBehaviour:
   kingTransform: {fileID: 0}
   agent: {fileID: 6685460535022058205}
   team: 1
+  animator: {fileID: 0}
 --- !u!195 &6685460535022058205
 NavMeshAgent:
   m_ObjectHideFlags: 0

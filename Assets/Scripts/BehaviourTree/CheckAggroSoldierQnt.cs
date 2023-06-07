@@ -11,7 +11,6 @@ public class CheckAggroSoldierQnt : ActionNode
     private int criticalMass = 10;
 
     protected override void OnStart() {
-
         transform = context.gameObject.transform;
         blackboard.nearbySoldiers = 0;
 

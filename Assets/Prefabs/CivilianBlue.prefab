@@ -664,6 +664,7 @@ GameObject:
   - component: {fileID: 5741552209950021048}
   - component: {fileID: 5741552209950021055}
   - component: {fileID: 5741552209950021053}
+  - component: {fileID: 7592276456931411380}
   m_Layer: 8
   m_Name: CivilianBlue
   m_TagString: Ally
@@ -756,6 +757,7 @@ MonoBehaviour:
   kingTransform: {fileID: 0}
   agent: {fileID: 5741552209950021053}
   team: 0
+  animator: {fileID: 0}
 --- !u!195 &5741552209950021053
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -778,6 +780,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7592276456931411380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859241615514911814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24377d10a1a1a3543b356bb00b119b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 50
 --- !u!1 &4908261188997274989
 GameObject:
   m_ObjectHideFlags: 0

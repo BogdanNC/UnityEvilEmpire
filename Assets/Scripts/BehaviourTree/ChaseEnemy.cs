@@ -8,8 +8,11 @@ public class ChaseEnemy : ActionNode
 {
     private Transform transform;
 
-    protected override void OnStart() {
+    private float cooldown = 1.0f;
+    private float waitTime = 0.0f;
+    private bool canAttack = true;
 
+    protected override void OnStart() {
         transform = context.gameObject.transform;
         blackboard.moveScript = transform.gameObject.GetComponent<MouseMove>();
 
@@ -20,7 +23,7 @@ public class ChaseEnemy : ActionNode
 
     protected override State OnUpdate() {
 
-        if(blackboard.enemies == null || blackboard.enemies.Count <= 0)
+        if (blackboard.enemies == null || blackboard.enemies.Count <= 0)
         {
             return State.Failure;
         }
@@ -33,22 +36,38 @@ public class ChaseEnemy : ActionNode
         }
 
         blackboard.moveScript.SetDestination(target.transform.position);
-
-        if (Vector3.Distance(transform.position, target.transform.position) <= blackboard.attackRng)
+        if (canAttack)
         {
-            blackboard.moveScript.Stop();
-
-            CombatManager enemy = target.GetComponent<CombatManager>();
-
-            if (enemy.TakeDamage(blackboard.baseDmg))
+            if (Vector3.Distance(transform.position, target.transform.position) <= blackboard.attackRng)
             {
-                return State.Success;
+                blackboard.moveScript.Stop();
+
+                CombatManager enemy = target.GetComponent<CombatManager>();
+
+                if (enemy.TakeDamage(blackboard.baseDmg))
+                {
+                    target = TargetEnemy(blackboard.enemies);
+                    return State.Success;
+                }
+
+                canAttack = false;
+            }
+            else
+            {
+                blackboard.moveScript.MoveToPos();
             }
         }
         else
         {
-            blackboard.moveScript.MoveToPos();
+            waitTime += Time.deltaTime;
+
+            if(waitTime >= cooldown)
+            {
+                canAttack = true;
+                waitTime = 0.0f;
+            }
         }
+        
 
         return State.Running;
     }
