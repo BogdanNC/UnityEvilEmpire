@@ -50,6 +50,12 @@ public class CitizenStateManager : MonoBehaviour
     void Update()
     {
         IsKingBlue king = FindObjectOfType<IsKingBlue>();
+
+        if(king == null)
+        {
+            return;
+        }
+
         this.kingTransform = king.gameObject.transform;
         currentState.UpdateState(this);
         /*if(currentState == IdleCitizen)

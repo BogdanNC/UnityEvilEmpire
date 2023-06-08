@@ -35,10 +35,9 @@ public class ChaseEnemy : ActionNode
             return State.Failure;
         }
 
-        blackboard.moveScript.SetDestination(target.transform.position);
-        if (canAttack)
+        if (Vector3.Distance(transform.position, target.transform.position) <= blackboard.attackRng)
         {
-            if (Vector3.Distance(transform.position, target.transform.position) <= blackboard.attackRng)
+            if (canAttack)
             {
                 blackboard.moveScript.Stop();
 
@@ -54,18 +53,19 @@ public class ChaseEnemy : ActionNode
             }
             else
             {
-                blackboard.moveScript.MoveToPos();
+                waitTime += Time.deltaTime;
+
+                if(waitTime >= cooldown)
+                {
+                    canAttack = true;
+                    waitTime = 0.0f;
+                }
             }
         }
         else
         {
-            waitTime += Time.deltaTime;
-
-            if(waitTime >= cooldown)
-            {
-                canAttack = true;
-                waitTime = 0.0f;
-            }
+            blackboard.moveScript.SetDestination(target.transform.position);
+            blackboard.moveScript.MoveToPos();
         }
         
 

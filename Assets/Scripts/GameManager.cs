@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -10,13 +11,13 @@ public class GameManager : MonoBehaviour
     //Instance for when reference needed in other scripts
     public static GameManager gm;
     
-
     private const string SOLDIER = "soldier";
-    private const string CITIZEN = "citizen";
-    private const string KING = "king";
 
     //Move Order Vars
     [SerializeField] private Mesh moveFlagSkin;
+
+    private GameObject enemyBase;
+    private GameObject allyKing;
 
     public GameObject house;
     public GameObject inProgressHouse;
@@ -76,15 +77,22 @@ public class GameManager : MonoBehaviour
     bool gamePaused = false;
 
     public TextMeshProUGUI FpsText;
+    [SerializeField] private TextMeshProUGUI FoodAmt;
+    [SerializeField] private TextMeshProUGUI WoodAmt;
+    [SerializeField] private TextMeshProUGUI GoldAmt;
+
     private float pollingTime = 1f;
     private float time;
     private int frameCount;
 
     void Start()
     {
+        WoodAmt.text = 0.ToString();
+        GoldAmt.text = 0.ToString();
+        FoodAmt.text = 0.ToString();
+
         selectedUnits = new List<GameObject>();
         InitialDistribution();
-        
 
         button = GameObject.Find("Button (3)");
         button.GetComponent<Button>().onClick.AddListener(ClickGatherer);
@@ -120,6 +128,9 @@ public class GameManager : MonoBehaviour
 
         mainCamera = GameObject.Find("Main Camera");
         secondCamera = GameObject.Find("Camera");
+
+        allyKing = GameObject.Find("King");
+        enemyBase = GameObject.Find("Central Hub Red");
     }
 
     private void Awake()
@@ -359,10 +370,35 @@ public class GameManager : MonoBehaviour
         }  
     }
 
+    private void UpdateResourceVals()
+    {
+        int woodAmt = Mathf.FloorToInt(team[0].table[0].amountOwned);
+        int goldAmt = Mathf.FloorToInt(team[0].table[1].amountOwned);
+        int foodAmt = Mathf.FloorToInt(team[0].table[2].amountOwned);
+
+        WoodAmt.text = woodAmt.ToString();
+        GoldAmt.text = goldAmt.ToString();
+        FoodAmt.text = foodAmt.ToString();
+    }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateResourceVals();
+
+        if(allyKing == null)
+        {
+            Debug.Log("Defeat!!!!!");
+
+            SceneManager.LoadScene("DefeatScreen");
+        }
+        else if(enemyBase == null)
+        {
+            Debug.Log("Victory!!!!");
+
+            SceneManager.LoadScene("VictoryScreen");
+        }
+
         HandleInput();
         bool rightClick = Input.GetMouseButtonDown(1);
 
