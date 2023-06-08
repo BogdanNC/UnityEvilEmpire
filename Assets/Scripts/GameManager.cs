@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
     bool alreadyActivatedBarrack = false;
     bool alreadyActivatedHouse = false;
     bool buildingActivateButtons= false;
-    bool cameraKey = true;
     bool gamePaused = false;
 
     public TextMeshProUGUI FpsText;
@@ -297,7 +296,6 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(2);
-            cameraKey = true;
         }
         
     }
@@ -443,17 +441,17 @@ public class GameManager : MonoBehaviour
         {
             //Selected soldiers will follow
         }
-        if (Input.GetKey(KeyCode.U) && cameraKey)
+        if (Input.GetKeyDown(KeyCode.U))
         {
             if(!cheatCamera){
-                cameraKey = false;
+                
                 mainCamera.GetComponent<Camera>().enabled = false;
                 secondCamera.GetComponent<Camera>().enabled = true;
                 DeactivateAllButtons();
                 cheatCamera = true;
                 
-            }else{
-                cameraKey = false;
+            }else{ 
+
                 mainCamera.GetComponent<Camera>().enabled = true;
                 secondCamera.GetComponent<Camera>().enabled = false;
                 ActivateAllButtons();
