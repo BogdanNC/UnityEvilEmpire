@@ -7,6 +7,7 @@ using TheKiwiCoder;
 public class ChaseEnemy : ActionNode
 {
     private Transform transform;
+    private Animator animator;
 
     private float cooldown = 1.0f;
     private float waitTime = 0.0f;
@@ -14,6 +15,7 @@ public class ChaseEnemy : ActionNode
 
     protected override void OnStart() {
         transform = context.gameObject.transform;
+        animator = context.gameObject.GetComponent<Animator>();
         blackboard.moveScript = transform.gameObject.GetComponent<MouseMove>();
 
     }
@@ -39,12 +41,14 @@ public class ChaseEnemy : ActionNode
         {
             if (canAttack)
             {
+                animator.SetBool("attacking", true);
                 blackboard.moveScript.Stop();
-
                 CombatManager enemy = target.GetComponent<CombatManager>();
 
                 if (enemy.TakeDamage(blackboard.baseDmg))
                 {
+                    animator.SetBool("walking", false);
+                    animator.SetBool("attacking", false);
                     target = TargetEnemy(blackboard.enemies);
                     return State.Success;
                 }
@@ -66,6 +70,7 @@ public class ChaseEnemy : ActionNode
         {
             blackboard.moveScript.SetDestination(target.transform.position);
             blackboard.moveScript.MoveToPos();
+            animator.SetBool("walking", true);
         }
         
 
