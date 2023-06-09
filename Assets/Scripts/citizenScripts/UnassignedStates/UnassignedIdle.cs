@@ -8,9 +8,10 @@ public class UnassignedIdle : CitizenBaseState
 
     public override void EnterState(CitizenStateManager Citizen)
     {
-        //Debug.Log("idle");
         IdleTime = 0.0f;
-        //Citizen.animator.SetBool("walking", false);
+        Citizen.agent.SetDestination(Citizen.transform.position);
+        Citizen.agent.ResetPath();
+
     }
 
     public override void UpdateState(CitizenStateManager Citizen)

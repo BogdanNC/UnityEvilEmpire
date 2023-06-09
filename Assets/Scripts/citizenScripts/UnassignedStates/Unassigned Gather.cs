@@ -13,7 +13,14 @@ public class UnassignedGather : CitizenBaseState
     {
         targetResource = ResourceManager.GiveJob(Citizen);
         target = findNearestResource(Citizen);
-        //Citizen.animator.SetBool("gathering", true);
+
+        if (target == null)
+        {
+            Debug.Log("there is no resource of this type left ");
+            ResourceManager.FreeJob(Citizen, target.tag.ToString());
+            Citizen.SwitchState(Citizen.IdleCitizen);
+        }
+
     }
 
     public override void UpdateState(CitizenStateManager Citizen)
@@ -34,6 +41,12 @@ public class UnassignedGather : CitizenBaseState
         if (target == null)
         {
             target = findNearestResource(Citizen);
+            if (target == null)
+            {
+                Debug.Log("there is no resource of this type left ");
+                ResourceManager.FreeJob(Citizen, target.tag.ToString());
+                Citizen.SwitchState(Citizen.IdleCitizen);
+            }
         }
         if (Citizen.toogleFollowKing == true)
         {
@@ -41,34 +54,42 @@ public class UnassignedGather : CitizenBaseState
             ResourceManager.FreeJob(Citizen,target.tag.ToString());
             Citizen.SwitchState(Citizen.FollowCitizen);
         }
-        Citizen.transform.LookAt(target.transform.position);
-        Citizen.agent.stoppingDistance = 5.0f;
-        Citizen.agent.SetDestination(target.transform.position);
-        Vector3 distanceToTarget;
-        distanceToTarget = Citizen.transform.position - target.transform.position;
 
-        ResourceClass resource = (ResourceClass)target;
-        
-        if (distanceToTarget.magnitude <= 7)
+
+        if (target != null)
         {
-            int amount;
-            Citizen.animator.SetBool("walking", false);
-            Citizen.animator.SetBool("gathering", true);
-            if (gatherTimer > 6.0f)
+            Citizen.transform.LookAt(target.transform.position);
+            Citizen.agent.stoppingDistance = 5.0f;
+            Citizen.agent.SetDestination(target.transform.position);
+
+            Vector3 distanceToTarget;
+            distanceToTarget = Citizen.transform.position - target.transform.position;
+
+            ResourceClass resource = (ResourceClass)target;
+
+            if (distanceToTarget.magnitude <= 7.0f)
+
             {
-                amount = resource.Gather();
-                ResourceManager.addAmound(Citizen,target.tag.ToString(),amount);
-                gatherTimer = 0;
-                Debug.Log("i got " + amount + target.tag.ToString());
+                int amount;
+                Citizen.animator.SetBool("walking", false);
+                Citizen.animator.SetBool("gathering", true);
+                if (gatherTimer > 6.0f)
+                {
+                    amount = resource.Gather();
+                    ResourceManager.addAmound(Citizen, target.tag.ToString(), amount);
+                    gatherTimer = 0;
+                    Debug.Log("i got " + amount + target.tag.ToString());
+                }
+                else
+                {
+                    gatherTimer += Time.deltaTime;
+                }
             }
-            else
-            {
-                gatherTimer += Time.deltaTime;
-            }
-        }else{
+            else {
             Citizen.animator.SetBool("walking", true);
             Citizen.animator.SetBool("gathering", false);
-        }
+            }
+        }   
     }
     private GameObject findNearestResource(CitizenStateManager Citizen)
     {
