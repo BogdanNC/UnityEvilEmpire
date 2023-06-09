@@ -8,6 +8,8 @@ public class UnassignedIdle : CitizenBaseState
     {
         //Debug.Log("idle");
         IdleTime = 0.0f;
+        Citizen.agent.SetDestination(Citizen.transform.position);
+        Citizen.agent.ResetPath();
     }
 
     public override void UpdateState(CitizenStateManager Citizen)

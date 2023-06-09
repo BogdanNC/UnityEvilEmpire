@@ -13,6 +13,12 @@ public class GathererGathering : CitizenBaseState
     {
         targetResource = ResourceManager.GiveJob(Citizen);
         target = findNearestResource(Citizen);
+        if (target == null)
+        {
+            Debug.Log("there is no resource of this type left ");
+            ResourceManager.FreeJob(Citizen, target.tag.ToString());
+            Citizen.SwitchState(Citizen.IdleCitizen);
+        }
     }
 
     public override void UpdateState(CitizenStateManager Citizen)
@@ -25,6 +31,12 @@ public class GathererGathering : CitizenBaseState
         if (target == null)
         {
             target = findNearestResource(Citizen);
+            if (target == null)
+            {
+                Debug.Log("there is no resource of this type left ");
+                ResourceManager.FreeJob(Citizen, target.tag.ToString());
+                Citizen.SwitchState(Citizen.IdleCitizen);
+            }
         }
         if (Citizen.toogleFollowKing == true)
         {
@@ -32,28 +44,31 @@ public class GathererGathering : CitizenBaseState
             ResourceManager.FreeJob(Citizen, target.tag.ToString());
             Citizen.SwitchState(Citizen.FollowGatherer);
         }
-        Citizen.transform.LookAt(target.transform.position);
-        Citizen.agent.stoppingDistance = 5.0f;
-        Citizen.agent.SetDestination(target.transform.position);
-        Vector3 distanceToTarget;
-        distanceToTarget = Citizen.transform.position - target.transform.position;
-
-        ResourceClass resource = (ResourceClass)target;
-
-        if (distanceToTarget.magnitude <= 5.5f)
+        if (target != null)
         {
-            int amount;
+            Citizen.transform.LookAt(target.transform.position);
+            Citizen.agent.stoppingDistance = 5.0f;
+            Citizen.agent.SetDestination(target.transform.position);
+            Vector3 distanceToTarget;
+            distanceToTarget = Citizen.transform.position - target.transform.position;
 
-            if (gatherTimer > 6.0f)
+            ResourceClass resource = (ResourceClass)target;
+
+            if (distanceToTarget.magnitude <= 5.5f)
             {
-                amount = resource.Gather();
-                ResourceManager.addAmound(Citizen, target.tag.ToString(), amount);
-                gatherTimer = 0;
-                Debug.Log("i got " + amount + target.tag.ToString());
-            }
-            else
-            {
-                gatherTimer += Time.deltaTime;
+                int amount;
+
+                if (gatherTimer > 6.0f)
+                {
+                    amount = resource.Gather();
+                    ResourceManager.addAmound(Citizen, target.tag.ToString(), amount);
+                    gatherTimer = 0;
+                    Debug.Log("i got " + amount + target.tag.ToString());
+                }
+                else
+                {
+                    gatherTimer += Time.deltaTime;
+                }
             }
         }
     }

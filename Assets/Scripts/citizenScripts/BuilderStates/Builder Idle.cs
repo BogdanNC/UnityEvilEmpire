@@ -7,7 +7,8 @@ public class BuilderIdle : CitizenBaseState
     private float IdleTime;
     public override void EnterState(CitizenStateManager Citizen)
     {
-
+        Citizen.agent.SetDestination(Citizen.transform.position);
+        Citizen.agent.ResetPath();
     }
 
     public override void UpdateState(CitizenStateManager Citizen)

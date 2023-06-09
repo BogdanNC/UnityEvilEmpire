@@ -22,8 +22,6 @@ public class buildingFinalScript : MonoBehaviour
         {
             checkForBuilderTimer += Time.deltaTime;
         }
-        //also aproach the case where no builder is assigned
-        //TO DO
     }
     void Update()
     {
@@ -31,7 +29,7 @@ public class buildingFinalScript : MonoBehaviour
         bool closeBy = false;
         foreach (Collider collider in colliderNeighbors)
         {
-            if (collider.gameObject.name.Contains("Citizen"))
+            if (collider.gameObject.name.Contains("CivilianBlue"))
             {
                 closeBy= true;
                 break;
