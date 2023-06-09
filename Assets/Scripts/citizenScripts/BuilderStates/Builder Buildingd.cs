@@ -20,7 +20,6 @@ public class BuilderBuilding : CitizenBaseState
 
         if (Citizen.toogleFollowKing == true)
         {
-
             Citizen.SwitchState(Citizen.FollowBuilder);
         }
         if (Citizen.buldingTarget != null)
