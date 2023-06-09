@@ -7,7 +7,7 @@ public class BuilderBuilding : CitizenBaseState
     public override void EnterState(CitizenStateManager Citizen)
     {
         Citizen.transform.LookAt(Citizen.buldingTarget.position);
-        Citizen.agent.stoppingDistance = 1.5f;
+        Citizen.agent.stoppingDistance = 4.5f;
         Citizen.agent.SetDestination(Citizen.buldingTarget.position);
     }
 
@@ -25,7 +25,7 @@ public class BuilderBuilding : CitizenBaseState
         if (Citizen.buldingTarget != null)
         {
             Citizen.transform.LookAt(Citizen.buldingTarget.position);
-            Citizen.agent.stoppingDistance = 1.5f;
+            Citizen.agent.stoppingDistance = 4.5f;
             Citizen.agent.SetDestination(Citizen.buldingTarget.position);
         }
         else
