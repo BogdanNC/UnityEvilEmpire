@@ -4,12 +4,14 @@ using System.Collections;
 public class UnassignedIdle : CitizenBaseState
 {
     private float IdleTime;
+     
+
     public override void EnterState(CitizenStateManager Citizen)
     {
-        //Debug.Log("idle");
         IdleTime = 0.0f;
         Citizen.agent.SetDestination(Citizen.transform.position);
         Citizen.agent.ResetPath();
+
     }
 
     public override void UpdateState(CitizenStateManager Citizen)

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class UnassignedBuild : CitizenBaseState
 {
+     
     public override void EnterState(CitizenStateManager Citizen)
     {
         Citizen.transform.LookAt(Citizen.buldingTarget.position);

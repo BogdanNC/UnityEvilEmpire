@@ -7,17 +7,20 @@ public class UnassignedGather : CitizenBaseState
     private string targetResource;
     private GameObject target;
     private float gatherTimer = 5.0f;
+   
 
     public override void EnterState(CitizenStateManager Citizen)
     {
         targetResource = ResourceManager.GiveJob(Citizen);
         target = findNearestResource(Citizen);
+
         if (target == null)
         {
             Debug.Log("there is no resource of this type left ");
             ResourceManager.FreeJob(Citizen, target.tag.ToString());
             Citizen.SwitchState(Citizen.IdleCitizen);
         }
+
     }
 
     public override void UpdateState(CitizenStateManager Citizen)
@@ -51,6 +54,8 @@ public class UnassignedGather : CitizenBaseState
             ResourceManager.FreeJob(Citizen,target.tag.ToString());
             Citizen.SwitchState(Citizen.FollowCitizen);
         }
+
+
         if (target != null)
         {
             Citizen.transform.LookAt(target.transform.position);
@@ -62,10 +67,12 @@ public class UnassignedGather : CitizenBaseState
 
             ResourceClass resource = (ResourceClass)target;
 
-            if (distanceToTarget.magnitude <= 5.5f)
+            if (distanceToTarget.magnitude <= 7.0f)
+
             {
                 int amount;
-
+                Citizen.animator.SetBool("walking", false);
+                Citizen.animator.SetBool("gathering", true);
                 if (gatherTimer > 6.0f)
                 {
                     amount = resource.Gather();
@@ -77,6 +84,10 @@ public class UnassignedGather : CitizenBaseState
                 {
                     gatherTimer += Time.deltaTime;
                 }
+            }
+            else {
+            Citizen.animator.SetBool("walking", true);
+            Citizen.animator.SetBool("gathering", false);
             }
         }   
     }

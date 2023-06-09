@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -10,13 +11,13 @@ public class GameManager : MonoBehaviour
     //Instance for when reference needed in other scripts
     public static GameManager gm;
     
-
     private const string SOLDIER = "soldier";
-    private const string CITIZEN = "citizen";
-    private const string KING = "king";
 
     //Move Order Vars
     [SerializeField] private Mesh moveFlagSkin;
+
+    private GameObject enemyBase;
+    private GameObject allyKing;
 
     public GameObject house;
     public GameObject inProgressHouse;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     GameObject button8;
     GameObject button9;
     GameObject button10;
+    GameObject resourceGUI;
 
     GameObject mainCamera;
     GameObject secondCamera;
@@ -60,6 +62,8 @@ public class GameManager : MonoBehaviour
     GameObject newHouseTransparent;
     GameObject newBarrackTransparent;
     GameObject newFlagMarker;
+
+    public GameObject selectedSkin;
 
     public List<GameObject> selectedUnits;
     
@@ -72,19 +76,25 @@ public class GameManager : MonoBehaviour
     bool alreadyActivatedBarrack = false;
     bool alreadyActivatedHouse = false;
     bool buildingActivateButtons= false;
-    bool cameraKey = true;
     bool gamePaused = false;
 
     public TextMeshProUGUI FpsText;
+    [SerializeField] private TextMeshProUGUI FoodAmt;
+    [SerializeField] private TextMeshProUGUI WoodAmt;
+    [SerializeField] private TextMeshProUGUI GoldAmt;
+
     private float pollingTime = 1f;
     private float time;
     private int frameCount;
 
     void Start()
     {
+        WoodAmt.text = 0.ToString();
+        GoldAmt.text = 0.ToString();
+        FoodAmt.text = 0.ToString();
+
         selectedUnits = new List<GameObject>();
         InitialDistribution();
-        
 
         button = GameObject.Find("Button (3)");
         button.GetComponent<Button>().onClick.AddListener(ClickGatherer);
@@ -118,8 +128,13 @@ public class GameManager : MonoBehaviour
         button9.GetComponent<Button>().onClick.AddListener(ClickTower);
         button9.SetActive(false);
 
+        resourceGUI = GameObject.Find("ResourceGUI");
+
         mainCamera = GameObject.Find("Main Camera");
         secondCamera = GameObject.Find("Camera");
+
+        allyKing = GameObject.Find("King");
+        enemyBase = GameObject.Find("Central Hub Red");
     }
 
     private void Awake()
@@ -135,8 +150,24 @@ public class GameManager : MonoBehaviour
     
     public void ClickFollowKing()
     {
-        Debug.Log("The followingKing was clicked.");
+        Debug.Log("The following King was clicked.");
+
+        foreach(GameObject unit in selectedUnits)
+        {
+            CitizenStateManager sManager = unit.GetComponent<CitizenStateManager>();
+            SoldierBrain sBrain = unit.GetComponent<SoldierBrain>();
+
+            if(sBrain != null)
+            {
+                sBrain.SetState(SoldierBrain.SoldierState.FOLLOWING);
+            }
+            else if(sManager != null)
+            {
+                sManager.toogleFollowKing = !sManager.toogleFollowKing;
+            }
+        }
     }
+
     public void ClickCivilian()
     {
         Debug.Log("The civilian was clicked.");
@@ -145,10 +176,11 @@ public class GameManager : MonoBehaviour
             GameObject child = selectedHouse.transform.GetChild(8).gameObject;
             Debug.Log(child.transform.position);
 
-            Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
-            Instantiate(soldiers, new Vector3(child.transform.position.x + 1.38f, child.transform.position.y, child.transform.position.z + 1.38f), Quaternion.identity);
-            Instantiate(soldiers, new Vector3(child.transform.position.x - 1.38f, child.transform.position.y, child.transform.position.z - 1.38f), Quaternion.identity);
-            team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
+            if(team[0].table[2].amountOwned >= 50.0f)
+            {
+                Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
+                team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
+            }
         }
     }
     
@@ -240,12 +272,13 @@ public class GameManager : MonoBehaviour
         {
             GameObject child = selectedBarrack.transform.GetChild(15).gameObject;
             Debug.Log(child.transform.position);
-            
-            Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
-            Instantiate(soldiers, new Vector3(child.transform.position.x+1.38f, child.transform.position.y, child.transform.position.z+1.38f), Quaternion.identity);
-            Instantiate(soldiers, new Vector3(child.transform.position.x - 1.38f, child.transform.position.y, child.transform.position.z - 1.38f), Quaternion.identity);
-            team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
-            team[0].table[1].amountOwned = team[0].table[1].amountOwned - 50.0f;
+
+            if (team[0].table[2].amountOwned >= 50.0f && team[0].table[1].amountOwned >= 50.0f)
+            {
+                Instantiate(soldiers, new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z), Quaternion.identity);
+                team[0].table[2].amountOwned = team[0].table[2].amountOwned - 50.0f;
+                team[0].table[1].amountOwned = team[0].table[1].amountOwned - 50.0f;
+            }
         }
     }
     private IEnumerator passiveMe(int secs, int buttonNum)
@@ -268,7 +301,6 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(2);
-            cameraKey = true;
         }
         
     }
@@ -341,10 +373,35 @@ public class GameManager : MonoBehaviour
         }  
     }
 
+    private void UpdateResourceVals()
+    {
+        int woodAmt = Mathf.FloorToInt(team[0].table[0].amountOwned);
+        int goldAmt = Mathf.FloorToInt(team[0].table[1].amountOwned);
+        int foodAmt = Mathf.FloorToInt(team[0].table[2].amountOwned);
+
+        WoodAmt.text = woodAmt.ToString();
+        GoldAmt.text = goldAmt.ToString();
+        FoodAmt.text = foodAmt.ToString();
+    }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateResourceVals();
+
+        if(allyKing == null)
+        {
+            Debug.Log("Defeat!!!!!");
+
+            SceneManager.LoadScene("DefeatScreen");
+        }
+        else if(enemyBase == null)
+        {
+            Debug.Log("Victory!!!!");
+
+            SceneManager.LoadScene("VictoryScreen");
+        }
+
         HandleInput();
         bool rightClick = Input.GetMouseButtonDown(1);
 
@@ -389,19 +446,22 @@ public class GameManager : MonoBehaviour
         {
             //Selected soldiers will follow
         }
-        if (Input.GetKey(KeyCode.U) && cameraKey)
+        if (Input.GetKeyDown(KeyCode.U))
         {
-            if(!cheatCamera){
-                cameraKey = false;
+      
+            if (!cheatCamera){
+                
                 mainCamera.GetComponent<Camera>().enabled = false;
                 secondCamera.GetComponent<Camera>().enabled = true;
+                resourceGUI.SetActive(false);
                 DeactivateAllButtons();
                 cheatCamera = true;
                 
-            }else{
-                cameraKey = false;
+            }else{ 
+
                 mainCamera.GetComponent<Camera>().enabled = true;
                 secondCamera.GetComponent<Camera>().enabled = false;
+                resourceGUI.SetActive(true);
                 ActivateAllButtons();
                 cheatCamera = false;
                 
@@ -410,6 +470,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(coroutine);
         }
     }
+
 
     void DeactivateAllButtons() {
         button.SetActive(false);

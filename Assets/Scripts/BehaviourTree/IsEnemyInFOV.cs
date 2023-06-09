@@ -9,7 +9,6 @@ public class IsEnemyInFOV : ActionNode
     private Transform transform;
 
     protected override void OnStart() {
-
         transform = context.gameObject.transform;
 
     }
@@ -21,7 +20,7 @@ public class IsEnemyInFOV : ActionNode
 
         List<GameObject> enemies = FindEnemies();
 
-        if(enemies != null && enemies.Count != 0)
+        if (enemies != null && enemies.Count != 0)
         {
             blackboard.enemies = enemies;
             return State.Success;

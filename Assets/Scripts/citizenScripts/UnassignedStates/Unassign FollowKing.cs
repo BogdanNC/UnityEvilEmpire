@@ -5,7 +5,7 @@ public class UnassignFollowKing : CitizenBaseState
 {
     public override void EnterState(CitizenStateManager Citizen)
     {
-        
+        //Citizen.animator.SetBool("gathering", true);
         Citizen.transform.LookAt(Citizen.kingTransform.position);
         Citizen.agent.stoppingDistance = 15.0f;
         Citizen.agent.SetDestination(Citizen.kingTransform.position);

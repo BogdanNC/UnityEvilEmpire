@@ -7,10 +7,15 @@ using TheKiwiCoder;
 public class ChaseEnemy : ActionNode
 {
     private Transform transform;
+    private Animator animator;
+
+    private float cooldown = 1.0f;
+    private float waitTime = 0.0f;
+    private bool canAttack = true;
 
     protected override void OnStart() {
-
         transform = context.gameObject.transform;
+        animator = context.gameObject.GetComponent<Animator>();
         blackboard.moveScript = transform.gameObject.GetComponent<MouseMove>();
 
     }
@@ -20,7 +25,7 @@ public class ChaseEnemy : ActionNode
 
     protected override State OnUpdate() {
 
-        if(blackboard.enemies == null || blackboard.enemies.Count <= 0)
+        if (blackboard.enemies == null || blackboard.enemies.Count <= 0)
         {
             return State.Failure;
         }
@@ -32,23 +37,42 @@ public class ChaseEnemy : ActionNode
             return State.Failure;
         }
 
-        blackboard.moveScript.SetDestination(target.transform.position);
-
         if (Vector3.Distance(transform.position, target.transform.position) <= blackboard.attackRng)
         {
-            blackboard.moveScript.Stop();
-
-            CombatManager enemy = target.GetComponent<CombatManager>();
-
-            if (enemy.TakeDamage(blackboard.baseDmg))
+            if (canAttack)
             {
-                return State.Success;
+                animator.SetBool("attacking", true);
+                blackboard.moveScript.Stop();
+                CombatManager enemy = target.GetComponent<CombatManager>();
+
+                if (enemy.TakeDamage(blackboard.baseDmg))
+                {
+                    animator.SetBool("walking", false);
+                    animator.SetBool("attacking", false);
+                    target = TargetEnemy(blackboard.enemies);
+                    return State.Success;
+                }
+
+                canAttack = false;
+            }
+            else
+            {
+                waitTime += Time.deltaTime;
+
+                if(waitTime >= cooldown)
+                {
+                    canAttack = true;
+                    waitTime = 0.0f;
+                }
             }
         }
         else
         {
+            blackboard.moveScript.SetDestination(target.transform.position);
             blackboard.moveScript.MoveToPos();
+            animator.SetBool("walking", true);
         }
+        
 
         return State.Running;
     }

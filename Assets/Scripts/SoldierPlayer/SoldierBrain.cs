@@ -91,6 +91,7 @@ public class SoldierBrain : MonoBehaviour
         else if(state.Equals(SoldierState.CHASING))
         {
             //Return to original objective after chasing
+            animator.SetBool("attacking", false);
             SetTarget(secTarget);
             SetSecTarget(null);
 
@@ -115,7 +116,7 @@ public class SoldierBrain : MonoBehaviour
                     break;
 
                 default:
-                    Debug.Log("Error! No valid SoldierState?");
+                   // Debug.Log("Error! No valid SoldierState?");
                     break;
             }
         }
@@ -127,9 +128,9 @@ public class SoldierBrain : MonoBehaviour
 
         if (chaseTime >= MAX_CHASE_TIME)
         {
-            Debug.Log("Stop Chase!");
 
             //Stop chase
+            animator.SetBool("attacking", false);
             SetTarget(secTarget);
             SetSecTarget(null);
 
@@ -149,10 +150,10 @@ public class SoldierBrain : MonoBehaviour
 
         if (InRange(target.position, attackRng))
         {
-            moveScript.Stop();
             if (canAttack)
             {
-                animator.SetBool("attacking", true);
+                moveScript.Stop();
+                //animator.SetBool("attacking", true);
                 if (Attack(target))
                 {
                     animator.SetBool("walking", false);
@@ -240,7 +241,7 @@ public class SoldierBrain : MonoBehaviour
             {
                 SetTarget(null);
                 canChase = true;
-                Debug.Log("Target became null...?");
+                //Debug.Log("Target became null...?");
                 return;
             }
 
@@ -266,7 +267,6 @@ public class SoldierBrain : MonoBehaviour
 
         if (!InRange(closestPoint, attackRng)) 
         {
-            Debug.Log("OUT of Range!!");
             //Move to base
             moveScript.MoveToPos();
             animator.SetBool("walking", true);
@@ -274,12 +274,11 @@ public class SoldierBrain : MonoBehaviour
         }
         else
         {
-            moveScript.Stop();
-            Debug.Log("IN Range!!");
 
             if (canAttack)
             {
-                animator.SetBool("attacking", true);
+                moveScript.Stop();
+                //animator.SetBool("attacking", true);
                 if (Attack(target))
                 {
                     animator.SetBool("walking", false);
@@ -343,6 +342,7 @@ public class SoldierBrain : MonoBehaviour
      */
     private bool Attack(Transform target)
     {
+        animator.SetBool("attacking", true);
         canAttack = false;
         attackTime = 0.0f;
 
@@ -385,7 +385,7 @@ public class SoldierBrain : MonoBehaviour
 
         if (target != null)
         {
-            Debug.Log("Target: " + target.name);
+            //Debug.Log("Target: " + target.name);
         }
 
         //Target can be null

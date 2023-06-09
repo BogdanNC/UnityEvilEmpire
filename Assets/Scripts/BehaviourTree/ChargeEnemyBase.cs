@@ -7,6 +7,7 @@ using TheKiwiCoder;
 public class ChargeEnemyBase : ActionNode
 {
     protected override void OnStart() {
+
     }
 
     protected override void OnStop() {

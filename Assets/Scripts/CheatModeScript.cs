@@ -11,13 +11,18 @@ public class CheatModeScript : MonoBehaviour
     private const int FOOD = 2;
 
     private const int cheatResAmt = 1000;
-    
+
+    GameObject enemyBase;
+
+
     private LayerMask mask;
 
     private void Start()
     {
         mask = LayerMask.GetMask("Ground");
         gm = GameManager.gm;
+
+        enemyBase = GameObject.Find("Central Hub Red");
     }
 
     void Update()
@@ -41,8 +46,6 @@ public class CheatModeScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Debug.Log("2 pressed!");
-
-            GameObject enemyBase = GameObject.Find("Central Hub Red");
 
             Debug.Log("Enemy base destroyed!");
 

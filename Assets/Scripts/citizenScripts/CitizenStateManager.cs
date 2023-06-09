@@ -29,23 +29,33 @@ public class CitizenStateManager : MonoBehaviour
     public Transform kingTransform = null;
     public NavMeshAgent agent;
     public int team;
-    //private Animator animator;
+    public Animator animator;
 
+    void Awake(){
+        animator = GetComponent<Animator>();
+    }
+    
     void Start()
     {
         currentState = IdleCitizen;
         IsKingBlue king = FindObjectOfType<IsKingBlue>();
         this.kingTransform = king.gameObject.transform;
         currentState.EnterState(this);
-        //Debug.Log(currentState);
+        Debug.Log(currentState);
         team = 0;
-       // animator = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         IsKingBlue king = FindObjectOfType<IsKingBlue>();
+
+        if(king == null)
+        {
+            return;
+        }
+
         this.kingTransform = king.gameObject.transform;
         currentState.UpdateState(this);
         /*if(currentState == IdleCitizen)

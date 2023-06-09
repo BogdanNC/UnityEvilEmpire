@@ -52,14 +52,18 @@ public class GathererGathering : CitizenBaseState
             Vector3 distanceToTarget;
             distanceToTarget = Citizen.transform.position - target.transform.position;
 
+
             ResourceClass resource = (ResourceClass)target;
 
             if (distanceToTarget.magnitude <= 5.5f)
+
             {
                 int amount;
 
                 if (gatherTimer > 6.0f)
                 {
+                    Citizen.animator.SetBool("walking", false);
+                    Citizen.animator.SetBool("gathering", true);
                     amount = resource.Gather();
                     ResourceManager.addAmound(Citizen, target.tag.ToString(), amount);
                     gatherTimer = 0;
