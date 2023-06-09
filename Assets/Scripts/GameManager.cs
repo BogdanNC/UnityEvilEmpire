@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
     GameObject newBarrackTransparent;
     GameObject newFlagMarker;
 
+    public GameObject selectedSkin;
+
     public List<GameObject> selectedUnits;
     
 
