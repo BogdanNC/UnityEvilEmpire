@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     GameObject button8;
     GameObject button9;
     GameObject button10;
+    GameObject resourceGUI;
 
     GameObject mainCamera;
     GameObject secondCamera;
@@ -124,6 +125,8 @@ public class GameManager : MonoBehaviour
         button9 = GameObject.Find("Button (8)");
         button9.GetComponent<Button>().onClick.AddListener(ClickTower);
         button9.SetActive(false);
+
+        resourceGUI = GameObject.Find("ResourceGUI");
 
         mainCamera = GameObject.Find("Main Camera");
         secondCamera = GameObject.Find("Camera");
@@ -443,10 +446,12 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            if(!cheatCamera){
+      
+            if (!cheatCamera){
                 
                 mainCamera.GetComponent<Camera>().enabled = false;
                 secondCamera.GetComponent<Camera>().enabled = true;
+                resourceGUI.SetActive(false);
                 DeactivateAllButtons();
                 cheatCamera = true;
                 
@@ -454,6 +459,7 @@ public class GameManager : MonoBehaviour
 
                 mainCamera.GetComponent<Camera>().enabled = true;
                 secondCamera.GetComponent<Camera>().enabled = false;
+                resourceGUI.SetActive(true);
                 ActivateAllButtons();
                 cheatCamera = false;
                 
@@ -462,6 +468,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(coroutine);
         }
     }
+
 
     void DeactivateAllButtons() {
         button.SetActive(false);
