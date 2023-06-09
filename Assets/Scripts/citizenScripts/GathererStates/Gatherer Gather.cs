@@ -46,6 +46,8 @@ public class GathererGathering : CitizenBaseState
 
             if (gatherTimer > 6.0f)
             {
+                Citizen.animator.SetBool("walking", false);
+                Citizen.animator.SetBool("gathering", true);
                 amount = resource.Gather();
                 ResourceManager.addAmound(Citizen, target.tag.ToString(), amount);
                 gatherTimer = 0;

@@ -10,7 +10,7 @@ public class UnassignedIdle : CitizenBaseState
     {
         //Debug.Log("idle");
         IdleTime = 0.0f;
-        Citizen.animator.SetBool("walking", true);
+        //Citizen.animator.SetBool("walking", false);
     }
 
     public override void UpdateState(CitizenStateManager Citizen)

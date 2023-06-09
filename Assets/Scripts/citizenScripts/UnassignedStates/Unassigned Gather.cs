@@ -13,7 +13,7 @@ public class UnassignedGather : CitizenBaseState
     {
         targetResource = ResourceManager.GiveJob(Citizen);
         target = findNearestResource(Citizen);
-        Citizen.animator.SetBool("walking", true);
+        //Citizen.animator.SetBool("gathering", true);
     }
 
     public override void UpdateState(CitizenStateManager Citizen)
@@ -49,10 +49,11 @@ public class UnassignedGather : CitizenBaseState
 
         ResourceClass resource = (ResourceClass)target;
         
-        if (distanceToTarget.magnitude <= 5.5f)
+        if (distanceToTarget.magnitude <= 7)
         {
             int amount;
-            
+            Citizen.animator.SetBool("walking", false);
+            Citizen.animator.SetBool("gathering", true);
             if (gatherTimer > 6.0f)
             {
                 amount = resource.Gather();
@@ -64,6 +65,9 @@ public class UnassignedGather : CitizenBaseState
             {
                 gatherTimer += Time.deltaTime;
             }
+        }else{
+            Citizen.animator.SetBool("walking", true);
+            Citizen.animator.SetBool("gathering", false);
         }
     }
     private GameObject findNearestResource(CitizenStateManager Citizen)
